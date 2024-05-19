@@ -10,7 +10,7 @@
     @else
         <div class="py-12 bg-black">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden text-lg font-bold text-center border-8 shadow-sm cardo-bold text-gray-50 border-gold-100 sm:rounded-lg">
+                <div class="overflow-hidden text-lg font-bold text-center border-8 shadow-sm cardo-bold text-gray-50 border-gold-500 sm:rounded-lg">
                     <div class="m-1 border-2 border-white">
                         <p class="p-6">
                             Before you can join the game, the man with the golden suit must approve your account.
