@@ -7,6 +7,7 @@ use App\Events\UserCreated;
 use Thunk\Verbs\Facades\Verbs;
 use App\Events\UserAddedReferral;
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserPromotedToAdmin;
 use App\Events\UserRequestedToJoinGame;
 
 beforeEach(function () {
@@ -40,9 +41,7 @@ beforeEach(function () {
     $this->admin = User::find($admin_id);
     $this->referrer = User::find($referrer_id);
 
-    $this->admin->update([
-        'is_admin' => true,
-    ]);
+    UserPromotedToAdmin::fire(user_id: $admin_id);
 });
 
 it('a user can request to join a game', function () {
@@ -72,7 +71,7 @@ it('a user cannot request to join twice', function() {
         user_id: $this->user->id,
         game_id: $this->game->id,
     );
-})->throws('User has already requested to join the game.');
+})->throws('User has already requested to join this game.');
 
 it('a user cannot request to join after they are in the game', function() {
     UserRequestedToJoinGame::fire(

@@ -28,11 +28,6 @@ class PlayerVoted extends Event
 
         $last_voted_at = $this->state(PlayerState::class)->lastVotedAt();
 
-        dump([
-            'has_voted' => $last_voted_at !== null,
-            'diff' => now()->diffForHumans($last_voted_at),
-        ]);
-
         $this->assert(
             ! $last_voted_at || now() > $last_voted_at->addHour(),
             'Voter must wait 1 hour between votes.'
