@@ -10,6 +10,8 @@ class UserState extends State
 {
     public string $name;
 
+    public bool $is_admin = false;
+
     public ?int $referrer_player_id = null;
 
     public int $player_id;

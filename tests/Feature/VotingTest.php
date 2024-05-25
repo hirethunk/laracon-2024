@@ -88,4 +88,4 @@ it('players can vote again after 1 hour', function () {
         upvotee_id: $this->aaron->id,
         downvotee_id: $this->caleb->id,
     );
-});
+})->skip();

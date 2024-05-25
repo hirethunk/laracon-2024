@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Events\GameCreated;
 use App\Events\UserCreated;
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserPromotedToAdmin;
 use App\Events\UserRequestedToJoinGame;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -31,7 +32,7 @@ abstract class TestCase extends BaseTestCase
         )->user_id;
 
         $admin = User::find($admin_id);
-        $admin->update(['is_admin' => true]);
+        UserPromotedToAdmin::fire(user_id: $admin_id);
 
         $taylor_id = UserCreated::fire(
             name: 'Taylor Otwell',
