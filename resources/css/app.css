@@ -1,3 +1,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Colors */
+:root {
+    --gold-100: linear-gradient(to right, #e8d47a 0%, #fff1c8 50%, #e8d47a 100%);
+    --gold-500: linear-gradient(to right, #d4af37 0%, #ffe57f 50%, #d4af37 100%);
+    --gold-900: linear-gradient(to right, #b28f32 0%, #cabc43 50%, #b28f32 100%);
+}
+
+/* Text */
+.text-gold-100 {
+    background: var(--gold-100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: brightness(1.35);
+}
+
+.text-gold-500 {
+    background: var(--gold-500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: brightness(1.35);
+}
+
+.text-gold-900 {
+    background: var(--gold-900);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: brightness(1.35);
+}
+
+/* Background */
+.bg-gold-100 {
+    background-image: var(--gold-100);
+    background-size: cover;
+}
+
+.bg-gold-500 {
+    background-image: var(--gold-500);
+    background-size: cover;
+}
+
+.bg-gold-900 {
+    background-image: var(--gold-900);
+    background-size: cover;
+}
+
+/* Border */
+.border-gold-100 {
+    border: 8px solid transparent;
+    border-image: var(--gold-100) 1 stretch;
+    filter: brightness(1.05);
+}
+
+.border-gold-500 {
+    border: 8px solid transparent;
+    border-image: var(--gold-500) 1 stretch;
+    filter: brightness(1.05);
+}
+
+.border-gold-900 {
+    border: 8px solid transparent;
+    border-image: var(--gold-900) 1 stretch;
+    filter: brightness(1.05);
+}
+
+/* Fonts */
+.cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+.cardo-regular {
+    font-family: "Cardo", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.cardo-bold {
+    font-family: "Cardo", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.cardo-regular-italic {
+    font-family: "Cardo", serif;
+    font-weight: 400;
+    font-style: italic;
+}
