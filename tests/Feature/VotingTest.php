@@ -23,7 +23,6 @@ it('a player can upvote and downvote other players', function () {
 
     expect($this->aaron->state()->upvotes)->toHaveCount(1);
     expect($this->aaron->state()->score())->toBe(1);
-
     expect($this->caleb->state()->downvotes)->toHaveCount(1);
     expect($this->caleb->state()->score())->toBe(-1);
 });
@@ -63,6 +62,8 @@ it('players must wait 1 hour between votes', function () {
         downvotee_id: $this->caleb->id,
     );
 
+    Carbon::setTestNow(now()->addMinutes(30));
+
     PlayerVoted::fire(
         player_id: $this->taylor->id,
         game_id: $this->game->id,
@@ -79,7 +80,6 @@ it('players can vote again after 1 hour', function () {
         downvotee_id: $this->caleb->id,
     );
 
-    // @todo this test fails. why does authorize() get called three times and have different values?
     Carbon::setTestNow(now()->addMinutes(61));
 
     PlayerVoted::fire(
@@ -88,4 +88,9 @@ it('players can vote again after 1 hour', function () {
         upvotee_id: $this->aaron->id,
         downvotee_id: $this->caleb->id,
     );
-})->skip();
+
+    expect($this->aaron->state()->upvotes)->toHaveCount(2);
+    expect($this->aaron->state()->score())->toBe(2);
+    expect($this->caleb->state()->downvotes)->toHaveCount(2);
+    expect($this->caleb->state()->score())->toBe(-2);
+});

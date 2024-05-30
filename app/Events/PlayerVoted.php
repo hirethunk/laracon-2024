@@ -22,14 +22,12 @@ class PlayerVoted extends Event
     public function authorize()
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
+            GameState::load($this->game_id)->player_ids->contains($this->player_id),
             'Voter is not in the game.'
         );
 
-        $last_voted_at = $this->state(PlayerState::class)->lastVotedAt();
-
         $this->assert(
-            ! $last_voted_at || now() > $last_voted_at->addHour(),
+            $this->state(PlayerState::class)->canVote(),
             'Voter must wait 1 hour between votes.'
         );
     }
@@ -56,11 +54,11 @@ class PlayerVoted extends Event
 
     public function applyToPlayer(PlayerState $state)
     {
-        $state->ballots_cast->push([
+        $state->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
-            'voted_at' => now(),
-        ]);
+            'last_voted_at' => now(),
+        ];
     }
 
     public function fired()

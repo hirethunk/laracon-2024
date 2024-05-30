@@ -37,9 +37,9 @@ class PlayerReceivedUpvote extends Event
 
     public function applyToPlayer(PlayerState $state)
     {
-        $state->upvotes->push([
+        $state->upvotes[] = [
             'source' => $this->voter_id,
             'votes' => 1,
-        ]);
+        ];
     }
 }

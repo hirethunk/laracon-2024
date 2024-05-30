@@ -3,8 +3,8 @@
 namespace App\States;
 
 use App\Models\Player;
+use Carbon\Carbon;
 use Thunk\Verbs\State;
-use Illuminate\Support\Collection;
 
 class PlayerState extends State
 {
@@ -14,11 +14,11 @@ class PlayerState extends State
 
     public int $game_id;
 
-    public Collection $downvotes;
+    public array $downvotes;
 
-    public Collection $upvotes;
+    public array $upvotes;
 
-    public Collection $ballots_cast;
+    public array $ballots_cast;
 
     public function model()
     {
@@ -27,11 +27,26 @@ class PlayerState extends State
 
     public function score()
     {
-        return $this->upvotes->sum('votes') - $this->downvotes->sum('votes');
+        return collect($this->upvotes)->sum('votes') - collect($this->downvotes)->sum('votes');
     }
 
-    public function lastVotedAt()
+    public function canVote(): bool
     {
-        return $this->ballots_cast->max('voted_at');
+        $ballots = collect($this->ballots_cast);
+        
+        if ($ballots->count() === 0) {
+            return true;
+        }
+
+        if($this->lastVotedAt()->addHour() < now()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function lastVotedAt(): Carbon
+    {
+        return Carbon::parse(collect($this->ballots_cast)->max('voted_at'));
     }
 }

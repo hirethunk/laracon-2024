@@ -35,7 +35,9 @@ class VotingCard extends Component
     #[Computed]
     public function players(): Collection
     {
-        return $this->game->players;
+        return $this->game->players
+            ->reject(fn($p) => $p->id === $this->player->id)
+            ->sortBy(fn($p) => $p->name);
     }
 
     public function mount()
@@ -45,6 +47,15 @@ class VotingCard extends Component
 
     public bool $player_can_vote;
 
+    public ?int $downvote_target_id = null;
+
+    public ?int $upvote_target_id = null;
+
+    public $rules = [
+        'downvote_target_id' => 'integer|exists:players,id',
+        'upvote_target_id' => 'integer|exists:players,id',
+    ];
+
     public function initializeProperties()
     {
         $this->player_can_vote = Verbs::isAuthorized(
@@ -52,6 +63,20 @@ class VotingCard extends Component
                 player_id: $this->player->id,
                 game_id: $this->game->id,
             )->event
+        );
+
+        dd($this->player);
+    }
+
+    public function vote()
+    {
+        $this->validate();
+
+        PlayerVoted::fire(
+            player_id: $this->player->id,
+            game_id: $this->game->id,
+            upvotee_id: $this->upvote_target_id,
+            downvotee_id: $this->downvote_target_id,
         );
     }
 
