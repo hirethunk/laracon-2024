@@ -6,6 +6,7 @@ use App\Models\Player;
 use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
+use App\Events\ScoreChanged;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
 class PlayerReceivedDownvote extends Event
@@ -46,5 +47,7 @@ class PlayerReceivedDownvote extends Event
         $player->score = $this->state(PlayerState::class)->score();
 
         $player->save();
+
+        ScoreChanged::dispatch($this->game_id);
     }
 }
