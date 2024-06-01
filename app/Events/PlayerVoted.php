@@ -58,7 +58,7 @@ class PlayerVoted extends Event
         $state->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
-            'last_voted_at' => now(),
+            'voted_at' => now(),
         ];
     }
 
