@@ -15,6 +15,10 @@ class Player extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'last_voted_at' => 'datetime',
+    ];
+
     public function state()
     {
         return PlayerState::load($this->id);

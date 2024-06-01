@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Models\Player;
+use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
-use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
 class PlayerReceivedUpvote extends Event
@@ -37,9 +38,18 @@ class PlayerReceivedUpvote extends Event
 
     public function applyToPlayer(PlayerState $state)
     {
-        $state->upvotes->push([
+        $state->upvotes[] = [
             'source' => $this->voter_id,
             'votes' => 1,
-        ]);
+        ];
+    }
+
+    public function handle()
+    {
+        $player = Player::find($this->player_id);
+
+        $player->score = $this->state(PlayerState::class)->score();
+
+        $player->save();
     }
 }
