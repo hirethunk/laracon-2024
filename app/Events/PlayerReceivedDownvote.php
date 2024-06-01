@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Player;
 use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
@@ -36,5 +37,14 @@ class PlayerReceivedDownvote extends Event
             'source' => $this->voter_id,
             'votes' => 1,
         ];
+    }
+
+    public function handle()
+    {
+        $player = Player::find($this->player_id);
+
+        $player->score = $this->state(PlayerState::class)->score();
+
+        $player->save();
     }
 }

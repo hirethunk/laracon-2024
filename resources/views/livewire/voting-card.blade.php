@@ -33,7 +33,7 @@
                     @else
                         <div class="text-center">
                             <h1 class="text-3xl font-bold text-amber-400">You can only vote once per hour</h1>
-                            <p>Vote again in Carbon {{ $this->player->last_voted_at->diffForHumans() }}</p>
+                            <p class="mt-4">Vote again {{ $this->player->last_voted_at->addHours(1)->diffForHumans() }}</p>
                         </div>
                     @endif
                 </div>

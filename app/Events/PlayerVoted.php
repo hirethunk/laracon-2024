@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Models\Player;
+use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
-use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
 class PlayerVoted extends Event
@@ -74,5 +75,14 @@ class PlayerVoted extends Event
             voter_id: $this->player_id,
             game_id: $this->game_id,
         );
+    }
+
+    public function handle()
+    {
+        $player = Player::find($this->player_id);
+
+        $player->last_voted_at = now();
+
+        $player->save();
     }
 }
