@@ -7,19 +7,10 @@ use App\Models\Player;
 use Livewire\Component;
 use App\Events\PlayerVoted;
 use Thunk\Verbs\Facades\Verbs;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 
 class VotingCard extends Component
 {
-    #[Computed]
-    public function players(): Collection
-    {
-        return $this->game->players
-            ->reject(fn($p) => $p->id === $this->player->id)
-            ->sortBy(fn($p) => $p->name);
-    }
-
     public function mount(Player $player)
     {
         $this->initializeProperties($player);
@@ -28,6 +19,8 @@ class VotingCard extends Component
     public Player $player;
 
     public Game $game;
+
+    public Collection $players;
 
     public bool $player_can_vote;
 
@@ -52,6 +45,11 @@ class VotingCard extends Component
                 game_id: $this->game->id,
             )->event
         );
+
+        $this->players = $this->game->players
+            ->reject(fn($p) => $p->id === $this->player->id)
+            ->filter(fn($p) => $p->state()->is_active)
+            ->sortBy(fn($p) => $p->name);
     }
 
     public function vote()

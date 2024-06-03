@@ -43,6 +43,7 @@ class PlayerJoinedGame extends Event
         $state->upvotes = [];
         $state->downvotes = [];
         $state->ballots_cast = [];
+        $state->is_active = true;
     }
 
     public function fired()
@@ -54,12 +55,16 @@ class PlayerJoinedGame extends Event
                 player_id: $referrer,
                 game_id: $this->game_id,
                 voter_id: $this->player_id,
+                type: 'got-referred',
+                amount: 1,
             );
 
             PlayerReceivedUpvote::fire(
                 player_id: $this->player_id,
                 game_id: $this->game_id,
                 voter_id: $referrer,
+                type: 'referred',
+                amount: 1,
             );
         }
     }

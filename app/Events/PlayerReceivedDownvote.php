@@ -17,6 +17,10 @@ class PlayerReceivedDownvote extends Event
 
     #[StateId(GameState::class)]
     public int $game_id;
+    
+    public int $amount;
+
+    public string $type;
 
     public function validate()
     {   
@@ -35,7 +39,8 @@ class PlayerReceivedDownvote extends Event
     {
         $state->downvotes[] = [
             'source' => $this->voter_id,
-            'votes' => 1,
+            'votes' => $this->amount,
+            'type' => $this->type,
         ];
     }
 
