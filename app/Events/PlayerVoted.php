@@ -48,8 +48,18 @@ class PlayerVoted extends Event
         );
 
         $this->assert(
+            PlayerState::load($this->upvotee_id)->is_active,
+            'Upvotee has already resigned.'
+        );
+
+        $this->assert(
             $players->contains($this->downvotee_id),
             'Downvotee is not in the game.'
+        );
+
+        $this->assert(
+            PlayerState::load($this->downvotee_id)->is_active,
+            'Downvotee has already resigned.'
         );
     }
 
@@ -68,12 +78,16 @@ class PlayerVoted extends Event
             player_id: $this->upvotee_id,
             voter_id: $this->player_id,
             game_id: $this->game_id,
+            type: 'ballot',
+            amount: 1,
         );
         
         PlayerReceivedDownvote::fire(
             player_id: $this->downvotee_id,
             voter_id: $this->player_id,
             game_id: $this->game_id,
+            type: 'ballot',
+            amount: 1,
         );
     }
 

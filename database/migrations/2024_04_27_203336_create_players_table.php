@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Game::class);
             $table->timestamp('last_voted_at')->nullable();
             $table->integer('score')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -10,6 +10,8 @@ class PlayerState extends State
 {
     public string $name;
 
+    public bool $is_active;
+
     public int $user_id;
 
     public int $game_id;

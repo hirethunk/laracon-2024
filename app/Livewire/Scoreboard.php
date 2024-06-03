@@ -22,6 +22,7 @@ class Scoreboard extends Component
         $this->player = $this->player;
 
         $this->players = $this->player->game->players
+            ->filter(fn($p) => $p->state()->is_active)
             ->sortByDesc('score');
     }
 
