@@ -18,4 +18,5 @@
             </div>
         </div>
     </div>
+    <x-live-feed />
 </x-app-layout>
