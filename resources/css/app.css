@@ -33,19 +33,19 @@
 
 /* Border */
 .border-gold-100 {
-    border: solid transparent;
+    border: 8px solid transparent;
     border-image: var(--gold-100) 1 stretch;
     filter: brightness(1.05);
 }
 
 .border-gold-500 {
-    border: solid transparent;
+    border: 8px solid transparent;
     border-image: var(--gold-500) 1 stretch;
     filter: brightness(1.05);
 }
 
 .border-gold-900 {
-    border: solid transparent;
+    border: 8px solid transparent;
     border-image: var(--gold-900) 1 stretch;
     filter: brightness(1.05);
 }
