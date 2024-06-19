@@ -7,14 +7,14 @@
 
     <div class="py-12 bg-black">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden text-lg font-bold text-center border-y-2 border-white cardo-bold">
-                    <p class="p-6 text-gold-500">
-                        Before you can join the game, the man with the golden suit must approve your account.
-                    </p>
-                    <p class="px-6 text-gold-100">Find the man with the golden suit.</p>
-                    <p class="p-6 text-gold-500">
-                        He will not approve you unless your account name matches the name on your Laracon badge. If you need to change your name to match your badge, do that below.
-                    </p>
+            <div class="overflow-hidden text-lg font-bold text-center border-y-2 border-white cardo-bold text-gold-100">
+                <p class="p-6">
+                    Before you can join the game, the man with the golden suit must approve your account.
+                </p>
+                <p class="px-6">Find the man with the golden suit.</p>
+                <p class="p-6">
+                    He will not approve you unless your account name matches the name on your Laracon badge. If you need to change your name to match your badge, do that below.
+                </p>
             </div>
         </div>
     </div>
