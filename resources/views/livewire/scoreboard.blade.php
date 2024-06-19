@@ -10,8 +10,8 @@
                         @foreach($players as $player)
                             <tr>
                                 @if($player->id === $this->player->id)
-                                    <td class="text-left font-bold text-amber-400">{{ $player->user->name }}</td>
-                                    <td class="text-right font-bold text-amber-400">{{ $player->score }}</td>
+                                    <td class="text-left text-gold-900">{{ $player->user->name }}</td>
+                                    <td class="text-right text-gold-900">{{ $player->score }}</td>
                                 @else
                                     <td class="text-left">{{ $player->user->name }}</td>
                                     <td class="text-right">{{ $player->score }}</td>

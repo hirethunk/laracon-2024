@@ -29,7 +29,7 @@
             </x-primary-button>
         @else
             <div class="text-center">
-                <h1 class="text-3xl font-bold text-amber-400">You can only vote once per hour</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gold-500">You can only vote once per hour</h1>
                 <p class="mt-4">Vote again {{ $this->player->last_voted_at->addHours(1)->diffForHumans() }}</p>
             </div>
         @endif

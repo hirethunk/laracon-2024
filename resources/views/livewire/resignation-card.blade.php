@@ -13,7 +13,7 @@
                 />
             </div>
         </div>
-        <x-danger-button wire:click="resign" wire:loading.attr="disabled" class="mt-8" color="gold">
+        <x-danger-button wire:click="resign" wire:loading.attr="disabled" class="mt-8">
             Resign
         </x-danger-button>
     </x-card>
