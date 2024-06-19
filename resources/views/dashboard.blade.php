@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header" class="text-gold-500">
-        <h2 class="mt-8 -mb-4 text-8xl font-bold leading-tight text-center cinzel text-gold-500">
+        <h2 class="text-8xl font-bold leading-tight text-center cinzel text-gold-500">
             {{ __("let's make some money") }}
         </h2>
     </x-slot>
