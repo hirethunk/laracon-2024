@@ -14,7 +14,17 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+                'gold-100': 'var(--gold-100)',
+                'gold-500': 'var(--gold-500)',
+                'gold-900': 'var(--gold-900)',
+            }
         },
+    },
+    variants: {
+        extend: {
+            backgroundImage: ['hover', 'focus']
+        }
     },
 
     plugins: [forms],

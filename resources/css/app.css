@@ -31,37 +31,21 @@
     filter: brightness(1.35);
 }
 
-/* Background */
-.bg-gold-100 {
-    background-image: var(--gold-100);
-    background-size: cover;
-}
-
-.bg-gold-500 {
-    background-image: var(--gold-500);
-    background-size: cover;
-}
-
-.bg-gold-900 {
-    background-image: var(--gold-900);
-    background-size: cover;
-}
-
 /* Border */
 .border-gold-100 {
-    border: 8px solid transparent;
+    border: solid transparent;
     border-image: var(--gold-100) 1 stretch;
     filter: brightness(1.05);
 }
 
 .border-gold-500 {
-    border: 8px solid transparent;
+    border: solid transparent;
     border-image: var(--gold-500) 1 stretch;
     filter: brightness(1.05);
 }
 
 .border-gold-900 {
-    border: 8px solid transparent;
+    border: solid transparent;
     border-image: var(--gold-900) 1 stretch;
     filter: brightness(1.05);
 }
