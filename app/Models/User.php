@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\States\UserState;
 use Glhd\Bits\Database\HasSnowflakes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,6 +40,13 @@ class User extends Authenticatable
             'id' => 'int',
             'player_id' => 'int',
         ];
+    }
+
+    public function isApproved(): Attribute
+    {
+        return new Attribute(function () {
+            return $this->status === 'approved';
+        });
     }
 
     public function state()

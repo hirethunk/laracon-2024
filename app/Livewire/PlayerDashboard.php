@@ -24,13 +24,13 @@ class PlayerDashboard extends Component
     }
 
     #[Computed]
-    public function game(): Game  
+    public function game(): Game
     {
         return $this->player->game;
     }
-    
+
     public function render()
     {
-        return view('livewire.player-dashboard');
+        return view('livewire.player-dashboard')->layout('layouts.app');
     }
 }
