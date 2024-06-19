@@ -19,7 +19,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="cardo antialiased">
+    <body class="cardo-bold antialiased">
         <div class="min-h-screen bg-black opacity-95">
             @include('layouts.navigation')
 
