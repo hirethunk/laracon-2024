@@ -7,8 +7,10 @@ use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
+use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
-class PlayerReceivedDownvote extends Event
+class PlayerReceivedDownvote extends Event implements ExposesHistory
 {
     #[StateId(PlayerState::class)]
     public int $player_id;
@@ -17,13 +19,13 @@ class PlayerReceivedDownvote extends Event
 
     #[StateId(GameState::class)]
     public int $game_id;
-    
+
     public int $amount;
 
     public string $type;
 
     public function validate()
-    {   
+    {
         $this->assert(
             $this->state(GameState::class)->player_ids->contains($this->player_id),
             'Player is not in the game.'
@@ -51,5 +53,14 @@ class PlayerReceivedDownvote extends Event
         $player->score = $this->state(PlayerState::class)->score();
 
         $player->save();
+    }
+
+    public function asHistory(): array|string|HistoryComponentDto
+    {
+        return 'player_id = ' . $this->player_id .
+            'voter_id = ' . $this->voter_id .
+            'game_id = ' . $this->game_id .
+            'amount = ' . $this->amount .
+            'type = ' . $this->type;
     }
 }
