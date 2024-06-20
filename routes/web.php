@@ -6,7 +6,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Livewire\PlayerProfile;
 
-
 Route::get('/', function () {
     return view('welcome');
 });
