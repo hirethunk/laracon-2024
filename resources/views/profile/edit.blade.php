@@ -7,6 +7,11 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @if(! Auth::user()->is_approved)
+                <x-form.card>
+                    @include('profile.partials.update-profile-information-form')
+                </x-form.card>
+            @endif
             <x-form.card>
                 @if(auth()->user()->player)
                     <p class="text-black">The game is afoot, and you can no longer change your name.</p>
