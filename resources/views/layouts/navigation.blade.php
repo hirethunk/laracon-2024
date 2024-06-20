@@ -16,6 +16,14 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                @if(Auth::user()->is_admin)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center cinzel">
+                        <x-nav-link :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')">
+                            {{ __('Admin') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
