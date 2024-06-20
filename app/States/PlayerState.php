@@ -2,12 +2,15 @@
 
 namespace App\States;
 
-use App\Models\Player;
 use Carbon\Carbon;
+use App\Models\Player;
 use Thunk\Verbs\State;
+use Thunk\VerbsHistory\States\Traits\HasHistory;
 
 class PlayerState extends State
 {
+    use HasHistory;
+
     public string $name;
 
     public bool $is_active;
@@ -35,7 +38,7 @@ class PlayerState extends State
     public function canVote(): bool
     {
         $ballots = collect($this->ballots_cast);
-        
+
         if ($ballots->count() === 0) {
             return true;
         }
