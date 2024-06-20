@@ -2,7 +2,7 @@
 <select
     name="{{ $name }}"
     id="{{ $name }}"
-    class="pl-2 pr-2 min-w-md small-body bg-gray-900 text-steel-95 text-opacity-high block border-2 border-steel-40 rounded-[10px] {{$custom ?? ''}}"
+    class="pl-2 pr-2 w-full bg-gray-900 text-steel-95 text-opacity-high block border-2 border-steel-40 rounded-[10px] {{$custom ?? ''}}"
     {{ $attributes->whereStartsWith('wire:model') }}
 >
     <option value="" selected>{{ $selected }}</option>
