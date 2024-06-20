@@ -19,21 +19,21 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="cardo-bold antialiased">
-        <div class="min-h-screen bg-black opacity-95">
+    <body class="cardo-bold antialiased bg-black">
+        <div class="min-h-screen opacity-95 text-white">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="shadow">
-                    <div class="max-w-7xl mx-auto py-2 mt-10 px-4 sm:px-6 lg:px-8">
+                    <div class="py-2 mt-10 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="max-w-lg mx-auto">
                 {{ $slot }}
             </main>
         </div>

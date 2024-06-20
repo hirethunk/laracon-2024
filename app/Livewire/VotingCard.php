@@ -62,6 +62,8 @@ class VotingCard extends Component
             upvotee_id: $this->upvote_target_id,
             downvotee_id: $this->downvote_target_id,
         );
+
+        return redirect()->route('dashboard');
     }
 
     public function render()

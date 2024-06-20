@@ -62,8 +62,14 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function asHistory(): array|string|HistoryComponentDto
     {
-        return 'player_id = ' . Player::firstWhere('id', $this->player_id)->user->name .
-            'game_id = ' . $this->game_id .
-            'received '. $this->amount .' upvotes from ' . $this->type;
+        return new HistoryComponentDto(
+            component: 'history.vote',
+            props: [
+                'type' => $this->type,
+                'amount' => $this->amount,
+                'voter_name' => Player::find($this->voter_id)->user->name,
+                'score' => $this->state(PlayerState::class)->score(),
+            ]
+        );
     }
 }

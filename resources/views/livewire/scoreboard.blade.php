@@ -1,8 +1,9 @@
 <div>
     <x-card>
         <div class="flex flex-col">
-            <div class="text-center">
-                <h1 class="text-3xl font-bold leading-tight cinzel text-gold-500">Scoreboard</h1>
+            <div class="text-center flex flex-col space-y-4">
+                <h1 class="text-3xl font-bold text-amber-400">Scoreboard</h1>
+                <p class="text-sm">Click any player's name to see their score history</p>
             </div>
             <div class="mt-8">
                 <table class="w-full text-lg">
@@ -10,10 +11,18 @@
                         @foreach($players as $player)
                             <tr>
                                 @if($player->id === $this->player->id)
-                                    <td class="text-left text-gold-900">{{ $player->user->name }}</td>
-                                    <td class="text-right text-gold-900">{{ $player->score }}</td>
+                                    <td class="text-left font-bold text-amber-400">
+                                        <a href="{{ route('player.profile', $player) }}">
+                                            {{ $player->user->name }}
+                                        </a>
+                                    </td>
+                                    <td class="text-right font-bold text-amber-400">{{ $player->score }}</td>
                                 @else
-                                    <td class="text-left">{{ $player->user->name }}</td>
+                                <td class="text-left">
+                                        <a href="{{ route('player.profile', $player) }}">
+                                            {{ $player->user->name }}
+                                        </a>
+                                    </td>
                                     <td class="text-right">{{ $player->score }}</td>
                                 @endif
                             </tr>
