@@ -12,9 +12,6 @@
                     @include('profile.partials.update-profile-information-form')
                 </x-form.card>
             @endif
-            <x-form.card>
-                @include('profile.partials.update-profile-information-form')
-            </x-form.card>
 
             <x-form.card>
                 @include('profile.partials.update-password-form')
