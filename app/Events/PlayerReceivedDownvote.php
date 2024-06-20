@@ -57,10 +57,14 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
 
     public function asHistory(): array|string|HistoryComponentDto
     {
-        return 'player_id = ' . $this->player_id .
-            'voter_id = ' . $this->voter_id .
-            'game_id = ' . $this->game_id .
-            'amount = ' . $this->amount .
-            'type = ' . $this->type;
+        return new HistoryComponentDto(
+            component: 'history.vote',
+            props: [
+                'type' => $this->type,
+                'amount' => -$this->amount,
+                'voter_name' => Player::find($this->voter_id)->user->name,
+                'score' => $this->state(PlayerState::class)->score(),
+            ]
+        );
     }
 }

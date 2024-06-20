@@ -4,7 +4,7 @@
 ])
 
 <div>
-    <ul role="list" class="space-y-6 text-white">
+    <ul role="list" class=" text-white">
         @foreach ($state->getHistory($subHistory) as $history_item)
             @if($history_item->component)
                 <x-history.custom-item
