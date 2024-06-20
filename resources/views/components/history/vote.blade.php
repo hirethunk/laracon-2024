@@ -16,7 +16,7 @@
         $text = 'Inherited from '.$voter_name;
     }
 
-    $amount > 0 
+    $amount > 0
         ? $amount_string = '+'.$amount
         : $amount_string = $amount;
 @endphp
