@@ -28,6 +28,7 @@ class PlayerVoted extends Event
         );
 
         if (app()->environment('production')) {
+        // Unlimited voting while testing
             $this->assert(
                 $this->state(PlayerState::class)->canVote(),
                 'Voter must wait 1 hour between votes.'
