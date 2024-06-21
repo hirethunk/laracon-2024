@@ -4,8 +4,8 @@
 ])
 
 <div>
-    <ul role="list" class=" text-white">
-        @foreach ($state->getHistory($subHistory) as $history_item)
+    <ul role="list" class="text-white">
+        @forelse ($state->getHistory($subHistory) as $history_item)
             @if($history_item->component)
                 <x-history.custom-item
                     :dto="$history_item"
@@ -19,6 +19,8 @@
                     :isLast="$loop->last"
                 />
             @endif
-        @endforeach
+        @empty
+            <div class="text-center text-gray-400">No History Yet</div>
+        @endforelse
     </ul>
 </div>

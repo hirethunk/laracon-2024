@@ -24,9 +24,12 @@
                     />
                 </div>
             </div>
-            <x-primary-button wire:click="vote" wire:loading.attr="disabled" class="mt-8" color="gold">
-                Vote
-            </x-primary-button>
+
+            <div class="flex justify-between items-center mt-8">
+                <x-primary-button wire:click="vote" wire:loading.attr="disabled" color="gold">
+                    Vote
+                </x-primary-button>
+            </div>
         @else
             <div class="text-center">
                 <h1 class="text-2xl sm:text-3xl font-bold text-gold-500">You can only vote once per hour</h1>

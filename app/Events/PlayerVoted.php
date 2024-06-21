@@ -81,7 +81,7 @@ class PlayerVoted extends Event
             type: 'ballot',
             amount: 1,
         );
-        
+
         PlayerReceivedDownvote::fire(
             player_id: $this->downvotee_id,
             voter_id: $this->player_id,
