@@ -37,6 +37,8 @@ class AdminDashboard extends Component
             player_id: null,
         );
 
+        session()->flash('event', 'AdminApprovedNewPlayer');
+
         return redirect()->route('admin-dashboard');
     }
 

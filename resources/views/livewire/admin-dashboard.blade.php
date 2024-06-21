@@ -1,5 +1,4 @@
 <div>
-
     {{-- Approve Users --}}
     <x-card>
         <h1 class="text-lg text-gold-500 cinzel mb-4">Approve Users<h1>
@@ -16,8 +15,11 @@
                 />
             </div>
         </div>
-        <x-primary-button wire:click="approve" wire:loading.attr="disabled" class="mt-8" color="gold">
-            Approve
-        </x-primary-button>
+
+        <div class="flex justify-between items-center mt-8">
+            <x-primary-button wire:click="approve" wire:loading.attr="disabled" color="gold">
+                Approve
+            </x-primary-button>
+        </div>
     </x-card>
 </div>
