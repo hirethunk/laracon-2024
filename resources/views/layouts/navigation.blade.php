@@ -30,6 +30,10 @@
                 <x-flash.fired />
             </div>
 
+            <div class="absolute inset-0 top-1">
+                <x-flash.fired />
+            </div>
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 z-10">
                 <x-dropdown align="right" width="48" contentClasses="bg-gold-500">
