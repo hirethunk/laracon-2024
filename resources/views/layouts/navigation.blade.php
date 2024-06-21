@@ -80,6 +80,14 @@
             </x-responsive-nav-link>
         </div>
 
+        @if(Auth::user()->is_admin)
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')">
+                    {{ __('Admin') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
+
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t-2 border-gray-50">
             <div class="px-4">
