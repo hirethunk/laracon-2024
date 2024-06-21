@@ -30,7 +30,7 @@
                 <x-flash.fired />
             </div>
 
-            <div class="absolute inset-0 top-1 z-0">
+            <div class="absolute inset-x-0 top-1 z-0">
                 <x-flash.fired />
             </div>
 
