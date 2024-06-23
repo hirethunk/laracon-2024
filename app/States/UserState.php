@@ -18,6 +18,11 @@ class UserState extends State
 
     public string $status;
 
+    public function isApproved(): bool
+    {
+        return $this->status === 'approved';
+    }
+
     public function model()
     {
         return User::find($this->id);
