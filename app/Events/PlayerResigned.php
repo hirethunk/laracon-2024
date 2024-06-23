@@ -47,6 +47,7 @@ class PlayerResigned extends Event
     public function applyToPlayer(PlayerState $state)
     {
         $state->is_active = false;
+        $state->beneficiary_id = $this->beneficiary_id;
     }
 
     public function applyToGame(GameState $state)

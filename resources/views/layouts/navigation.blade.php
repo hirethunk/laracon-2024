@@ -1,8 +1,8 @@
 <nav x-data="{ open: false }" class="border-y-2 border-white">
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+        <div class="flex justify-between h-16 relative">
+            <div class="flex z-10">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
@@ -26,8 +26,12 @@
                 @endif
             </div>
 
+            <div class="absolute inset-x-0 top-1 z-0">
+                <x-flash.fired />
+            </div>
+
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 z-10">
                 <x-dropdown align="right" width="48" contentClasses="bg-gold-500">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-md text-gold-500 font-bold cinzel hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 lowercase">
@@ -61,7 +65,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 flex items-center sm:hidden z-10">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white font-extrabold hover:text-gray-500 hover:bg-gold-500 focus:outline-none focus:bg-gold-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

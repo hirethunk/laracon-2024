@@ -5,10 +5,17 @@ namespace App\Livewire;
 use App\Models\Player;
 use Livewire\Component;
 use App\Events\PlayerResigned;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 
 class ResignationCard extends Component
 {
+    #[Computed]
+    public function beneficiary()
+    {
+        return $this->players->first(fn($p) => $p->id === $this->player->state()->beneficiary_id)->user->name ?? null;
+    }
+
     public function mount(Player $player)
     {
         $this->initializeProperties($player);
@@ -37,12 +44,16 @@ class ResignationCard extends Component
     public function resign()
     {
        $this->validate();
-       
+
         PlayerResigned::fire(
             player_id: $this->player->id,
             game_id: $this->player->game->id,
             beneficiary_id: $this->beneficiary_id,
         );
+
+        session()->flash('event', 'PlayerResigned');
+
+        return redirect()->route('player-dashboard');
     }
 
     public function render()

@@ -25,6 +25,8 @@ class PlayerState extends State
 
     public array $ballots_cast;
 
+    public int $beneficiary_id;
+
     public function model()
     {
         return Player::find($this->id);
