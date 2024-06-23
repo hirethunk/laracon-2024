@@ -27,10 +27,14 @@ class PlayerVoted extends Event
             'Voter is not in the game.'
         );
 
-        // $this->assert(
-        //     $this->state(PlayerState::class)->canVote(),
-        //     'Voter must wait 1 hour between votes.'
-        // );
+
+        if (app()->environment('production') || app()->environment('testing')) {
+        // Unlimited voting while testing locally
+            $this->assert(
+                $this->state(PlayerState::class)->canVote(),
+                'Voter must wait 1 hour between votes.'
+            );
+        }
     }
 
     public function validate()
@@ -81,7 +85,7 @@ class PlayerVoted extends Event
             type: 'ballot',
             amount: 1,
         );
-        
+
         PlayerReceivedDownvote::fire(
             player_id: $this->downvotee_id,
             voter_id: $this->player_id,
