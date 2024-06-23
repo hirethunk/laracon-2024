@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-4xl text-white leading-tight cinzel lowercase">
+        <h2 class="font-semibold text-4xl text-center text-white leading-tight cinzel lowercase">
             {{ __('Profile') }}
         </h2>
     </x-slot>

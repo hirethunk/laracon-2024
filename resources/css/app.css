@@ -33,21 +33,63 @@
 
 /* Border */
 .border-gold-100 {
-    border: 8px solid transparent;
-    border-image: var(--gold-100) 1 stretch;
-    filter: brightness(1.05);
+    position: relative;
+    box-sizing: border-box;
+    color: #FFF;
+    background: #000;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 1rem;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: var(--gold-100);
+    }
 }
 
 .border-gold-500 {
-    border: 8px solid transparent;
-    border-image: var(--gold-500) 1 stretch;
-    filter: brightness(1.05);
+    position: relative;
+    box-sizing: border-box;
+    color: #FFF;
+    background: #000;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 1rem;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: var(--gold-500);
+    }
 }
 
 .border-gold-900 {
-    border: 8px solid transparent;
-    border-image: var(--gold-900) 1 stretch;
-    filter: brightness(1.05);
+    position: relative;
+    box-sizing: border-box;
+    color: #FFF;
+    background: #000;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 1rem;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: var(--gold-900);
+    }
 }
 
 /* Fonts */
