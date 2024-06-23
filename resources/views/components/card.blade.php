@@ -1,6 +1,6 @@
 <div class="py-12">
     <div class="mx-auto">
-        <div class="text-white border-gold-100 overflow-hidden shadow-sm rounded-lg">
+        <div class="border-gold-100">
             <div class="p-6">
                 {{ $slot }}
             </div>
