@@ -23,19 +23,21 @@
         <div class="min-h-screen opacity-95 text-white">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="shadow">
-                    <div class="py-2 mt-10 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            <div class="space-y-12 pb-16 pt-12">
+                <!-- Page Heading -->
+                @if (isset($header))
+                    <header class="shadow">
+                        <div class="sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endif
 
-            <!-- Page Content -->
-            <main class="px-4 max-w-lg mx-auto">
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main class="px-4 max-w-lg mx-auto">
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </body>
 </html>

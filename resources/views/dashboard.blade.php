@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-black">
+    <div class="bg-black">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden text-lg font-bold text-center border-y-2 border-white cardo-bold text-gold-100">
                 <p class="p-6">
@@ -18,5 +18,7 @@
             </div>
         </div>
     </div>
-    <x-live-feed />
+    <div class="py-6">
+        <x-live-feed />
+    </div>
 </x-app-layout>

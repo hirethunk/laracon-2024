@@ -1,9 +1,10 @@
-<div wire:poll>
-    <x-live-feed class="mt-10" />
+<div wire:poll class="space-y-12">
+    <x-live-feed />
+
     @if ($this->player->is_active)
         <livewire:voting-card :player="$this->player"/>
     @endif
-    
+
     @if ($this->player->is_active)
         <livewire:resignation-card :player="$this->player"/>
     @endif

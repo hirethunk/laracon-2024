@@ -5,19 +5,17 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <x-form.card>
-                <livewire:user-profile />
-            </x-form.card>
+    <div class="space-y-12">
+        <x-form.card>
+            <livewire:user-profile />
+        </x-form.card>
 
-            <x-form.card>
-                @include('profile.partials.update-password-form')
-            </x-form.card>
+        <x-form.card>
+            @include('profile.partials.update-password-form')
+        </x-form.card>
 
-            <x-form.card>
-                @include('profile.partials.delete-user-form')
-            </x-form.card>
-        </div>
+        <x-form.card>
+            @include('profile.partials.delete-user-form')
+        </x-form.card>
     </div>
 </x-app-layout>
