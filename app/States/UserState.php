@@ -16,7 +16,7 @@ class UserState extends State
 
     public int $player_id;
 
-    public string $status;
+    public string $status = 'new';
 
     public function isApproved(): bool
     {

@@ -124,7 +124,7 @@ it('an admin can admit the player into the game', function() {
 
     expect($this->game->state()->usersAwaitingApproval())
         ->toHaveCount(0);
-    
+
     expect($this->game->state()->players())
         ->toHaveCount(1)
         ->and($this->game->state()->players()->first()->id)
