@@ -37,7 +37,7 @@ class ResignationCard extends Component
     public function resign()
     {
        $this->validate();
-       
+
         PlayerResigned::fire(
             player_id: $this->player->id,
             game_id: $this->player->game->id,

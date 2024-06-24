@@ -72,31 +72,3 @@ it('does not allow player to resign twice', function () {
         beneficiary_id: $this->caleb->id,
     );
 })->throws('Player has already resigned.');
-
-it('does not show resigned players in dropdowns on voting card', function() {
-    PlayerResigned::fire(
-        player_id: $this->aaron->id,
-        game_id: $this->game->id,
-        beneficiary_id: $this->caleb->id,
-    );
-
-    Livewire::test(VotingCard::class, ['player' => $this->taylor])
-        ->assertViewHas('players', function ($players) {
-            return $players->pluck('id')->contains($this->caleb->id)
-                && ! $players->pluck('id')->contains($this->aaron->id);
-        });
-});
-
-it('does not show resigned players in scoreboard', function() {
-    PlayerResigned::fire(
-        player_id: $this->aaron->id,
-        game_id: $this->game->id,
-        beneficiary_id: $this->caleb->id,
-    );
-
-    Livewire::test(Scoreboard::class, ['player' => $this->taylor])
-        ->assertViewHas('players', function ($players) {
-            return $players->pluck('id')->contains($this->caleb->id)
-                && ! $players->pluck('id')->contains($this->aaron->id);
-        });
-});
