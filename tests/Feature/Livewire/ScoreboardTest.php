@@ -17,7 +17,7 @@ beforeEach(function () {
 });
 
 it('renders successfully', function () {
-    Livewire::test(Scoreboard::class)
+    Livewire::test(Scoreboard::class, ['player' => $this->taylor])
         ->assertStatus(200);
 });
 
