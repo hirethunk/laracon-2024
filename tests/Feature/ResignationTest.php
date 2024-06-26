@@ -4,10 +4,11 @@ use App\Models\Game;
 use App\Models\User;
 use Livewire\Livewire;
 use App\Events\PlayerVoted;
+use App\Livewire\Scoreboard;
 use App\Livewire\VotingCard;
 use App\Events\PlayerResigned;
-use App\Livewire\Scoreboard;
 use Thunk\Verbs\Facades\Verbs;
+use App\Livewire\ResignationCard;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -72,3 +73,43 @@ it('does not allow player to resign twice', function () {
         beneficiary_id: $this->caleb->id,
     );
 })->throws('Player has already resigned.');
+
+test('a player can resign using the ResignationCard', function () {
+    expect($this->taylor->state()->is_active)->toBeTrue();
+    expect($this->taylor->fresh()->is_active)->toBeTrue();
+
+    Livewire::test(ResignationCard::class, ['player' => $this->taylor])
+        ->set('beneficiary_id', $this->caleb->id)
+        ->call('resign');
+
+    expect($this->taylor->state()->is_active)->toBeFalse();
+    expect($this->taylor->fresh()->is_active)->toBeFalse();
+});
+
+it('does not show resigned players in dropdowns on VotingCard', function() {
+    PlayerResigned::fire(
+        player_id: $this->aaron->id,
+        game_id: $this->game->id,
+        beneficiary_id: $this->caleb->id,
+    );
+
+    Livewire::test(VotingCard::class, ['player' => $this->taylor])
+        ->assertViewHas('players', function ($players) {
+            return $players->pluck('id')->contains($this->caleb->id)
+                && ! $players->pluck('id')->contains($this->aaron->id);
+        });
+});
+
+it('does not show resigned players in Scoreboard', function() {
+    PlayerResigned::fire(
+        player_id: $this->aaron->id,
+        game_id: $this->game->id,
+        beneficiary_id: $this->caleb->id,
+    );
+
+    Livewire::test(Scoreboard::class, ['player' => $this->taylor])
+        ->assertViewHas('players', function ($players) {
+            return $players->pluck('id')->contains($this->caleb->id)
+                && ! $players->pluck('id')->contains($this->aaron->id);
+        });
+});
