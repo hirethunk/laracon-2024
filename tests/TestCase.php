@@ -20,6 +20,8 @@ abstract class TestCase extends BaseTestCase
 
     public Player $caleb;
 
+    public User $unapprovedUser;
+
     public function bootGame()
     {
         $game_id = GameCreated::fire(name: 'Laracon 2024')->game_id;
@@ -109,5 +111,21 @@ abstract class TestCase extends BaseTestCase
                 game_id: $game->id,
             );
         });
+    }
+
+    public function getUnapprovedUser()
+    {
+        $user_id = UserCreated::fire(
+            name: "unapproved",
+            email: 'unapproved@example.com',
+            password: 'password',
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: Game::first()->id,
+        );
+
+        $this->unapprovedUser = User::find($user_id);
     }
 }
