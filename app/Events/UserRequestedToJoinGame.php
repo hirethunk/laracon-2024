@@ -41,9 +41,7 @@ class UserRequestedToJoinGame extends Event
 
     public function handle()
     {
-        $user = User::find($this->user_id);
-
-        $user->update([
+        User::find($this->user_id)->update([
             'status' => 'requested',
         ]);
     }
