@@ -10,13 +10,6 @@ use App\Livewire\PlayerDashboard;
 use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function () {
-
-    $response = $this->get('/');
-
-    dump($response);
-
-    $response->assertStatus(200);
-
     Verbs::commitImmediately();
 
     $this->bootGame();

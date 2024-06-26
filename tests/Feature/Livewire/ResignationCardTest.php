@@ -25,5 +25,6 @@ test('a player can resign', function () {
         ->set('beneficiary_id', $this->caleb->id)
         ->call('resign');
 
-    expect($this->taylor->state()->is_active())->toBeFalse();
+    expect($this->taylor->state()->is_active)->toBeFalse();
+    expect($this->taylor->fresh()->is_active)->toBeFalse();
 });

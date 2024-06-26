@@ -19,7 +19,7 @@ class Scoreboard extends Component
 
     public function initializeProperties(Player $player)
     {
-        $this->player = $this->player;
+        $this->player = $player;
 
         $this->players = $this->player->game->players
             ->filter(fn($p) => $p->state()->is_active)

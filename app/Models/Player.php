@@ -17,6 +17,7 @@ class Player extends Model
 
     protected $casts = [
         'last_voted_at' => 'datetime',
+        'is_active' => 'boolean',
     ];
 
     public function state()
