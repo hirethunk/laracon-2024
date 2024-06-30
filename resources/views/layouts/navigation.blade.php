@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="border-y-2 border-white">
+<nav x-data="{ open: false }" class="border-y-2 border-white relative">
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -65,7 +65,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500">
+    <div :class="{'absolute z-20 block w-full': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link class="hover:bg-gold-100" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t-2 border-gray-50">
+        <div class="pt-4 pb-1 border-y-2 border-gray-50">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
