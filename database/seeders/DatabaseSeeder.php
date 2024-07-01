@@ -8,6 +8,7 @@ use Thunk\Verbs\Facades\Verbs;
 use Illuminate\Database\Seeder;
 use App\Events\UserPromotedToAdmin;
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserRequestedToJoinGame;
 
 class DatabaseSeeder extends Seeder
 {
@@ -76,28 +77,48 @@ class DatabaseSeeder extends Seeder
             game_id: $game_id
         );
 
-        UserCreated::fire(
+        $user_id = UserCreated::fire(
             name: 'Test User One',
             email:'testOne@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
-        UserCreated::fire(
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
             name: 'Test User Two',
             email:'testTwo@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
-        UserCreated::fire(
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
             name: 'Test User Three',
             email:'testThree@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
-        UserCreated::fire(
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
             name: 'Test User Four',
             email:'testFour@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
     }
 }

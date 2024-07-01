@@ -54,12 +54,12 @@ class User extends Authenticatable
         return $this->hasMany(Player::class);
     }
 
-    public function currentPlayer(): Player
+    public function currentPlayer(): ?Player
     {
-        return $this->currentGame()->players->firstWhere('user_id', $this->id);
+        return $this->currentGame()?->players->firstWhere('user_id', $this->id);
     }
 
-    public function currentGame(): Game
+    public function currentGame(): ?Game
     {
         return Game::find($this->current_game_id);
     }
