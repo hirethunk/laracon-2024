@@ -44,18 +44,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function isApproved(): Attribute
-    {
-        return new Attribute(function () {
-            return $this->status === 'approved';
-        });
-    }
-
-    public function scopeUnapproved(Builder $query): void
-    {
-        $query->whereNot('status', '=', 'approved');
-    }
-
     public function state()
     {
         return UserState::load($this->id);

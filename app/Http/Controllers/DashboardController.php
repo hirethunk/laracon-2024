@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->is_approved) {
+        if (Auth::user()->currentPlayer()) {
             return redirect()->route('player-dashboard', ['player' => Auth::user()->currentPlayer()]);
         }
 
