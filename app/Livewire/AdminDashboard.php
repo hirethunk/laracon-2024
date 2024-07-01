@@ -33,9 +33,9 @@ class AdminDashboard extends Component
         return $this->unapprovedUsers->mapWithKeys(fn($user) => [$user->id => $user->name]);
     }
 
-    public function mount(Game $game)
+    public function mount(int $game)
     {
-        $this->game = $game;
+        $this->game = Game::find($game);
     }
 
     public function approve()
