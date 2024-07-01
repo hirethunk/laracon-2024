@@ -28,12 +28,6 @@ class AdminDashboard extends Component
     }
 
     #[Computed]
-    public function user()
-    {
-        return Auth::user();
-    }
-
-    #[Computed]
     public function game()
     {
         $game_id = $this->user->state()->is_admin_for->last();
