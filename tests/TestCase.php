@@ -34,7 +34,7 @@ abstract class TestCase extends BaseTestCase
         )->user_id;
 
         $admin = User::find($admin_id);
-        UserPromotedToAdmin::fire(user_id: $admin_id);
+        UserPromotedToAdmin::fire(user_id: $admin_id, game_id: $game_id);
 
         $taylor_id = UserCreated::fire(
             name: 'Taylor Otwell',
@@ -53,7 +53,7 @@ abstract class TestCase extends BaseTestCase
             game_id: $game->id,
         );
 
-        $this->taylor = User::find($taylor_id)->player;
+        $this->taylor = User::find($taylor_id)->currentPlayer();
 
         $aaron_id = UserCreated::fire(
             name: 'Aaron Francis',
@@ -72,7 +72,7 @@ abstract class TestCase extends BaseTestCase
             game_id: $game->id,
         );
 
-        $this->aaron = User::find($aaron_id)->player;
+        $this->aaron = User::find($aaron_id)->currentPlayer();
 
         $caleb_id = UserCreated::fire(
             name: 'Caleb Porzio',
@@ -91,7 +91,7 @@ abstract class TestCase extends BaseTestCase
             game_id: $game->id,
         );
 
-        $this->caleb = User::find($caleb_id)->player;
+        $this->caleb = User::find($caleb_id)->currentPlayer();
 
         collect(range(1, 10))->each(function ($i) use ($admin, $game) {
             $user_id = UserCreated::fire(

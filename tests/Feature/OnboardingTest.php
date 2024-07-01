@@ -41,7 +41,7 @@ beforeEach(function () {
     $this->admin = User::find($admin_id);
     $this->referrer = User::find($referrer_id);
 
-    UserPromotedToAdmin::fire(user_id: $admin_id);
+    UserPromotedToAdmin::fire(user_id: $admin_id, game_id: $game_id);
 });
 
 it('a user can request to join a game', function () {
@@ -131,7 +131,7 @@ it('an admin can admit the player into the game', function() {
         ->toBe($player_id);
 
     $this->user->refresh();
-    $player = $this->user->player;
+    $player = $this->user->currentPlayer();
 
     expect($this->user->player_id)->toBe($player_id);
     expect($this->user->state()->player_id)->toBe($player_id);
@@ -167,7 +167,7 @@ it('grants an upvote for referrer and referee', function() {
         game_id: $this->game->id,
     );
 
-    $referrer_player_id = $this->referrer->fresh()->player->id;
+    $referrer_player_id = $this->referrer->fresh()->players->first()->id;
 
     UserAddedReferral::fire(
         user_id: $this->user->id,
@@ -189,6 +189,6 @@ it('grants an upvote for referrer and referee', function() {
         game_id: $this->game->id,
     );
 
-    expect($this->user->fresh()->player->state()->score())->toBe(1);
-    expect($this->referrer->fresh()->player->state()->score())->toBe(1);
+    expect($this->user->fresh()->players->first()->state()->score())->toBe(1);
+    expect($this->referrer->fresh()->players->first()->state()->score())->toBe(1);
 });
