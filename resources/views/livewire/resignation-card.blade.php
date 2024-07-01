@@ -26,8 +26,10 @@
             <div class="flex justify-between items-center mt-8">
                 <div>
                     @isset($this->beneficiary)
-                        <p class="mb-2">Beneficiary</p>
-                        <p class="text-gold-900">{{ $this->beneficiary }}</p>
+                        <p class="mb-2">
+                            Beneficiary:
+                            <span class="text-gold-900">{{ $this->beneficiary }}</span>
+                        </p>
                     @endisset
                 </div>
             </div>

@@ -53,7 +53,7 @@ class ResignationCard extends Component
 
         session()->flash('event', 'PlayerResigned');
 
-        return redirect()->route('player-dashboard');
+        return redirect()->route('player-dashboard', $this->game->id);
     }
 
     public function render()

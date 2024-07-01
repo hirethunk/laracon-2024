@@ -16,7 +16,7 @@ class AdminDashboard extends Component
     #[Computed]
     public function unapprovedUsers()
     {
-        return User::unapproved()->get();
+        return $this->game->state()->usersAwaitingApproval();
     }
 
     #[Computed]
