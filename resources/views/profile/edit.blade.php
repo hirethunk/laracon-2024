@@ -5,10 +5,17 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 text-black">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <x-form.card>
-                @include('profile.partials.update-profile-information-form')
+                @if(! Auth::user()->player->is_active)
+                    @include('profile.partials.update-profile-information-form')
+                @else
+                    <div class="text-center">
+                        <p class="text-2xl font-bold">The game is afoot</p>
+                        <p class="text-lg">You cannot change your name.</p>
+                    </div>
+                @endif
             </x-form.card>
 
             <x-form.card>
