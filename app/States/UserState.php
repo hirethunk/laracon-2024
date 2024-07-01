@@ -5,12 +5,13 @@ namespace App\States;
 use App\Models\User;
 use Thunk\Verbs\State;
 use App\States\PlayerState;
+use Illuminate\Support\Collection;
 
 class UserState extends State
 {
     public string $name;
 
-    public bool $is_admin = false;
+    public Collection $is_admin_for;
 
     public ?int $referrer_player_id = null;
 

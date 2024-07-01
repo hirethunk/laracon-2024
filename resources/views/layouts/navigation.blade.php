@@ -84,13 +84,13 @@
             </x-responsive-nav-link>
         </div>
 
-        @if(Auth::user()->is_admin)
+        @foreach(Auth::user()->state()->is_admin_for as $game_id)
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')">
-                    {{ __('Admin') }}
+                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard')">
+                    Admin for {{ App\Models\Game::find($game_id)->name }}
                 </x-responsive-nav-link>
             </div>
-        @endif
+        @endforeach
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t-2 border-gray-50">

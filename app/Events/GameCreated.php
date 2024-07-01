@@ -21,12 +21,15 @@ class GameCreated extends Event
         $state->user_ids_awaiting_approval = collect();
 
         $state->player_ids = collect();
+
+        $state->admin_user_ids = collect();
     }
 
     public function handle()
     {
         Game::create([
             'id' => $this->game_id,
+            'name' => $this->name,
         ]);
     }
 }
