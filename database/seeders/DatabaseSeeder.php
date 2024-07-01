@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
             password: bcrypt('password'),
         )->user_id;
 
-        UserPromotedToAdmin::fire(user_id: $admin_id);
+        UserPromotedToAdmin::fire(
+            user_id: $admin_id,
+            game_id: $game_id
+        );
 
         $john_id = UserCreated::fire(
             name: 'John Drexler',

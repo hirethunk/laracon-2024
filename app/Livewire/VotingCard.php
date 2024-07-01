@@ -65,7 +65,7 @@ class VotingCard extends Component
 
         session()->flash('event', 'PlayerVoted');
 
-        return redirect()->route('player-dashboard');
+        return redirect()->route('player-dashboard', $this->game->id);
     }
 
     public function render()

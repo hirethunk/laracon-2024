@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()?->is_admin) {
+        if (!Auth::user()?->state()->is_admin_for->contains($request->route('game'))) {
             abort(Response::HTTP_FORBIDDEN);
         }
 

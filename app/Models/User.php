@@ -26,6 +26,7 @@ class User extends Authenticatable
         'status',
         'referrer_player_id',
         'player_id',
+        'current_game_id',
     ];
 
     protected $hidden = [
@@ -60,8 +61,18 @@ class User extends Authenticatable
         return UserState::load($this->id);
     }
 
-    public function player()
+    public function players()
     {
-        return $this->belongsTo(Player::class);
+        return $this->hasMany(Player::class);
+    }
+
+    public function currentPlayer(): Player
+    {
+        return $this->currentGame()->players->firstWhere('user_id', $this->id);
+    }
+
+    public function currentGame(): Game
+    {
+        return Game::find($this->current_game_id);
     }
 }
