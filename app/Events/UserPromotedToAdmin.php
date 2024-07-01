@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\User;
+use App\States\GameState;
 use Thunk\Verbs\Event;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -12,17 +13,16 @@ class UserPromotedToAdmin extends Event
     #[StateId(UserState::class)]
     public int $user_id;
 
-    public function apply(UserState $state)
+    #[StateId(GameState::class)]
+    public int $game_id;
+
+    public function applyToUser(UserState $state)
     {
-        $state->is_admin = true;
+        $state->is_admin_for->push($this->game_id);
     }
 
-    public function handle()
+    public function applyToGame(GameState $state)
     {
-        $user = User::find($this->user_id);
-        
-        $user->is_admin = true;
-
-        $user->save();
+        $state->admin_user_ids->push($this->user_id);
     }
 }

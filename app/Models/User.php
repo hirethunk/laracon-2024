@@ -9,6 +9,7 @@ use App\States\UserState;
 use Glhd\Bits\Database\HasSnowflakes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'status',
         'referrer_player_id',
         'player_id',
+        'current_game_id',
     ];
 
     protected $hidden = [
@@ -42,20 +44,23 @@ class User extends Authenticatable
         ];
     }
 
-    public function isApproved(): Attribute
-    {
-        return new Attribute(function () {
-            return $this->status === 'approved';
-        });
-    }
-
     public function state()
     {
         return UserState::load($this->id);
     }
 
-    public function player()
+    public function players()
     {
-        return $this->belongsTo(Player::class);
+        return $this->hasMany(Player::class);
+    }
+
+    public function currentPlayer(): ?Player
+    {
+        return $this->currentGame()?->players->firstWhere('user_id', $this->id);
+    }
+
+    public function currentGame(): ?Game
+    {
+        return Game::find($this->current_game_id);
     }
 }
