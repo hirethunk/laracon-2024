@@ -1,5 +1,7 @@
 <div wire:poll class="space-y-4">
-    <x-live-feed />
+    <div class="pt-2">
+        <x-live-feed />
+    </div>
 
     @if ($this->player->is_active)
         <livewire:voting-card :player="$this->player"/>
