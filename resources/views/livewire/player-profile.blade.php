@@ -1,4 +1,4 @@
-<div class="">
+<div>
     <h2 class="w-full pt-8 text-xl">
         {{ $this->player->user->name }}
     </h2>
