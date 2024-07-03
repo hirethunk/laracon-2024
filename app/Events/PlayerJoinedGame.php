@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use App\Models\Player;
 use Thunk\Verbs\Event;
 use App\States\GameState;
@@ -76,5 +77,11 @@ class PlayerJoinedGame extends Event
             'user_id' => $this->user_id,
             'game_id' => $this->game_id,
         ]);
+
+        $user = User::find($this->user_id);
+
+        $user->current_game_id = $this->game_id;
+
+        $user->save();
     }
 }

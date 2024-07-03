@@ -8,6 +8,7 @@ use Thunk\Verbs\Facades\Verbs;
 use Illuminate\Database\Seeder;
 use App\Events\UserPromotedToAdmin;
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserRequestedToJoinGame;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,7 +24,10 @@ class DatabaseSeeder extends Seeder
             password: bcrypt('password'),
         )->user_id;
 
-        UserPromotedToAdmin::fire(user_id: $admin_id);
+        UserPromotedToAdmin::fire(
+            user_id: $admin_id,
+            game_id: $game_id
+        );
 
         $john_id = UserCreated::fire(
             name: 'John Drexler',
@@ -70,6 +74,50 @@ class DatabaseSeeder extends Seeder
         AdminApprovedNewPlayer::fire(
             admin_id: $admin_id,
             user_id: $josh_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
+            name: 'Test User One',
+            email:'testOne@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
+            name: 'Test User Two',
+            email:'testTwo@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
+            name: 'Test User Three',
+            email:'testThree@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
+
+        $user_id = UserCreated::fire(
+            name: 'Test User Four',
+            email:'testFour@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
             game_id: $game_id
         );
     }

@@ -25,7 +25,7 @@ class AdminApprovedNewPlayer extends Event
     public function authorize()
     {
         $this->assert(
-            UserState::load($this->admin_id)->is_admin,
+            $this->state(GameState::class)->admin_user_ids->contains($this->admin_id),
             'Only admins can approve new players.'
         );
     }

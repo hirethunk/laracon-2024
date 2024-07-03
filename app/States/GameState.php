@@ -16,6 +16,8 @@ class GameState extends State
 
     public Collection $player_ids;
 
+    public Collection $admin_user_ids;
+
     public function model()
     {
         return Game::find($this->id);

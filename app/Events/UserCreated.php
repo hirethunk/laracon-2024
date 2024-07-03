@@ -23,6 +23,8 @@ class UserCreated extends Event
         $state->name = $this->name;
         
         $state->status = 'new-signup';
+
+        $state->is_admin_for = collect();
     }
 
     public function handle()

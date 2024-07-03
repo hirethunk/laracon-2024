@@ -63,7 +63,9 @@ class VotingCard extends Component
             downvotee_id: $this->downvote_target_id,
         );
 
-        return redirect()->route('dashboard');
+        session()->flash('event', 'PlayerVoted');
+
+        return redirect()->route('player-dashboard', $this->game->id);
     }
 
     public function render()

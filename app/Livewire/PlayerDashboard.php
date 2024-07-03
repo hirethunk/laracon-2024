@@ -20,13 +20,13 @@ class PlayerDashboard extends Component
     #[Computed]
     public function player(): Player
     {
-        return $this->user->player;
+        return $this->user->currentPlayer();
     }
 
     #[Computed]
     public function game(): Game
     {
-        return $this->player->game;
+        return $this->player->currentGame();
     }
 
     public function render()
