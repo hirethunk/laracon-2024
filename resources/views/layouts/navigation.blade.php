@@ -1,6 +1,4 @@
 <nav x-data="{ open: false }" :class="{'border-t-2 rounded': open, 'border-y-2': ! open}" class="border-white relative">
-
-{{-- <div :class="{'absolute z-20 block w-full': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500"> --}}
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 relative">
