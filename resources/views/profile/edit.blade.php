@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="space-y-12">
+    <div class="space-y-4">
         <x-form.card>
             @if(auth()->user()->player)
                 <p class="text-black">The game is afoot, and you can no longer change your name.</p>

@@ -1,4 +1,4 @@
-<div wire:poll class="space-y-12">
+<div wire:poll class="space-y-4">
     <x-live-feed />
 
     @if ($this->player->is_active)
