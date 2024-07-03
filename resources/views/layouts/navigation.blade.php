@@ -1,4 +1,6 @@
-<nav x-data="{ open: false }" class="border-y-2 border-white relative">
+<nav x-data="{ open: false }" :class="{'border-t-2 rounded': open, 'border-y-2': ! open}" class="border-white relative">
+
+{{-- <div :class="{'absolute z-20 block w-full': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500"> --}}
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 relative">
@@ -77,30 +79,28 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'absolute z-20 block w-full': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500">
+    <div :class="{'absolute z-20 block w-full shadow-lg': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500 rounded-b-lg">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link class="hover:bg-gold-100" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-        </div>
 
-        @foreach(Auth::user()->state()->is_admin_for as $game_id)
-            <div class="pt-2 pb-3 space-y-1">
+            @foreach(Auth::user()->state()->is_admin_for as $game_id)
                 <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard', $game_id)">
                     Admin for {{ App\Models\Game::find($game_id)->name }}
                 </x-responsive-nav-link>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-y-2 border-gray-50">
+        <div class="pt-4 pb-1 border-t border-t-white">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('profile.edit')">
+            <div class="mt-3 space-y-1 mb-1">
+                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
