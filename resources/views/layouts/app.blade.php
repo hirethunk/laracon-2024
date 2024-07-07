@@ -34,7 +34,7 @@
                 @endif
 
                 <!-- Page Content -->
-                <main class="{{ !isset($header) ? 'p-4' : 'px-4' }} max-w-lg mx-auto">
+                <main class="{{ !isset($header) ? 'py-4' : '' }} px-4 max-w-lg mx-auto">
                     {{ $slot }}
                 </main>
             </div>
