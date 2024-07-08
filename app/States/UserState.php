@@ -13,24 +13,21 @@ class UserState extends State
 
     public Collection $is_admin_for;
 
+    public ?int $current_game_id = null;
+
+    public ?int $current_player_id = null;
+
     public ?int $referrer_player_id = null;
-
-    public int $player_id;
-
-    public string $status = 'new';
-
-    public function isApproved(): bool
-    {
-        return $this->status === 'approved';
-    }
 
     public function model()
     {
         return User::find($this->id);
     }
 
-    public function player()
+    public function currentPlayer(): PlayerState|null
     {
-        return PlayerState::load($this->player_id);
+        return $this->current_player_id
+            ? PlayerState::load($this->current_player_id)
+            : null;
     }
 }

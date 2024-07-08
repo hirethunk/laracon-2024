@@ -42,6 +42,11 @@ class PlayerResigned extends Event
             PlayerState::load($this->beneficiary_id)->is_active,
             'Beneficiary has already resigned.'
         );
+
+        $this->assert(
+            GameState::load($this->game_id)->is_active,
+            'The game is over.'
+        );
     }
 
     public function applyToPlayer(PlayerState $state)

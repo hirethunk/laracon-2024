@@ -27,6 +27,11 @@ class PlayerVoted extends Event
             'Voter is not in the game.'
         );
 
+        $this->assert(
+            GameState::load($this->game_id)->is_active,
+            'The game is over.'
+        );
+
         if (app()->environment('production') || app()->environment('testing')) {
             // Unlimited voting while testing locally
                 $this->assert(

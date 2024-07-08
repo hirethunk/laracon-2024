@@ -36,6 +36,11 @@ class AdminApprovedNewPlayer extends Event
             ! $this->state(GameState::class)->players()->map(fn($p) => $p->user_id)->contains($this->user_id),
             'User is already in the game.'
         );
+
+        $this->assert(
+            GameState::load($this->game_id)->is_active,
+            'The game is over.'
+        );
     }
 
     public function fired()
@@ -45,13 +50,5 @@ class AdminApprovedNewPlayer extends Event
             game_id: $this->game_id,
             player_id: $this->player_id,
         );
-    }
-
-    public function handle()
-    {
-        User::find($this->user_id)->update([
-            'status' => 'approved',
-            'player_id' => $this->player_id,
-        ]);
     }
 }

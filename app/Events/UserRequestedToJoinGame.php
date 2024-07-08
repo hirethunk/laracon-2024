@@ -19,30 +19,23 @@ class UserRequestedToJoinGame extends Event
     public function validate()
     {
         $this->assert(
-            $this->state(UserState::class)->status !== 'requested',
+            $this->state(GameState::class)->user_ids_awaiting_approval->contains($this->user_id) === false,
             'User has already requested to join this game.'
         );
 
         $this->assert(
-            $this->state(UserState::class)->status !== 'approved',
+            $this->state(GameState::class)->user_ids_approved->contains($this->user_id) === false,
             'User is already in the game.'
         );
     }
 
     public function applyToUser(UserState $state)
     {
-        $state->status = 'requested';
+        //
     }
 
     public function applyToGame(GameState $state)
     {
         $state->user_ids_awaiting_approval->push($this->user_id);
-    }
-
-    public function handle()
-    {
-        User::find($this->user_id)->update([
-            'status' => 'requested',
-        ]);
     }
 }

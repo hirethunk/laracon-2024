@@ -28,22 +28,9 @@ class AdminDashboard extends Component
     }
 
     #[Computed]
-    public function game()
-    {
-        $game_id = $this->user->state()->is_admin_for->last();
-
-        return Game::find($game_id);
-    }
-
-    #[Computed]
     public function options()
     {
         return $this->unapprovedUsers->mapWithKeys(fn($user) => [$user->id => $user->name]);
-    }
-
-    public function mount(int $game)
-    {
-        $this->game = Game::find($game);
     }
 
     public function approve()

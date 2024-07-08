@@ -53,8 +53,6 @@ it('requires a name prop in order to update', function () {
 });
 
 it('does not update a user name when the user is already approved', function () {
-    expect($this->caleb->user->state()->isApproved())->toBeTrue();
-
     Livewire::actingAs($this->caleb->user)
         ->test(UserProfile::class)
         ->set('name', 'Something New')

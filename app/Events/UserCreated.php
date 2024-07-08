@@ -21,8 +21,6 @@ class UserCreated extends Event
     public function apply(UserState $state)
     {
         $state->name = $this->name;
-        
-        $state->status = 'new-signup';
 
         $state->is_admin_for = collect();
     }

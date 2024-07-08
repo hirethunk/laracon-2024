@@ -29,6 +29,12 @@ class PlayerDashboard extends Component
         return $this->player->currentGame();
     }
 
+    #[Computed]
+    public function modifier(): array|null
+    {
+        return $this->game->state()->activeModifier();
+    }
+
     public function render()
     {
         return view('livewire.player-dashboard')->layout('layouts.app');

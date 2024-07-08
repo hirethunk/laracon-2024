@@ -9,7 +9,7 @@
                         name="upvote_target"
                         custom="w-6/12"
                         wire:model="upvote_target_id"
-                        :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
+                        :options="$this->upvote_options->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
                         selected="Choose a Player"
                     />
                 </div>
@@ -19,7 +19,7 @@
                         name="downvote_target"
                         custom="w-6/12"
                         wire:model="downvote_target_id"
-                        :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
+                        :options="$this->downvote_options->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
                         selected="Choose a Player"
                     />
                 </div>

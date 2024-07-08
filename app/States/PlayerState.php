@@ -27,6 +27,8 @@ class PlayerState extends State
 
     public int $beneficiary_id;
 
+    public Carbon $is_immune_until;
+
     public function model()
     {
         return Player::find($this->id);
@@ -55,5 +57,15 @@ class PlayerState extends State
     public function lastVotedAt(): Carbon
     {
         return Carbon::parse(collect($this->ballots_cast)->max('voted_at'));
+    }
+
+    public function isImmune()
+    {
+        dd(
+            $this->is_immune_until,
+            now(),
+            $this->is_immune_until > now()
+        );
+        return $this->is_immune_until > now();
     }
 }
