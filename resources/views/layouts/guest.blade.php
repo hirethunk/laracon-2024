@@ -26,7 +26,7 @@
                 <x-form.card>
                     {{ $slot }}
                 </x-form.card>
-            </main>d
+            </main>
         </div>
     </body>
 </html>
