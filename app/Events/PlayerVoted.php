@@ -69,6 +69,16 @@ class PlayerVoted extends Event
             PlayerState::load($this->downvotee_id)->is_active,
             'Downvotee has already resigned.'
         );
+
+        $this->assert(
+            ! PlayerState::load($this->downvotee_id)->cannotBeDownvoted(),
+            'Downvotee is immune from downvotes.'
+        );
+
+        $this->assert(
+            ! PlayerState::load($this->upvotee_id)->cannotBeUpvoted(),
+            'Upvotee is immune from upvotes.'
+        );
     }
 
     public function applyToPlayer(PlayerState $state)
@@ -82,12 +92,16 @@ class PlayerVoted extends Event
 
     public function fired()
     {
+        $amount = $this->state(GameState::class)->activeModifier()['slug'] === 'double-down' 
+            ? 2 
+            : 1;
+
         PlayerReceivedUpvote::fire(
             player_id: $this->upvotee_id,
             voter_id: $this->player_id,
             game_id: $this->game_id,
             type: 'ballot',
-            amount: 1,
+            amount: $amount,
         );
 
         PlayerReceivedDownvote::fire(
@@ -95,8 +109,44 @@ class PlayerVoted extends Event
             voter_id: $this->player_id,
             game_id: $this->game_id,
             type: 'ballot',
-            amount: 1,
+            amount: $amount,
         );
+
+        $modifier = $this->state(GameState::class)->activeModifier();
+
+        if ($modifier['slug'] === 'buddy-system') {
+            $buddy_system_started_at = $modifier['starts_at'];
+
+            $buddy = PlayerState::load($this->upvotee_id);
+
+            $mutual_vote_exists = collect($buddy->ballots_cast)
+                ->filter(fn($b) => $b['upvotee_id'] === $this->player_id)
+                ->filter(fn($b) => $b['voted_at'] > $buddy_system_started_at)
+                ->first();
+
+            $buddy_reward_already_given = collect($buddy->upvotes)
+                ->filter(fn($u) => $u['source'] === $this->player_id)
+                ->filter(fn($u) => $u['type'] === 'buddy-system-reward')
+                ->first();
+
+            if ($mutual_vote_exists && ! $buddy_reward_already_given) {
+                PlayerReceivedUpvote::fire(
+                    player_id: $buddy->id,
+                    voter_id: $this->player_id,
+                    game_id: $this->game_id,
+                    type: 'buddy-system-reward',
+                    amount: 2,
+                );
+
+                PlayerReceivedUpvote::fire(
+                    player_id: $this->player_id,
+                    voter_id: $buddy->id,
+                    game_id: $this->game_id,
+                    type: 'buddy-system-reward',
+                    amount: 2,
+                );
+            }
+        }
     }
 
     public function handle()

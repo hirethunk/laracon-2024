@@ -35,6 +35,12 @@ class PlayerDashboard extends Component
         return $this->game->state()->activeModifier();
     }
 
+    #[Computed]
+    public function showScoreboard(): bool
+    {
+        return $this->game->state()->activeModifier()['slug'] === 'blackout';
+    }
+
     public function render()
     {
         return view('livewire.player-dashboard')->layout('layouts.app');

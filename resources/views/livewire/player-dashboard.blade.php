@@ -12,5 +12,8 @@
     @endif
 
     <livewire:resignation-card :player="$this->player"/>
-    <livewire:scoreboard :player="$this->player"/>
+
+    @if($this->show_scoreboard)
+        <livewire:scoreboard :player="$this->player"/>
+    @endif
 </div>

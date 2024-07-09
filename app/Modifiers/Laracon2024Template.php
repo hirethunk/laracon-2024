@@ -57,7 +57,7 @@ class Laracon2024Template
             [
                 'slug' => 'blackout',
                 'title' => 'Blackout',
-                'description' => 'Votes from ballots do not count.',
+                'description' => 'The scoreboard is hidden.',
                 // starts at 12pm of the final day
                 'starts_at' => $this->starts_at->copy()->addHours(31),
                 // ends at 2pm of the final day

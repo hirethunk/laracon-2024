@@ -22,7 +22,9 @@ class VotingCard extends Component
     public function upvoteOptions()
     {
         return $this->game->players
-            ->reject(fn($p) => $p->id === $this->player->id)
+            ->reject(fn($p) => $p->id === $this->player->id
+                || $p->state()->cannotBeUpvoted()
+            )
             ->filter(fn($p) => $p->state()->is_active)
             ->sortBy(fn($p) => $p->name);
     }
@@ -32,10 +34,16 @@ class VotingCard extends Component
     {
         return $this->game->players
             ->reject(fn($p) => $p->id === $this->player->id
-                || $p->state()->isImmune()
+                || $p->state()->cannotBeDownvoted()
             )
             ->filter(fn($p) => $p->state()->is_active)
             ->sortBy(fn($p) => $p->name);
+    }
+
+    #[Computed]
+    public function playerCanVote()
+    {
+        return $this->player->state()->canVote();
     }
 
     public Player $player;
@@ -55,19 +63,7 @@ class VotingCard extends Component
     
     public function mount(Player $player)
     {
-        $this->initializeProperties($player);
-    }
-
-    public function initializeProperties(Player $player)
-    {
         $this->player = $player;
-
-        $this->player_can_vote = Verbs::isAuthorized(
-            PlayerVoted::make(
-                player_id: $this->player->id,
-                game_id: $this->game->id,
-            )->event
-        );
     }
 
     public function vote()

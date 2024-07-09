@@ -51,9 +51,7 @@ class PlayerJoinedGame extends Event
     public function fired()
     {
         $referrer = $this->state(UserState::class)->referrer_player_id;
-
-        dd($referrer);
-
+    
         if ($referrer) {
             PlayerReceivedUpvote::fire(
                 player_id: $referrer,
@@ -73,7 +71,7 @@ class PlayerJoinedGame extends Event
 
             if($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
                 PlayerBecameImmune::fire(
-                    player_id: $this->player_id,
+                    player_id: $referrer,
                     game_id: $this->game_id,
                     type: 'signing-bonus',
                     is_immune_until: now()->addHours(1),

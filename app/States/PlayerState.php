@@ -34,6 +34,11 @@ class PlayerState extends State
         return Player::find($this->id);
     }
 
+    public function game()
+    {
+        return GameState::load($this->game_id);
+    }
+
     public function score()
     {
         return collect($this->upvotes)->sum('votes') - collect($this->downvotes)->sum('votes');
@@ -56,16 +61,22 @@ class PlayerState extends State
 
     public function lastVotedAt(): Carbon
     {
-        return Carbon::parse(collect($this->ballots_cast)->max('voted_at'));
+        return collect($this->ballots_cast)->count() > 0
+            ? Carbon::parse(collect($this->ballots_cast)->max('voted_at'))
+            : $this->game()->starts_at;
     }
 
-    public function isImmune()
+    public function cannotBeUpvoted(): bool
     {
-        dd(
-            $this->is_immune_until,
-            now(),
-            $this->is_immune_until > now()
-        );
+        return $this->game()->activeModifier()['slug'] === 'first-shall-be-last' && $this->score() > 0;
+    }
+
+    public function cannotBeDownvoted(): bool
+    {
+        if ($this->game()->activeModifier()['slug'] === 'first-shall-be-last' && $this->score() < 0) {
+            return true;
+        }
+
         return $this->is_immune_until > now();
     }
 }
