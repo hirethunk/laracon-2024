@@ -243,7 +243,7 @@ it('gives bonus votes for buddy system', function() {
     expect($this->caleb->state()->score())->toBe(7);
     expect($this->aaron->state()->score())->toBe(0);
 
-    testTime()->addHours(12);
+    testTime()->addHours(19);
 
     expect($this->game->state()->activeModifier()['slug'])
         ->not()->toBe('buddy-system');
@@ -353,7 +353,7 @@ it('first shall be last does not allow upvotes for positive players or downvotes
 
 it('hides the scoreboard during blackout', function() {
     $this->actingAs($this->caleb->user);
-    
+
     Livewire::test(PlayerDashboard::class)
         ->assertSet('show_scoreboard', true);
 

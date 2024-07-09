@@ -93,11 +93,23 @@ it('does not show resigned players in dropdowns on VotingCard', function() {
         beneficiary_id: $this->caleb->id,
     );
 
-    Livewire::test(VotingCard::class, ['player' => $this->taylor])
-        ->assertViewHas('players', function ($players) {
-            return $players->pluck('id')->contains($this->caleb->id)
-                && ! $players->pluck('id')->contains($this->aaron->id);
-        });
+    $this->actingAs($this->caleb->user);
+
+    $upvote_options = Livewire::test(VotingCard::class, [
+        'player' => $this->caleb,
+    ])
+        ->get('upvote_options');
+
+    $downvote_options = Livewire::test(VotingCard::class, [
+            'player' => $this->caleb,
+        ])
+            ->get('downvote_options');
+
+    expect($upvote_options->pluck('id'))
+        ->not()->toContain($this->aaron->id);
+
+    expect($downvote_options->pluck('id'))
+        ->not()->toContain($this->aaron->id);
 });
 
 it('does not show resigned players in Scoreboard', function() {

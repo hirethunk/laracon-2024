@@ -26,7 +26,7 @@ class PlayerDashboard extends Component
     #[Computed]
     public function game(): Game
     {
-        return $this->player->currentGame();
+        return $this->user->currentGame();
     }
 
     #[Computed]
@@ -38,7 +38,7 @@ class PlayerDashboard extends Component
     #[Computed]
     public function showScoreboard(): bool
     {
-        return $this->game->state()->activeModifier()['slug'] === 'blackout';
+        return $this->game->state()->activeModifier()['slug'] !== 'blackout';
     }
 
     public function render()

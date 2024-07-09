@@ -15,6 +15,7 @@ beforeEach(function () {
 
     $game_id = GameCreated::fire(
         name: 'Laracon 2024',
+        starts_at: now()
     )->game_id;
 
     $this->game = Game::find($game_id);
