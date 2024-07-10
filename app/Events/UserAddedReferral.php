@@ -5,6 +5,7 @@ namespace App\Events;
 use App\Models\User;
 use Thunk\Verbs\Event;
 use App\States\GameState;
+use App\States\PlayerState;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
@@ -16,6 +17,7 @@ class UserAddedReferral extends Event
     #[StateId(GameState::class)]
     public int $game_id;
 
+    #[StateId(PlayerState::class)]
     public int $referrer_player_id;
 
     public function validate()

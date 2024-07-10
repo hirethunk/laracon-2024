@@ -15,6 +15,7 @@ beforeEach(function () {
 
     $game_id = GameCreated::fire(
         name: 'Laracon 2024',
+        starts_at: now()
     )->game_id;
 
     $this->game = Game::find($game_id);
@@ -41,7 +42,7 @@ beforeEach(function () {
     $this->admin = User::find($admin_id);
     $this->referrer = User::find($referrer_id);
 
-    UserPromotedToAdmin::fire(user_id: $admin_id);
+    UserPromotedToAdmin::fire(user_id: $admin_id, game_id: $game_id);
 });
 
 it('a user can request to join a game', function () {
@@ -54,11 +55,6 @@ it('a user can request to join a game', function () {
         ->toHaveCount(1)
         ->and($this->game->state()->usersAwaitingApproval()->first()->id)
         ->toBe($this->user->id);
-
-    $this->user->refresh();
-
-    expect($this->user->status)->toBe('requested');
-    expect($this->user->state()->status)->toBe('requested');
 });
 
 it('a user cannot request to join twice', function() {
@@ -124,6 +120,9 @@ it('an admin can admit the player into the game', function() {
 
     expect($this->game->state()->usersAwaitingApproval())
         ->toHaveCount(0);
+
+    expect($this->game->state()->user_ids_approved->contains($this->user->id))
+        ->toBeTrue();
     
     expect($this->game->state()->players())
         ->toHaveCount(1)
@@ -131,15 +130,12 @@ it('an admin can admit the player into the game', function() {
         ->toBe($player_id);
 
     $this->user->refresh();
-    $player = $this->user->player;
+    $player = $this->user->currentPlayer();
 
-    expect($this->user->player_id)->toBe($player_id);
-    expect($this->user->state()->player_id)->toBe($player_id);
+    expect($this->user->currentPlayer()->id)->toBe($player_id);
+    expect($this->user->state()->current_player_id)->toBe($player_id);
     expect($player->user->id)->toBe($this->user->id);
     expect($player->state()->user_id)->toBe($this->user->id);
-
-    expect($this->user->status)->toBe('approved');
-    expect($this->user->state()->status)->toBe('approved');
 });
 
 it('a nonAdmin cannot approve a user', function() {
@@ -167,7 +163,7 @@ it('grants an upvote for referrer and referee', function() {
         game_id: $this->game->id,
     );
 
-    $referrer_player_id = $this->referrer->fresh()->player->id;
+    $referrer_player_id = $this->referrer->fresh()->players->first()->id;
 
     UserAddedReferral::fire(
         user_id: $this->user->id,
@@ -189,6 +185,6 @@ it('grants an upvote for referrer and referee', function() {
         game_id: $this->game->id,
     );
 
-    expect($this->user->fresh()->player->state()->score())->toBe(1);
-    expect($this->referrer->fresh()->player->state()->score())->toBe(1);
+    expect($this->user->fresh()->players->first()->state()->score())->toBe(1);
+    expect($this->referrer->fresh()->players->first()->state()->score())->toBe(1);
 });

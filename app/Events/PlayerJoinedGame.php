@@ -23,15 +23,15 @@ class PlayerJoinedGame extends Event
 
     public function applyToUser(UserState $state)
     {
-        $state->status = 'approved';
-
-        $state->player_id = $this->player_id;
+        $state->current_player_id = $this->player_id;
     }
 
     public function applyToGame(GameState $state)
     {
         $state->user_ids_awaiting_approval = $state->user_ids_awaiting_approval
             ->reject(fn ($id) => $id === $this->user_id);
+
+        $state->user_ids_approved->push($this->user_id);
 
         $state->player_ids->push($this->player_id);
     }
@@ -45,12 +45,13 @@ class PlayerJoinedGame extends Event
         $state->downvotes = [];
         $state->ballots_cast = [];
         $state->is_active = true;
+        $state->is_immune_until = now();
     }
 
     public function fired()
     {
         $referrer = $this->state(UserState::class)->referrer_player_id;
-
+    
         if ($referrer) {
             PlayerReceivedUpvote::fire(
                 player_id: $referrer,
@@ -67,6 +68,15 @@ class PlayerJoinedGame extends Event
                 type: 'referred',
                 amount: 1,
             );
+
+            if($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
+                PlayerBecameImmune::fire(
+                    player_id: $referrer,
+                    game_id: $this->game_id,
+                    type: 'signing-bonus',
+                    is_immune_until: now()->addHours(1),
+                );
+            }
         }
     }
 

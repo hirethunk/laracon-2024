@@ -8,17 +8,45 @@ use Livewire\Component;
 use App\Events\PlayerVoted;
 use Thunk\Verbs\Facades\Verbs;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 
 class VotingCard extends Component
 {
-    public function mount(Player $player)
+    #[Computed]
+    public function game(): Game
     {
-        $this->initializeProperties($player);
+        return $this->player->game;
+    }
+
+    #[Computed]
+    public function upvoteOptions()
+    {
+        return $this->game->players
+            ->reject(fn($p) => $p->id === $this->player->id
+                || $p->state()->cannotBeUpvoted()
+            )
+            ->filter(fn($p) => $p->state()->is_active)
+            ->sortBy(fn($p) => $p->name);
+    }
+
+    #[Computed]
+    public function downvoteOptions()
+    {
+        return $this->game->players
+            ->reject(fn($p) => $p->id === $this->player->id
+                || $p->state()->cannotBeDownvoted()
+            )
+            ->filter(fn($p) => $p->state()->is_active)
+            ->sortBy(fn($p) => $p->name);
+    }
+
+    #[Computed]
+    public function canVote()
+    {
+        return $this->player->state()->canVote();
     }
 
     public Player $player;
-
-    public Game $game;
 
     public Collection $players;
 
@@ -32,24 +60,10 @@ class VotingCard extends Component
         'downvote_target_id' => 'integer|exists:players,id',
         'upvote_target_id' => 'integer|exists:players,id',
     ];
-
-    public function initializeProperties(Player $player)
+    
+    public function mount(Player $player)
     {
         $this->player = $player;
-
-        $this->game = $player->game;
-
-        $this->player_can_vote = Verbs::isAuthorized(
-            PlayerVoted::make(
-                player_id: $this->player->id,
-                game_id: $this->game->id,
-            )->event
-        );
-
-        $this->players = $this->game->players
-            ->reject(fn($p) => $p->id === $this->player->id)
-            ->filter(fn($p) => $p->state()->is_active)
-            ->sortBy(fn($p) => $p->name);
     }
 
     public function vote()

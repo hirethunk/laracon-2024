@@ -13,6 +13,8 @@ class AdminDashboard extends Component
 {
     public ?int $user_id;
 
+    public Game $game;
+
     #[Computed]
     public function unapprovedUsers()
     {
@@ -23,14 +25,6 @@ class AdminDashboard extends Component
     public function user()
     {
         return Auth::user();
-    }
-
-    #[Computed]
-    public function game()
-    {
-        $game_id = $this->user->state()->is_admin_for->last();
-
-        return Game::find($game_id);
     }
 
     #[Computed]

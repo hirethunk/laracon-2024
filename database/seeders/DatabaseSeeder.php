@@ -8,6 +8,7 @@ use Thunk\Verbs\Facades\Verbs;
 use Illuminate\Database\Seeder;
 use App\Events\UserPromotedToAdmin;
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\GameModifiersAddedToGame;
 use App\Events\UserRequestedToJoinGame;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +17,10 @@ class DatabaseSeeder extends Seeder
     {
         Verbs::commitImmediately();
 
-        $game_id = GameCreated::fire(name: 'Laracon 2024')->game_id;
+        $game_id = GameCreated::fire(
+            name: 'Laracon 2024',
+            starts_at: now()->subHours(24)
+        )->game_id;
 
         $admin_id = UserCreated::fire(
             name: 'Admin Guy',

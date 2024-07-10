@@ -17,9 +17,18 @@ class Scoreboard extends Component
 
     public Collection $players;
 
+    public function showScoreboard(): bool
+    {
+        $mod = $this->player->game->state()->activeModifier();
+        
+        return $mod
+            ? $mod['slug'] !== 'blackout'
+            : true;
+    }
+
     public function initializeProperties(Player $player)
     {
-        $this->player = $this->player;
+        $this->player = $player;
 
         $this->players = $this->player->game->players
             ->filter(fn($p) => $p->state()->is_active)

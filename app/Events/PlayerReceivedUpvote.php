@@ -67,7 +67,7 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
-                'voter_name' => Player::find($this->voter_id)->user->name,
+                'voter_name' => PlayerState::load($this->voter_id)->name,
                 'score' => $this->state(PlayerState::class)->score(),
             ]
         );

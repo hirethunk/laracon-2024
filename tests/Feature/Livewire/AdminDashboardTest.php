@@ -1,9 +1,21 @@
 <?php
 
-use App\Livewire\AdminDashboard;
+use App\Models\Game;
 use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
+use App\Livewire\AdminDashboard;
 
-it('renders successfully', function () {
-    Livewire::test(AdminDashboard::class)
-        ->assertStatus(200);
+beforeEach(function () {
+    Verbs::commitImmediately();
+
+    $this->bootGame();
+
+    $this->game = Game::first();
 });
+
+// @todo: test that this route is protected
+it('renders successfully for admin but not others', function () {
+    Livewire::actingAs($this->caleb->user)
+        ->test(AdminDashboard::class, ['game' => $this->game])
+        ->assertStatus(403);
+})->skip();

@@ -22,7 +22,7 @@ class UserProfile extends Component
     public function updateName()
     {
         $this->validate([
-            'user.name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
 
         UserNameUpdated::fire(
