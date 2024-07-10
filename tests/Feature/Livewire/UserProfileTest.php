@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Livewire;
 use App\Livewire\UserProfile;
-use Thunk\Verbs\Facades\Verbs;
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 uses(RefreshDatabase::class);
 

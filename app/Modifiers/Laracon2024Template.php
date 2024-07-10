@@ -14,7 +14,7 @@ class Laracon2024Template
         $this->starts_at = $game->starts_at;
     }
 
-    public function modifiers() 
+    public function modifiers()
     {
         // assume game starts at 5am the first day of the conference
         return [

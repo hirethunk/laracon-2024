@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Game;
 use App\Events\PlayerVoted;
+use App\Models\Game;
 use Illuminate\Support\Carbon;
 use Thunk\Verbs\Facades\Verbs;
 

@@ -1,9 +1,9 @@
 <?php
 
+use App\Livewire\AdminDashboard;
 use App\Models\Game;
 use Livewire\Livewire;
 use Thunk\Verbs\Facades\Verbs;
-use App\Livewire\AdminDashboard;
 
 beforeEach(function () {
     Verbs::commitImmediately();

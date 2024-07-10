@@ -1,15 +1,14 @@
 <?php
 
-use App\Models\Game;
-use Livewire\Livewire;
-use App\States\UserState;
-use App\Events\UserCreated;
-use App\Livewire\VotingCard;
-use Thunk\Verbs\Facades\Verbs;
-use App\Events\UserAddedReferral;
 use App\Events\AdminApprovedNewPlayer;
 use App\Events\PlayerVoted;
+use App\Events\UserAddedReferral;
+use App\Events\UserCreated;
 use App\Livewire\PlayerDashboard;
+use App\Livewire\VotingCard;
+use App\Models\Game;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -23,7 +22,7 @@ beforeEach(function () {
     testTime()->addMinutes(1);
 });
 
-it('selects modifiers at the correct times', function() {
+it('selects modifiers at the correct times', function () {
     expect($this->game->state()->activeModifier()['slug'])
         ->toBe('signing-bonus');
 
@@ -53,7 +52,7 @@ it('selects modifiers at the correct times', function() {
         ->toBe('double-down');
 });
 
-it('hides referrers from downvote options after signing bonus', function() {
+it('hides referrers from downvote options after signing bonus', function () {
     expect($this->game->state()->activeModifier()['slug'])
         ->toBe('signing-bonus');
 
@@ -68,7 +67,7 @@ it('hides referrers from downvote options after signing bonus', function() {
         ->toContain($this->taylor->id);
 
     $new_user_id = UserCreated::fire(
-        name: 'Skyler Katz', 
+        name: 'Skyler Katz',
         email: 'skyler@katz.nachi',
         password: bcrypt('password')
     )->user_id;
@@ -109,7 +108,6 @@ it('hides referrers from downvote options after signing bonus', function() {
     expect($downvote_options->pluck('id'))
         ->toContain($this->taylor->id);
 
-
     // this doesn't work after the signing bonus period
 
     testTime()->addHours(24);
@@ -118,7 +116,7 @@ it('hides referrers from downvote options after signing bonus', function() {
         ->not()->toBe('signing-bonus');
 
     $new_user_id = UserCreated::fire(
-        name: 'bogdan', 
+        name: 'bogdan',
         email: 'bogdan@katz.nachi',
         password: bcrypt('password')
     )->user_id;
@@ -148,7 +146,7 @@ it('hides referrers from downvote options after signing bonus', function() {
         ->toContain($this->taylor->id);
 });
 
-it('doubles ballot votes with double down', function() {
+it('doubles ballot votes with double down', function () {
     testTime()->addHours(8);
 
     expect($this->game->state()->activeModifier()['slug'])
@@ -180,7 +178,7 @@ it('doubles ballot votes with double down', function() {
     expect($this->aaron->state()->score())->toBe(-3);
 });
 
-it('gives bonus votes for buddy system', function() {
+it('gives bonus votes for buddy system', function () {
     testTime()->addHours(12);
 
     expect($this->game->state()->activeModifier()['slug'])
@@ -272,7 +270,7 @@ it('gives bonus votes for buddy system', function() {
     expect($this->aaron->state()->score())->toBe(-2);
 });
 
-it('first shall be last does not allow upvotes for positive players or downvotes for negative players', function() {
+it('first shall be last does not allow upvotes for positive players or downvotes for negative players', function () {
     PlayerVoted::fire(
         player_id: $this->caleb->id,
         upvotee_id: $this->taylor->id,
@@ -351,7 +349,7 @@ it('first shall be last does not allow upvotes for positive players or downvotes
         ->toContain($this->taylor->id);
 });
 
-it('hides the scoreboard during blackout', function() {
+it('hides the scoreboard during blackout', function () {
     $this->actingAs($this->caleb->user);
 
     Livewire::test(PlayerDashboard::class)
@@ -364,12 +362,12 @@ it('hides the scoreboard during blackout', function() {
 
     Livewire::test(PlayerDashboard::class)
         ->assertSet('show_scoreboard', false);
-    
+
     testTime()->addHours(2);
 
     expect($this->game->state()->activeModifier()['slug'])
         ->not()->toBe('blackout');
 
     Livewire::test(PlayerDashboard::class)
-        ->assertSet('show_scoreboard', true); 
+        ->assertSet('show_scoreboard', true);
 });

@@ -3,10 +3,10 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class PlayerVoted extends Event
 {
@@ -34,11 +34,11 @@ class PlayerVoted extends Event
 
         if (app()->environment('production') || app()->environment('testing')) {
             // Unlimited voting while testing locally
-                $this->assert(
-                    $this->state(PlayerState::class)->canVote(),
-                    'Voter must wait 1 hour between votes.'
-                );
-            }
+            $this->assert(
+                $this->state(PlayerState::class)->canVote(),
+                'Voter must wait 1 hour between votes.'
+            );
+        }
     }
 
     public function validate()
@@ -92,8 +92,8 @@ class PlayerVoted extends Event
 
     public function fired()
     {
-        $amount = $this->state(GameState::class)->activeModifier()['slug'] === 'double-down' 
-            ? 2 
+        $amount = $this->state(GameState::class)->activeModifier()['slug'] === 'double-down'
+            ? 2
             : 1;
 
         PlayerReceivedUpvote::fire(
@@ -120,13 +120,13 @@ class PlayerVoted extends Event
             $buddy = PlayerState::load($this->upvotee_id);
 
             $mutual_vote_exists = collect($buddy->ballots_cast)
-                ->filter(fn($b) => $b['upvotee_id'] === $this->player_id)
-                ->filter(fn($b) => $b['voted_at'] > $buddy_system_started_at)
+                ->filter(fn ($b) => $b['upvotee_id'] === $this->player_id)
+                ->filter(fn ($b) => $b['voted_at'] > $buddy_system_started_at)
                 ->first();
 
             $buddy_reward_already_given = collect($buddy->upvotes)
-                ->filter(fn($u) => $u['source'] === $this->player_id)
-                ->filter(fn($u) => $u['type'] === 'buddy-system-reward')
+                ->filter(fn ($u) => $u['source'] === $this->player_id)
+                ->filter(fn ($u) => $u['type'] === 'buddy-system-reward')
                 ->first();
 
             if ($mutual_vote_exists && ! $buddy_reward_already_given) {

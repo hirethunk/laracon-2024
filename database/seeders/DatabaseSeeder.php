@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
 use App\Events\UserCreated;
-use Thunk\Verbs\Facades\Verbs;
-use Illuminate\Database\Seeder;
 use App\Events\UserPromotedToAdmin;
-use App\Events\AdminApprovedNewPlayer;
-use App\Events\GameModifiersAddedToGame;
 use App\Events\UserRequestedToJoinGame;
+use Illuminate\Database\Seeder;
+use Thunk\Verbs\Facades\Verbs;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         $admin_id = UserCreated::fire(
             name: 'Admin Guy',
-            email:'a@thunk.dev',
+            email: 'a@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -35,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         $john_id = UserCreated::fire(
             name: 'John Drexler',
-            email:'john@thunk.dev',
+            email: 'john@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -47,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $daniel_id = UserCreated::fire(
             name: 'Daniel Coulbourne',
-            email:'d@coulb.com',
+            email: 'd@coulb.com',
             password: bcrypt('password'),
         )->user_id;
 
@@ -59,7 +58,7 @@ class DatabaseSeeder extends Seeder
 
         $jacob_id = UserCreated::fire(
             name: 'Jacob Davis',
-            email:'jacob@thunk.dev',
+            email: 'jacob@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -71,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
         $josh_id = UserCreated::fire(
             name: 'Josh Hanley',
-            email:'josh@thunk.dev',
+            email: 'josh@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -83,7 +82,7 @@ class DatabaseSeeder extends Seeder
 
         $user_id = UserCreated::fire(
             name: 'Test User One',
-            email:'testOne@thunk.dev',
+            email: 'testOne@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -94,7 +93,7 @@ class DatabaseSeeder extends Seeder
 
         $user_id = UserCreated::fire(
             name: 'Test User Two',
-            email:'testTwo@thunk.dev',
+            email: 'testTwo@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -105,7 +104,7 @@ class DatabaseSeeder extends Seeder
 
         $user_id = UserCreated::fire(
             name: 'Test User Three',
-            email:'testThree@thunk.dev',
+            email: 'testThree@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
@@ -116,7 +115,7 @@ class DatabaseSeeder extends Seeder
 
         $user_id = UserCreated::fire(
             name: 'Test User Four',
-            email:'testFour@thunk.dev',
+            email: 'testFour@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 

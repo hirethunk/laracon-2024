@@ -2,12 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Events\AdminApprovedNewPlayer;
+use App\Models\Game;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class AdminDashboard extends Component
 {
@@ -30,7 +29,7 @@ class AdminDashboard extends Component
     #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->mapWithKeys(fn($user) => [$user->id => $user->name]);
+        return $this->unapprovedUsers->mapWithKeys(fn ($user) => [$user->id => $user->name]);
     }
 
     public function approve()

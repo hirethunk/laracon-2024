@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use App\Models\Game;
-use App\Models\User;
-use App\Models\Player;
+use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
 use App\Events\UserCreated;
-use App\Events\AdminApprovedNewPlayer;
 use App\Events\UserPromotedToAdmin;
 use App\Events\UserRequestedToJoinGame;
+use App\Models\Game;
+use App\Models\Player;
+use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -102,7 +102,7 @@ abstract class TestCase extends BaseTestCase
         collect(range(1, 10))->each(function ($i) use ($game) {
             $user_id = UserCreated::fire(
                 name: "User {$i}",
-                email: $i . '@example.com',
+                email: $i.'@example.com',
                 password: 'password',
             )->user_id;
 
@@ -122,7 +122,7 @@ abstract class TestCase extends BaseTestCase
     public function getUnapprovedUser()
     {
         $user_id = UserCreated::fire(
-            name: "unapproved",
+            name: 'unapproved',
             email: 'unapproved@example.com',
             password: 'password',
         )->user_id;

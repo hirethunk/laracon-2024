@@ -1,14 +1,13 @@
 <?php
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Livewire;
+use App\Events\PlayerResigned;
 use App\Events\PlayerVoted;
+use App\Livewire\ResignationCard;
 use App\Livewire\Scoreboard;
 use App\Livewire\VotingCard;
-use App\Events\PlayerResigned;
+use App\Models\Game;
+use Livewire\Livewire;
 use Thunk\Verbs\Facades\Verbs;
-use App\Livewire\ResignationCard;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -86,7 +85,7 @@ test('a player can resign using the ResignationCard', function () {
     expect($this->taylor->fresh()->is_active)->toBeFalse();
 });
 
-it('does not show resigned players in dropdowns on VotingCard', function() {
+it('does not show resigned players in dropdowns on VotingCard', function () {
     PlayerResigned::fire(
         player_id: $this->aaron->id,
         game_id: $this->game->id,
@@ -101,9 +100,9 @@ it('does not show resigned players in dropdowns on VotingCard', function() {
         ->get('upvote_options');
 
     $downvote_options = Livewire::test(VotingCard::class, [
-            'player' => $this->caleb,
-        ])
-            ->get('downvote_options');
+        'player' => $this->caleb,
+    ])
+        ->get('downvote_options');
 
     expect($upvote_options->pluck('id'))
         ->not()->toContain($this->aaron->id);
@@ -112,7 +111,7 @@ it('does not show resigned players in dropdowns on VotingCard', function() {
         ->not()->toContain($this->aaron->id);
 });
 
-it('does not show resigned players in Scoreboard', function() {
+it('does not show resigned players in Scoreboard', function () {
     PlayerResigned::fire(
         player_id: $this->aaron->id,
         game_id: $this->game->id,

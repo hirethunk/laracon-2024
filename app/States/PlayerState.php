@@ -2,8 +2,8 @@
 
 namespace App\States;
 
-use Carbon\Carbon;
 use App\Models\Player;
+use Carbon\Carbon;
 use Thunk\Verbs\State;
 use Thunk\VerbsHistory\States\Traits\HasHistory;
 
@@ -52,7 +52,7 @@ class PlayerState extends State
             return true;
         }
 
-        if($this->lastVotedAt()->addHour() < now()) {
+        if ($this->lastVotedAt()->addHour() < now()) {
             return true;
         }
 

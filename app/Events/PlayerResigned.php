@@ -3,10 +3,10 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class PlayerResigned extends Event
 {

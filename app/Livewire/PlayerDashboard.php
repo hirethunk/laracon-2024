@@ -3,11 +3,11 @@
 namespace App\Livewire;
 
 use App\Models\Game;
-use App\Models\User;
 use App\Models\Player;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class PlayerDashboard extends Component
 {

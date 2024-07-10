@@ -3,9 +3,8 @@
 namespace App\States;
 
 use App\Models\User;
-use Thunk\Verbs\State;
-use App\States\PlayerState;
 use Illuminate\Support\Collection;
+use Thunk\Verbs\State;
 
 class UserState extends State
 {
@@ -24,7 +23,7 @@ class UserState extends State
         return User::find($this->id);
     }
 
-    public function currentPlayer(): PlayerState|null
+    public function currentPlayer(): ?PlayerState
     {
         return $this->current_player_id
             ? PlayerState::load($this->current_player_id)

@@ -2,13 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Events\PlayerVoted;
 use App\Models\Game;
 use App\Models\Player;
-use Livewire\Component;
-use App\Events\PlayerVoted;
-use Thunk\Verbs\Facades\Verbs;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class VotingCard extends Component
 {
@@ -22,22 +21,22 @@ class VotingCard extends Component
     public function upvoteOptions()
     {
         return $this->game->players
-            ->reject(fn($p) => $p->id === $this->player->id
+            ->reject(fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeUpvoted()
             )
-            ->filter(fn($p) => $p->state()->is_active)
-            ->sortBy(fn($p) => $p->name);
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortBy(fn ($p) => $p->name);
     }
 
     #[Computed]
     public function downvoteOptions()
     {
         return $this->game->players
-            ->reject(fn($p) => $p->id === $this->player->id
+            ->reject(fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeDownvoted()
             )
-            ->filter(fn($p) => $p->state()->is_active)
-            ->sortBy(fn($p) => $p->name);
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortBy(fn ($p) => $p->name);
     }
 
     #[Computed]
@@ -60,7 +59,7 @@ class VotingCard extends Component
         'downvote_target_id' => 'integer|exists:players,id',
         'upvote_target_id' => 'integer|exists:players,id',
     ];
-    
+
     public function mount(Player $player)
     {
         $this->player = $player;

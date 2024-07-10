@@ -4,10 +4,9 @@ namespace App\States;
 
 use App\Models\Game;
 use App\Models\User;
-use Thunk\Verbs\State;
-use App\States\PlayerState;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Thunk\Verbs\State;
 
 class GameState extends State
 {
@@ -29,8 +28,7 @@ class GameState extends State
 
     public function activeModifier()
     {
-        return collect($this->modifiers)->filter(fn ($modifier) => 
-            Carbon::parse($modifier['starts_at']) <= now() 
+        return collect($this->modifiers)->filter(fn ($modifier) => Carbon::parse($modifier['starts_at']) <= now()
             && Carbon::parse($modifier['ends_at']) >= now()
         )->first();
     }

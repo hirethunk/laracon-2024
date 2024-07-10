@@ -3,11 +3,11 @@
 namespace App\Events;
 
 use App\Models\Game;
-use Thunk\Verbs\Event;
+use App\Modifiers\Laracon2024Template;
 use App\States\GameState;
 use Illuminate\Support\Carbon;
-use App\Modifiers\Laracon2024Template;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class GameCreated extends Event
 {

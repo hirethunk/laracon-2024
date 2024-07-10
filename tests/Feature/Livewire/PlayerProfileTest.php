@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Game;
-use App\Models\Player;
-use Livewire\Livewire;
 use App\Events\PlayerVoted;
-use Thunk\Verbs\Facades\Verbs;
 use App\Livewire\PlayerProfile;
+use App\Models\Game;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -31,14 +30,14 @@ it('can see another another players score history', function () {
 
     $component = Livewire::actingAs($this->caleb->user)
         ->test(PlayerProfile::class, [
-            'player' => $this->aaron
+            'player' => $this->aaron,
         ]);
 
     $component->assertSee('Upvoted by Caleb Porzio');
 
     $component = Livewire::actingAs($this->caleb->user)
         ->test(PlayerProfile::class, [
-            'player' => $this->taylor
+            'player' => $this->taylor,
         ]);
 
     $component->assertSee('Downvoted by Caleb Porzio');

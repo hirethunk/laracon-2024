@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Illuminate\Support\Carbon;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class PlayerBecameImmune extends Event
 {

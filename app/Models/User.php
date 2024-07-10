@@ -4,18 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Player;
 use App\States\UserState;
 use Glhd\Bits\Database\HasSnowflakes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasSnowflakes;
+    use HasFactory, HasSnowflakes, Notifiable;
 
     protected $fillable = [
         'id',

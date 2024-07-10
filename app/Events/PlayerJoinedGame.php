@@ -2,13 +2,13 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Player;
-use Thunk\Verbs\Event;
+use App\Models\User;
 use App\States\GameState;
-use App\States\UserState;
 use App\States\PlayerState;
+use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class PlayerJoinedGame extends Event
 {
@@ -51,7 +51,7 @@ class PlayerJoinedGame extends Event
     public function fired()
     {
         $referrer = $this->state(UserState::class)->referrer_player_id;
-    
+
         if ($referrer) {
             PlayerReceivedUpvote::fire(
                 player_id: $referrer,
@@ -69,7 +69,7 @@ class PlayerJoinedGame extends Event
                 amount: 1,
             );
 
-            if($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
+            if ($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
                 PlayerBecameImmune::fire(
                     player_id: $referrer,
                     game_id: $this->game_id,

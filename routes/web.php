@@ -1,11 +1,11 @@
 <?php
 
-use App\Livewire\PlayerProfile;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Livewire\AdminDashboard;
 use App\Livewire\PlayerDashboard;
+use App\Livewire\PlayerProfile;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
