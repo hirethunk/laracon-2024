@@ -41,7 +41,7 @@ class VotingCard extends Component
     }
 
     #[Computed]
-    public function playerCanVote()
+    public function canVote()
     {
         return $this->player->state()->canVote();
     }

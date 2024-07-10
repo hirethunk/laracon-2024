@@ -68,12 +68,16 @@ class PlayerState extends State
 
     public function cannotBeUpvoted(): bool
     {
-        return $this->game()->activeModifier()['slug'] === 'first-shall-be-last' && $this->score() > 0;
+        $mod = $this->game()->activeModifier();
+
+        return $mod && $mod['slug'] === 'first-shall-be-last' && $this->score() > 0;
     }
 
     public function cannotBeDownvoted(): bool
     {
-        if ($this->game()->activeModifier()['slug'] === 'first-shall-be-last' && $this->score() < 0) {
+        $mod = $this->game()->activeModifier();
+
+        if ($mod && $mod['slug'] === 'first-shall-be-last' && $this->score() < 0) {
             return true;
         }
 

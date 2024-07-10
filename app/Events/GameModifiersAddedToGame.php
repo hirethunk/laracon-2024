@@ -15,6 +15,6 @@ class GameModifiersAddedToGame extends Event
 
     public function apply(GameState $state)
     {
-        $state->modifiers = collect($this->modifiers);
+        $state->modifiers = $this->modifiers;
     }
 }

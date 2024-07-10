@@ -1,6 +1,6 @@
 <div>
     <x-card>
-        @if ($player_can_vote)
+        @if ($this->can_vote)
             <div class="flex flex-col">
                 Once per hour, you can upvote someone, and downvote someone. Vote wisely.
                 <div class="mt-8">
@@ -31,9 +31,8 @@
                 </x-primary-button>
             </div>
         @else
-            <div class="text-center">
-                <h1 class="text-2xl sm:text-3xl font-bold text-gold-500">You can only vote once per hour</h1>
-                <p class="mt-4">Vote again {{ $this->player->state()->lastVotedAt()->addHours(1)->diffForHumans() }}</p>
+            <div >
+                <p>You may vote once per hour. Vote again {{ $this->player->state()->lastVotedAt()->addHours(1)->diffForHumans() }}.</p>
             </div>
         @endif
     </x-card>

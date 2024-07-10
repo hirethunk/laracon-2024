@@ -14,6 +14,8 @@
             : $text = 'Downvoted by '.$voter_name;
     } elseif($type === 'resignation') {
         $text = 'Inherited from '.$voter_name;
+    } elseif($type === 'buddy-system-reward') {
+        $text = 'Buddy System Reward';
     }
 
     $amount > 0

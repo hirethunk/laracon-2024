@@ -32,7 +32,7 @@ class GameCreated extends Event
 
         $state->starts_at = $this->starts_at;
 
-        $state->modifiers = collect();
+        $state->modifiers = [];
 
         $state->is_active = true;
     }

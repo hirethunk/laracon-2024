@@ -23,10 +23,10 @@
         @else
             <h2>You have resigned.</h2>
 
-            <div class="flex justify-between items-center mt-8">
+            <div class="flex justify-between items-center mt-2">
                 <div>
                     @isset($this->beneficiary)
-                        <p class="mb-2">
+                        <p>
                             Beneficiary:
                             <span class="text-gold-900">{{ $this->beneficiary }}</span>
                         </p>

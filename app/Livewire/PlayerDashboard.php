@@ -30,7 +30,7 @@ class PlayerDashboard extends Component
     }
 
     #[Computed]
-    public function modifier(): array|null
+    public function modifier()
     {
         return $this->game->state()->activeModifier();
     }
@@ -38,7 +38,9 @@ class PlayerDashboard extends Component
     #[Computed]
     public function showScoreboard(): bool
     {
-        return $this->game->state()->activeModifier()['slug'] !== 'blackout';
+        $mod = $this->game->state()->activeModifier();
+
+        return ! $mod || $mod['slug'] !== 'blackout';
     }
 
     public function render()
