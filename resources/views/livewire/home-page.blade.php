@@ -1,13 +1,13 @@
 <div>
     <x-slot name="header" class="text-gold-500">
-        <h2 class="font-bold leading-tight text-center text-5xl cinzel text-gold-500">
+        <h2 class="py-4 font-bold leading-tight text-center text-5xl cinzel text-gold-500">
             {{ __("let's make some money") }}
         </h2>
     </x-slot>
 
-    <div class="pt-12 mb-8 bg-black">
+    <div class="bg-black">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex flex-col py-6 overflow-hidden text-lg text-center border-white border-y-2 cardo-bold gap-y-6">
+            <div class="flex flex-col py-6 overflow-hidden text-lg text-center border-white border-t-2 cardo-bold gap-y-6">
                 <p class="text-gold-100 font-normal">
                     Find the man with the golden briefcase. He will admit you into the game.
                 </p>
