@@ -7,7 +7,7 @@
 
     <div class="space-y-4">
         <x-form.card>
-            @if(auth()->user()->player)
+            @if(auth()->user()->currentPlayer())
                 <p class="text-black">The game is afoot, and you can no longer change your name.</p>
             @else
                 <livewire:user-profile />
