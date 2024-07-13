@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\UserCreated;
+use App\Events\UserRequestedToJoinGame;
 use App\Http\Controllers\Controller;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -43,6 +45,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ])->user_id;
 
+        $game = Game::firstWhere('status', 'active');
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game->id,
+        );
+
         Verbs::commit();
 
         $user = User::find($user_id);
@@ -51,6 +60,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('home', absolute: false));
     }
 }

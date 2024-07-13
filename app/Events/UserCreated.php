@@ -25,6 +25,15 @@ class UserCreated extends Event
         $state->is_admin_for = collect();
     }
 
+    public function fired()
+    {
+        if (app()->environment('production')) {
+            UserSubscribedToNewsletter::fire(
+                email: $this->email,
+            );
+        }
+    }
+
     public function handle()
     {
         User::create([
