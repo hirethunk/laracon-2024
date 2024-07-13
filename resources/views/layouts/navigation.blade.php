@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center cinzel">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
                         {{ __('home') }}
                     </x-nav-link>
                 </div>
@@ -79,7 +79,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'absolute z-20 block w-full shadow-lg': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500 rounded-b-lg">
         <div class="py-2 space-y-1">
-            <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home')">
+            <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
 
