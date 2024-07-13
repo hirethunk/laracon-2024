@@ -1,7 +1,5 @@
 <div wire:poll class="space-y-4">
-    <div class="pt-2">
-        <x-live-feed />
-    </div>
+    <x-live-feed />
 
     @if($this->modifier)
         <x-card>
