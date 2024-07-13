@@ -78,9 +78,9 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'absolute z-20 block w-full shadow-lg': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500 rounded-b-lg">
-        <div class="pt-2 pb-3 space-y-1">
+        <div class="py-2 space-y-1">
             <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('home') }}
+                {{ __('Home') }}
             </x-responsive-nav-link>
 
             @foreach(Auth::user()->state()->is_admin_for as $game_id)
