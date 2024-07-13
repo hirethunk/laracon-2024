@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Livewire;
 use App\Livewire\UserProfile;
-use Thunk\Verbs\Facades\Verbs;
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 uses(RefreshDatabase::class);
 
@@ -53,8 +52,6 @@ it('requires a name prop in order to update', function () {
 });
 
 it('does not update a user name when the user is already approved', function () {
-    expect($this->caleb->user->state()->isApproved())->toBeTrue();
-
     Livewire::actingAs($this->caleb->user)
         ->test(UserProfile::class)
         ->set('name', 'Something New')

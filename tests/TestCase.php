@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use App\Models\Game;
-use App\Models\User;
-use App\Models\Player;
+use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
 use App\Events\UserCreated;
-use App\Events\AdminApprovedNewPlayer;
 use App\Events\UserPromotedToAdmin;
 use App\Events\UserRequestedToJoinGame;
+use App\Models\Game;
+use App\Models\Player;
+use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -20,11 +20,17 @@ abstract class TestCase extends BaseTestCase
 
     public Player $caleb;
 
+    public User $admin;
+
     public User $unapprovedUser;
 
     public function bootGame()
     {
-        $game_id = GameCreated::fire(name: 'Laracon 2024')->game_id;
+        $game_id = GameCreated::fire(
+            name: 'Laracon 2024',
+            starts_at: now(),
+        )->game_id;
+
         $game = Game::find($game_id);
 
         $admin_id = UserCreated::fire(
@@ -33,7 +39,7 @@ abstract class TestCase extends BaseTestCase
             password: 'password',
         )->user_id;
 
-        $admin = User::find($admin_id);
+        $this->admin = User::find($admin_id);
         UserPromotedToAdmin::fire(user_id: $admin_id, game_id: $game_id);
 
         $taylor_id = UserCreated::fire(
@@ -48,7 +54,7 @@ abstract class TestCase extends BaseTestCase
         );
 
         AdminApprovedNewPlayer::fire(
-            admin_id: $admin->id,
+            admin_id: $this->admin->id,
             user_id: $taylor_id,
             game_id: $game->id,
         );
@@ -67,7 +73,7 @@ abstract class TestCase extends BaseTestCase
         );
 
         AdminApprovedNewPlayer::fire(
-            admin_id: $admin->id,
+            admin_id: $this->admin->id,
             user_id: $aaron_id,
             game_id: $game->id,
         );
@@ -86,17 +92,17 @@ abstract class TestCase extends BaseTestCase
         );
 
         AdminApprovedNewPlayer::fire(
-            admin_id: $admin->id,
+            admin_id: $this->admin->id,
             user_id: $caleb_id,
             game_id: $game->id,
         );
 
         $this->caleb = User::find($caleb_id)->currentPlayer();
 
-        collect(range(1, 10))->each(function ($i) use ($admin, $game) {
+        collect(range(1, 10))->each(function ($i) use ($game) {
             $user_id = UserCreated::fire(
                 name: "User {$i}",
-                email: $i . '@example.com',
+                email: $i.'@example.com',
                 password: 'password',
             )->user_id;
 
@@ -106,7 +112,7 @@ abstract class TestCase extends BaseTestCase
             );
 
             AdminApprovedNewPlayer::fire(
-                admin_id: $admin->id,
+                admin_id: $this->admin->id,
                 user_id: $user_id,
                 game_id: $game->id,
             );
@@ -116,7 +122,7 @@ abstract class TestCase extends BaseTestCase
     public function getUnapprovedUser()
     {
         $user_id = UserCreated::fire(
-            name: "unapproved",
+            name: 'unapproved',
             email: 'unapproved@example.com',
             password: 'password',
         )->user_id;

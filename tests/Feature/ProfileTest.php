@@ -1,18 +1,18 @@
 <?php
 
-use App\Models\User;
 use App\Events\UserCreated;
+use App\Models\User;
 use Thunk\Verbs\Facades\Verbs;
 
-beforeEach(function() {
+beforeEach(function () {
     Verbs::commitImmediately();
 });
 
 test('profile page is displayed', function () {
     $user_id = UserCreated::fire(
-        name: "foo",
-        email: "foo@bar.baz",
-        password: bcrypt("password"),
+        name: 'foo',
+        email: 'foo@bar.baz',
+        password: bcrypt('password'),
     )->user_id;
 
     $user = User::find($user_id);
@@ -26,9 +26,9 @@ test('profile page is displayed', function () {
 
 test('profile information can be updated', function () {
     $user_id = UserCreated::fire(
-        name: "foo",
-        email: "foo@bar.baz",
-        password: bcrypt("password"),
+        name: 'foo',
+        email: 'foo@bar.baz',
+        password: bcrypt('password'),
     )->user_id;
 
     $user = User::find($user_id);
@@ -53,9 +53,9 @@ test('profile information can be updated', function () {
 
 test('email verification status is unchanged when the email address is unchanged', function () {
     $user_id = UserCreated::fire(
-        name: "foo",
-        email: "foo@bar.baz",
-        password: bcrypt("password"),
+        name: 'foo',
+        email: 'foo@bar.baz',
+        password: bcrypt('password'),
     )->user_id;
 
     $user = User::find($user_id);
@@ -76,9 +76,9 @@ test('email verification status is unchanged when the email address is unchanged
 
 test('user can delete their account', function () {
     $user_id = UserCreated::fire(
-        name: "foo",
-        email: "foo@bar.baz",
-        password: bcrypt("password"),
+        name: 'foo',
+        email: 'foo@bar.baz',
+        password: bcrypt('password'),
     )->user_id;
 
     $user = User::find($user_id);
@@ -99,9 +99,9 @@ test('user can delete their account', function () {
 
 test('correct password must be provided to delete account', function () {
     $user_id = UserCreated::fire(
-        name: "foo",
-        email: "foo@bar.baz",
-        password: bcrypt("password"),
+        name: 'foo',
+        email: 'foo@bar.baz',
+        password: bcrypt('password'),
     )->user_id;
 
     $user = User::find($user_id);

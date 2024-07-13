@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
 use App\Events\UserNameUpdated;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 #[On('refreshComponent')]
 class UserProfile extends Component

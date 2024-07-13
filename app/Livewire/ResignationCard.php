@@ -2,18 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\Player;
-use Livewire\Component;
 use App\Events\PlayerResigned;
-use Livewire\Attributes\Computed;
+use App\Models\Player;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class ResignationCard extends Component
 {
     #[Computed]
     public function beneficiary()
     {
-        return $this->players->first(fn($p) => $p->id === $this->player->state()->beneficiary_id)->user->name ?? null;
+        return $this->players->first(fn ($p) => $p->id === $this->player->state()->beneficiary_id)->user->name ?? null;
     }
 
     public function mount(Player $player)
@@ -36,14 +36,14 @@ class ResignationCard extends Component
         $this->player = $player;
 
         $this->players = $this->player->game->players
-            ->reject(fn($p) => $p->id === $this->player->id)
-            ->filter(fn($p) => $p->state()->is_active)
-            ->sortBy(fn($p) => $p->name);
+            ->reject(fn ($p) => $p->id === $this->player->id)
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortBy(fn ($p) => $p->name);
     }
 
     public function resign()
     {
-       $this->validate();
+        $this->validate();
 
         PlayerResigned::fire(
             player_id: $this->player->id,

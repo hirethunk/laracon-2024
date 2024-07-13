@@ -3,9 +3,9 @@
 namespace App\Events;
 
 use App\Models\User;
-use Thunk\Verbs\Event;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class UserCreated extends Event
 {
@@ -21,10 +21,17 @@ class UserCreated extends Event
     public function apply(UserState $state)
     {
         $state->name = $this->name;
-        
-        $state->status = 'new-signup';
 
         $state->is_admin_for = collect();
+    }
+
+    public function fired()
+    {
+        if (app()->environment('production')) {
+            UserSubscribedToNewsletter::fire(
+                email: $this->email,
+            );
+        }
     }
 
     public function handle()
