@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         return Game::find($this->current_game_id);
     }
+
+    public function referringPlayer(): ?Player
+    {
+        return Player::firstWhere('id', $this->referrer_player_id);
+    }
 }

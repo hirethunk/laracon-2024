@@ -50,6 +50,7 @@ class GameCreated extends Event
         Game::create([
             'id' => $this->game_id,
             'name' => $this->name,
+            'status' => 'active',
         ]);
     }
 }

@@ -12,6 +12,6 @@ class DashboardController extends Controller
             return redirect()->route('player-dashboard', ['player' => Auth::user()->currentPlayer()]);
         }
 
-        return view('dashboard');
+        return view('home');
     }
 }
