@@ -2,21 +2,23 @@
 
 namespace App\Livewire;
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Events\AdminApprovedNewPlayer;
+use App\Models\Game;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class AdminDashboard extends Component
 {
     public ?int $user_id;
 
+    public Game $game;
+
     #[Computed]
     public function unapprovedUsers()
     {
-        return $this->game->state()->usersAwaitingApproval();
+        return $this->game->state()->usersAwaitingApproval()
+            ->sortBy(fn ($user) => $user->name);
     }
 
     #[Computed]
@@ -26,17 +28,9 @@ class AdminDashboard extends Component
     }
 
     #[Computed]
-    public function game()
-    {
-        $game_id = $this->user->state()->is_admin_for->last();
-
-        return Game::find($game_id);
-    }
-
-    #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->mapWithKeys(fn($user) => [$user->id => $user->name]);
+        return $this->unapprovedUsers->mapWithKeys(fn ($user) => [$user->id => $user->name]);
     }
 
     public function approve()

@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
 use App\Events\UserNameUpdated;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 #[On('refreshComponent')]
 class UserProfile extends Component
@@ -22,7 +22,7 @@ class UserProfile extends Component
     public function updateName()
     {
         $this->validate([
-            'user.name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
 
         UserNameUpdated::fire(

@@ -3,10 +3,10 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
@@ -67,7 +67,7 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
-                'voter_name' => Player::find($this->voter_id)->user->name,
+                'voter_name' => PlayerState::load($this->voter_id)->name,
                 'score' => $this->state(PlayerState::class)->score(),
             ]
         );

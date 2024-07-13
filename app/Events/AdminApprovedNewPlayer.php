@@ -2,12 +2,11 @@
 
 namespace App\Events;
 
-use App\Models\User;
-use Thunk\Verbs\Event;
 use App\States\GameState;
-use App\States\UserState;
 use App\States\PlayerState;
+use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class AdminApprovedNewPlayer extends Event
 {
@@ -33,8 +32,13 @@ class AdminApprovedNewPlayer extends Event
     public function validate()
     {
         $this->assert(
-            ! $this->state(GameState::class)->players()->map(fn($p) => $p->user_id)->contains($this->user_id),
+            ! $this->state(GameState::class)->players()->map(fn ($p) => $p->user_id)->contains($this->user_id),
             'User is already in the game.'
+        );
+
+        $this->assert(
+            GameState::load($this->game_id)->is_active,
+            'The game is over.'
         );
     }
 
@@ -45,13 +49,5 @@ class AdminApprovedNewPlayer extends Event
             game_id: $this->game_id,
             player_id: $this->player_id,
         );
-    }
-
-    public function handle()
-    {
-        User::find($this->user_id)->update([
-            'status' => 'approved',
-            'player_id' => $this->player_id,
-        ]);
     }
 }

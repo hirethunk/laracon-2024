@@ -1,8 +1,8 @@
 <div>
     <x-card>
         <div class="flex flex-col">
-            <div class="text-center flex flex-col space-y-4">
-                <h1 class="text-3xl font-bold text-gold-500">Scoreboard</h1>
+            <div class="flex flex-col space-y-4">
+                <h1 class="text-2xl font-bold text-gold-500">Scoreboard</h1>
                 <p class="text-sm">Click any player's name to see their score history</p>
             </div>
             <div class="mt-8">
@@ -31,5 +31,5 @@
                 </table>
             </div>
         </div>
-     </x-card>
+    </x-card>
 </div>

@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Game;
-use App\Models\User;
 use App\States\PlayerState;
 use Glhd\Bits\Database\HasSnowflakes;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
 {
@@ -17,6 +15,7 @@ class Player extends Model
 
     protected $casts = [
         'last_voted_at' => 'datetime',
+        'is_active' => 'boolean',
     ];
 
     public function state()

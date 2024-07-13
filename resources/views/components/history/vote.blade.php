@@ -14,6 +14,13 @@
             : $text = 'Downvoted by '.$voter_name;
     } elseif($type === 'resignation') {
         $text = 'Inherited from '.$voter_name;
+    } elseif($type === 'buddy-system-reward') {
+        $text = 'Buddy System Reward';
+    
+    } elseif($type === 'referred') {
+        $text = 'Bonus for being referred';
+    } elseif($type === 'got-referred') {
+        $text = 'Bonus for referring new player';
     }
 
     $amount > 0
@@ -21,7 +28,7 @@
         : $amount_string = $amount;
 @endphp
 
-<li class="relative flex gap-x-4 justify-between items-center text-xs py-2">
+<li class="relative flex gap-x-4 justify-between items-center text-sm py-2">
     <div class="flex gap-x-2 items-center">
         <p @class([
             "flex-auto py-0.5 leading-5",
@@ -38,7 +45,7 @@
         ])>
             {{ $text }}
         </p>
-        <time class="flex-none py-0.5 text-xs items-center leading-5 text-gray-500">
+        <time class="flex-none py-0.5 text-sm items-center leading-5 text-gray-500">
             {{$time}}
         </time>
     </div>

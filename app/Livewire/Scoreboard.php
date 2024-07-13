@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Player;
-use Livewire\Component;
 use Illuminate\Support\Collection;
+use Livewire\Component;
 
 class Scoreboard extends Component
 {
@@ -17,12 +17,21 @@ class Scoreboard extends Component
 
     public Collection $players;
 
+    public function showScoreboard(): bool
+    {
+        $mod = $this->player->game->state()->activeModifier();
+
+        return $mod
+            ? $mod['slug'] !== 'blackout'
+            : true;
+    }
+
     public function initializeProperties(Player $player)
     {
-        $this->player = $this->player;
+        $this->player = $player;
 
         $this->players = $this->player->game->players
-            ->filter(fn($p) => $p->state()->is_active)
+            ->filter(fn ($p) => $p->state()->is_active)
             ->sortByDesc('score');
     }
 

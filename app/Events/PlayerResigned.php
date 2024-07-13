@@ -3,10 +3,10 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class PlayerResigned extends Event
 {
@@ -41,6 +41,11 @@ class PlayerResigned extends Event
         $this->assert(
             PlayerState::load($this->beneficiary_id)->is_active,
             'Beneficiary has already resigned.'
+        );
+
+        $this->assert(
+            GameState::load($this->game_id)->is_active,
+            'The game is over.'
         );
     }
 

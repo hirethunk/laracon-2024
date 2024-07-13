@@ -2,11 +2,10 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\States\GameState;
-use Thunk\Verbs\Event;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class UserPromotedToAdmin extends Event
 {
