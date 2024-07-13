@@ -5,6 +5,7 @@ use App\Livewire\AdminDashboard;
 use App\Livewire\HomePage;
 use App\Livewire\PlayerDashboard;
 use App\Livewire\PlayerProfile;
+use App\Livewire\SecretCodePage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/home', HomePage::class)->name('home');
+    Route::get('/secret-code', SecretCodePage::class)->name('secret-code');
     Route::get('/players/{player}/player-dashboard', PlayerDashboard::class)->name('player-dashboard');
     Route::get('/players/{player}/profile', PlayerProfile::class)->name('player.profile');
 });

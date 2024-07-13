@@ -16,11 +16,14 @@
         $text = 'Inherited from '.$voter_name;
     } elseif($type === 'buddy-system-reward') {
         $text = 'Buddy System Reward';
-    
     } elseif($type === 'referred') {
         $text = 'Bonus for being referred';
     } elseif($type === 'got-referred') {
         $text = 'Bonus for referring new player';
+    } elseif($type === 'invalid-secret-code') {
+        $text = 'Invalid Secret Code';
+    } elseif($type = 'secret-code-reward') {
+        $text = 'Found a secret code';
     }
 
     $amount > 0
