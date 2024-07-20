@@ -23,7 +23,7 @@
         <div class="min-h-screen text-white">
             @include('layouts.navigation')
 
-            <div class="space-y-4 pb-16 pt-4">
+            <div class="space-y-4 py-4">
                 <!-- Page Heading -->
                 @if (isset($header))
                     <header class="shadow">
