@@ -30,6 +30,10 @@ class GameCreated extends Event
 
         $state->admin_user_ids = collect();
 
+        $state->unused_codes = [];
+
+        $state->used_codes = [];
+
         $state->starts_at = $this->starts_at;
 
         $state->modifiers = [];
@@ -39,9 +43,16 @@ class GameCreated extends Event
 
     public function fired()
     {
+        $template = new Laracon2024Template($this->state(GameState::class));
+
         GameModifiersAddedToGame::fire(
             game_id: $this->game_id,
-            modifiers: (new Laracon2024Template($this->state(GameState::class)))->modifiers(),
+            modifiers: $template->modifiers(),
+        );
+
+        SecretCodesAddedToGame::fire(
+            game_id: $this->game_id,
+            codes: $template::CODES,
         );
     }
 

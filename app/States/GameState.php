@@ -22,6 +22,10 @@ class GameState extends State
 
     public Collection $admin_user_ids;
 
+    public array $unused_codes;
+
+    public array $used_codes;
+
     public Carbon $starts_at;
 
     public array $modifiers;
