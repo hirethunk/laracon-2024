@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="border-y-2 border-white">
+<nav x-data="{ open: false }" :class="{'border-y-2 border-b-transparent rounded-b': open, 'border-y-2': ! open}" class="border-white relative">
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 relative">
@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center cinzel">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
                         {{ __('home') }}
                     </x-nav-link>
                 </div>
@@ -77,30 +77,28 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('home') }}
+    <div :class="{'absolute z-20 block w-full shadow-lg': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500 rounded-b-lg">
+        <div class="py-2 space-y-1">
+            <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
+                {{ __('Home') }}
             </x-responsive-nav-link>
-        </div>
 
-        @foreach(Auth::user()->state()->is_admin_for as $game_id)
-            <div class="pt-2 pb-3 space-y-1">
+            @foreach(Auth::user()->state()->is_admin_for as $game_id)
                 <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard', $game_id)">
                     Admin for {{ App\Models\Game::find($game_id)->name }}
                 </x-responsive-nav-link>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t-2 border-gray-50">
+        <div class="pt-4 pb-1 border-t border-t-white">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('profile.edit')">
+            <div class="mt-3 space-y-1 mb-1">
+                <x-responsive-nav-link class="hover:bg-gold-100" :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

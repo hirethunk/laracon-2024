@@ -1,25 +1,19 @@
-<div>
+<div class="space-y-4">
     <x-slot name="header" class="text-gold-500">
-        <h2 class="font-bold leading-tight text-center text-5xl cinzel text-gold-500">
+        <h2 class="text-5xl font-bold leading-tight text-center sm:text-6xl md:text-7xl cinzel text-gold-500">
             {{ __("let's make some money") }}
         </h2>
     </x-slot>
 
-    <div class="pt-12 mb-8 bg-black">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex flex-col py-6 overflow-hidden text-lg text-center border-white border-y-2 cardo-bold gap-y-6">
-                <p class="text-gold-100 font-normal">
-                    Find the man with the golden briefcase. He will admit you into the game.
-                </p>
-                <p>
-                    <span class="text-white font-normal">
-                        Your account name must match the name on your Laracon badge.
-                        You can change your name on your
-                    </span>
-                    <a href="/profile" class="text-indigo-400">Profile Page</a><span>.</span>
-                </p>
-            </div>
-        </div>
+    <div class="flex flex-col py-6 mx-auto overflow-hidden text-lg font-normal text-center text-white border-t-2 border-white gap-y-6">
+        <p>
+            Find the man with the <span class="text-gold-100">golden briefcase</span>. He will admit you into the game.
+        </p>
+        <p>
+            Your account name must match the name on your Laracon badge.
+            You can change your name on your
+            <a href="/profile" class="text-indigo-400">Profile Page</a>.
+        </p>
     </div>
     <x-card>
         @if($this->referrer)
@@ -28,7 +22,7 @@
                 When you join the game, you will receive an extra upvote, and so will they.
             </p>
         @else
-            <p class="text-white pb-4">
+            <p class="pb-4 text-white">
                 Before you join, you may add a referrer. Select an active player. When you join the game, you will receive an extra upvote, and so will they.
             </p>
 
@@ -40,7 +34,7 @@
                 :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
                 selected="Choose a Player"
             />
-            <div class="flex justify-between items-center mt-4">
+            <div class="flex items-center justify-between mt-4">
                 <x-primary-button wire:click="addReferrer" wire:loading.attr="disabled" color="gold">
                     Add Referrer
                 </x-primary-button>

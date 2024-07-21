@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header" class="text-gold-500">
-        <h2 class="font-bold leading-tight text-center text-5xl cinzel text-gold-500">
+        <h2 class="py-4 font-bold leading-tight text-center text-5xl cinzel text-gold-500">
             {{ __("let's make some money") }}
         </h2>
     </x-slot>
 
-    <div class="pt-12 mb-8 bg-black">
+    <div class="bg-black">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="flex flex-col py-6 overflow-hidden text-lg font-bold text-center border-white border-y-2 cardo-bold gap-y-6">
                 <p class="text-gold-100">
@@ -25,7 +25,6 @@
         <p class="text-white">
             Before you join, you may add a referrer. Select an active player. When you join the game, you will receive an extra upvote, and so will they.
         </p>
-
     </x-card>
     <x-live-feed />
 </x-app-layout>
