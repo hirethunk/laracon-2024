@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 
         $game_id = GameCreated::fire(
             name: 'Laracon 2024',
-            starts_at: now()->subHours(24)
+            starts_at: now()
         )->game_id;
 
         $admin_id = UserCreated::fire(
