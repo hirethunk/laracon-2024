@@ -9,9 +9,12 @@ use App\States\PlayerState;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
+use Thunk\Verbs\Facades\Verbs;
 
 class PlayerJoinedGame extends Event
 {
+	use AffectsVotes;
+	
     #[StateId(UserState::class)]
     public int $user_id;
 
@@ -46,38 +49,15 @@ class PlayerJoinedGame extends Event
         $state->ballots_cast = [];
         $state->is_active = true;
         $state->is_immune_until = now();
-    }
-
-    public function fired()
-    {
-        $referrer = $this->state(UserState::class)->referrer_player_id;
-
-        if ($referrer) {
-            PlayerReceivedUpvote::fire(
-                player_id: $referrer,
-                game_id: $this->game_id,
-                voter_id: $this->player_id,
-                type: 'got-referred',
-                amount: 1,
-            );
-
-            PlayerReceivedUpvote::fire(
-                player_id: $this->player_id,
-                game_id: $this->game_id,
-                voter_id: $referrer,
-                type: 'referred',
-                amount: 1,
-            );
-
-            if ($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
-                PlayerBecameImmune::fire(
-                    player_id: $referrer,
-                    game_id: $this->game_id,
-                    type: 'signing-bonus',
-                    is_immune_until: now()->addHours(1),
-                );
-            }
-        }
+	    
+	    if ($referrer = $this->referrer()) {
+		    $this->upvotePlayer($state, $this->player_id, 'got-referred');
+			$this->upvotePlayer($referrer, $referrer->id, 'referred');
+		    
+		    if ($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
+			    $referrer->is_immune_until = now()->addHour();
+		    }
+	    }
     }
 
     public function handle()
@@ -94,4 +74,13 @@ class PlayerJoinedGame extends Event
 
         $user->save();
     }
+	
+	protected function referrer(): ?PlayerState
+	{
+		if ($id = $this->state(UserState::class)->referrer_player_id) {
+			return PlayerState::load($id);
+		}
+		
+		return null;
+	}
 }

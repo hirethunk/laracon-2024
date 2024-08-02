@@ -12,6 +12,10 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
+	use ValidatesPlayerInActiveGame;
+	use ValidatesVoter;
+	use AffectsVotes;
+	
     #[StateId(PlayerState::class)]
     public int $player_id;
 
@@ -24,19 +28,6 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public string $type;
 
-    public function validate()
-    {
-        $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
-            'Player is not in the game.'
-        );
-
-        $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->voter_id),
-            'Voter is not in the game.'
-        );
-    }
-
     public function applyToGame(GameState $state)
     {
         // @todo why does this function need to exist?
@@ -44,20 +35,12 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function applyToPlayer(PlayerState $state)
     {
-        $state->upvotes[] = [
-            'source' => $this->voter_id,
-            'votes' => $this->amount,
-            'type' => $this->type,
-        ];
+        $this->upvotePlayer($state, $this->voter_id, $this->type, $this->amount);
     }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->score = $this->state(PlayerState::class)->score();
-
-        $player->save();
+		$this->syncPlayerScore($this->state(PlayerState::class));
     }
 
     public function asHistory(): array|string|HistoryComponentDto
