@@ -31,4 +31,9 @@ return [
         ],
     ],
 
+	'convertkit' => [
+		'form_id' => env('CONVERTKIT_FORM_ID'),
+		'api_secret' => env('CONVERT_KIT_API_SECRET'),
+	],
+
 ];

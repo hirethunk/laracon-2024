@@ -27,9 +27,10 @@ class UserCreated extends Event
 
     public function fired()
     {
-        if (app()->environment('production')) {
+		if (app()->isProduction()) {
             UserSubscribedToNewsletter::fire(
                 email: $this->email,
+				first_name: str($this->name)->before(' '),
             );
         }
     }

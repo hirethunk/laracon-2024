@@ -9,10 +9,12 @@ class UserSubscribedToNewsletter extends Event
 {
     public function __construct(
         public string $email,
+	    public ?string $first_name,
     ) {}
 
+	#[Once]
     public function handle()
     {
-        (new ConvertKit())->addSubscriber($this->email, env('CONVERTKIT_FORM_ID'));
+        (new ConvertKit())->addSubscriber($this->email, $this->first_name);
     }
 }

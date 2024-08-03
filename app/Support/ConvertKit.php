@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Http;
 class ConvertKit
 {
     public function __construct(
-        public ?string $apiSecret = null,
+        public ?string $apiKey = null,
     ) {
-        $this->apiSecret = $apiSecret ?? env('CONVERT_KIT_API_SECRET');
+        $this->apiKey ??= config('services.convertkit.api_secret');
     }
 
-    public function addSubscriber(string $email, ?int $formId = null): ?array
+    public function addSubscriber(string $email, ?string $first_name, ?int $formId = null): ?array
     {
-        $formId = $formId ?? env('CONVERTKIT_FORM_ID');
+        $formId ??= config('services.convertkit.form_id');
 
-        return Http::post("https://api.convertkit.com/v3/forms/{$formId}/subscribe", [
-            'api_secret' => $this->apiSecret,
+        return Http::post("https://api.convertkit.com/v3/forms/{$formId}/subscribe", array_filter([
+            'api_key' => $this->apiKey,
             'email' => $email,
-        ])->json();
+	        'first_name' => $first_name,
+        ]))->json();
     }
 }
