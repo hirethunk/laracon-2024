@@ -2,11 +2,14 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\AffectsVotes;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasPlayer;
 use App\Events\Concerns\RequiresActiveGame;
 use App\Models\Player;
+use App\States\GameState;
 use App\States\PlayerState;
+use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class PlayerVoted extends Event
@@ -14,9 +17,12 @@ class PlayerVoted extends Event
 	use HasGame;
 	use HasPlayer;
 	use RequiresActiveGame;
+	use AffectsVotes;
 
+	#[StateId(PlayerState::class, 'upvotee')]
     public int $upvotee_id;
 
+	#[StateId(PlayerState::class, 'downvotee')]
     public int $downvotee_id;
 
     public function authorize()
@@ -52,80 +58,61 @@ class PlayerVoted extends Event
 		$this->assert(! $downvotee->cannotBeDownvoted(), 'Downvotee is immune from downvotes.');
     }
 
-    public function applyToPlayer(PlayerState $player)
+	public function apply(GameState $game)
     {
-        $player->ballots_cast[] = [
+		$this->player()->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
             'voted_at' => now(),
         ];
-    }
 
-    public function fired()
-    {
-        $amount = $this->game()->activeModifier()['slug'] === 'double-down'
-            ? 2
-            : 1;
+		$amount = $game->hasActiveModifier('double-down') ? 2 : 1;
 
-        PlayerReceivedUpvote::fire(
-            player_id: $this->upvotee_id,
-            voter_id: $this->player_id,
-            game_id: $this->game_id,
-            type: 'ballot',
-            amount: $amount,
+		$this->applyUpvoteToPlayer(
+			$this->upvotee_id, $this->player_id, 'ballot', $amount
         );
 
-        PlayerReceivedDownvote::fire(
-            player_id: $this->downvotee_id,
-            voter_id: $this->player_id,
-            game_id: $this->game_id,
-            type: 'ballot',
-            amount: $amount,
+		$this->applyDownvoteToPlayer(
+			$this->downvotee_id, $this->player_id, 'ballot', $amount
         );
+	}
 
-        $modifier = $this->game()->activeModifier();
+	public function applyBuddySystem(GameState $game)
+	{
+		if (! $game->hasActiveModifier('buddy-system')) {
+			return;
+		}
 
-        if ($modifier['slug'] === 'buddy-system') {
-            $buddy_system_started_at = $modifier['starts_at'];
+		$modifier = $game->activeModifier();
 
-            $buddy = PlayerState::load($this->upvotee_id);
+		$buddy = $this->states()->get('upvotee');
+		
+		// TODO: The `mutual_vote_exists` and `buddy_reward_already_given feels like
+		//       something that could be tracked in state
 
             $mutual_vote_exists = collect($buddy->ballots_cast)
-                ->filter(fn ($b) => $b['upvotee_id'] === $this->player_id)
-                ->filter(fn ($b) => $b['voted_at'] > $buddy_system_started_at)
-                ->first();
+			->filter(fn($ballot) => $ballot['upvotee_id'] === $this->player_id)
+			->filter(fn($ballot) => $ballot['voted_at'] > $modifier['starts_at'])
+			->isNotEmpty();
 
             $buddy_reward_already_given = collect($buddy->upvotes)
-                ->filter(fn ($u) => $u['source'] === $this->player_id)
-                ->filter(fn ($u) => $u['type'] === 'buddy-system-reward')
-                ->first();
+			->filter(fn($upvote) => $upvote['source'] === $this->player_id)
+			->filter(fn($upvote) => $upvote['type'] === 'buddy-system-reward')
+			->isNotEmpty();
 
             if ($mutual_vote_exists && ! $buddy_reward_already_given) {
-                PlayerReceivedUpvote::fire(
-                    player_id: $buddy->id,
-                    voter_id: $this->player_id,
-                    game_id: $this->game_id,
-                    type: 'buddy-system-reward',
-                    amount: 2,
+			$this->applyUpvoteToPlayer(
+				$this->upvotee_id, $this->player_id, 'buddy-system-reward', 2
                 );
 
-                PlayerReceivedUpvote::fire(
-                    player_id: $this->player_id,
-                    voter_id: $buddy->id,
-                    game_id: $this->game_id,
-                    type: 'buddy-system-reward',
-                    amount: 2,
+			$this->applyUpvoteToPlayer(
+				$this->player_id, $this->upvotee_id, 'buddy-system-reward', 2
                 );
             }
         }
-    }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->last_voted_at = now();
-
-        $player->save();
+		Player::find($this->player_id)->update(['last_voted_at' => now()]);
     }
 }

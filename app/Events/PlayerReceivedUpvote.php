@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\AffectsVotes;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasPlayer;
 use App\Events\Concerns\HasVoter;
 use App\Events\Concerns\RequiresActiveGame;
-use App\Models\Player;
-use App\States\GameState;
-use App\States\PlayerState;
 use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
@@ -19,27 +17,22 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 	use HasPlayer;
 	use HasVoter;
 	use HasGame;
+	use AffectsVotes;
 
     public int $amount;
 
     public string $type;
 	
-    public function applyToPlayer(PlayerState $player)
+	public function apply()
     {
-        $player->upvotes[] = [
-            'source' => $this->voter_id,
-            'votes' => $this->amount,
-            'type' => $this->type,
-        ];
+		$this->applyUpvoteToPlayer(
+			$this->player_id, $this->voter_id, $this->type, $this->amount
+		);
     }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->score = $this->state(PlayerState::class)->score();
-
-        $player->save();
+		$this->syncPlayerScore($this->player());
     }
 
     public function asHistory(): array|string|HistoryComponentDto

@@ -5,7 +5,6 @@ namespace App\Events;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasUser;
 use App\States\GameState;
-use App\States\UserState;
 use Thunk\Verbs\Event;
 
 class UserRequestedToJoinGame extends Event

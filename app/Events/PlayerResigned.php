@@ -2,12 +2,13 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\AffectsVotes;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasPlayer;
 use App\Events\Concerns\RequiresActiveGame;
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
+use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class PlayerResigned extends Event
@@ -15,6 +16,7 @@ class PlayerResigned extends Event
 	use HasGame;
 	use HasPlayer;
 	use RequiresActiveGame;
+	use AffectsVotes;
 
 	#[StateId(PlayerState::class, 'beneficiary')]
     public int $beneficiary_id;
@@ -41,39 +43,24 @@ class PlayerResigned extends Event
     {
         $player->is_active = false;
         $player->beneficiary_id = $this->beneficiary_id;
-    }
 
-    public function fired()
-    {
-        $score = $this->player()->score();
+		$score = $player->score();
 
         if ($score > 0) {
-            PlayerReceivedUpvote::fire(
-                player_id: $this->beneficiary_id,
-                voter_id: $this->player_id,
-                game_id: $this->game_id,
-                type: 'resignation',
-                amount: $score,
+			$this->applyUpvoteToPlayer(
+				$this->beneficiary_id, $this->player_id, 'resignation', $score
             );
         }
 
         if ($score < 0) {
-            PlayerReceivedDownvote::fire(
-                player_id: $this->beneficiary_id,
-                voter_id: $this->player_id,
-                game_id: $this->game_id,
-                type: 'resignation',
-                amount: -$score,
+			$this->applyDownvoteToPlayer(
+				$this->beneficiary_id, $this->player_id, 'resignation', abs($score)
             );
         }
     }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->is_active = false;
-
-        $player->save();
+		Player::find($this->player_id)->update(['is_active' => false]);
     }
 }
