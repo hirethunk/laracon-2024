@@ -7,6 +7,7 @@ use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasPlayer;
 use App\Events\Concerns\HasVoter;
 use App\Events\Concerns\RequiresActiveGame;
+use App\States\GameState;
 use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
@@ -23,8 +24,10 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public string $type;
 
-    public function apply()
+    public function apply(GameState $game)
     {
+        // Unused state forces a single trigger
+
         $this->applyUpvoteToPlayer(
             $this->player_id, $this->voter_id, $this->type, $this->amount
         );

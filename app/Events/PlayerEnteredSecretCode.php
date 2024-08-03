@@ -6,6 +6,7 @@ use App\Events\Concerns\AffectsVotes;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasPlayer;
 use App\Events\Concerns\RequiresActiveGame;
+use App\States\GameState;
 use InvalidArgumentException;
 use Thunk\Verbs\Event;
 
@@ -18,10 +19,10 @@ class PlayerEnteredSecretCode extends Event
 
     public string $secret_code;
 
-    public function apply()
+    public function apply(GameState $game)
     {
         try {
-            $this->game()->useCode($this->secret_code);
+            $game->useCode($this->secret_code);
             $this->applyUpvoteToPlayer(
                 $this->player_id, $this->player_id, $this->type
             );

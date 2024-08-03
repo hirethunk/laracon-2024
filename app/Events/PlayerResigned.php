@@ -41,6 +41,11 @@ class PlayerResigned extends Event
 
     public function applyToPlayer(PlayerState $player)
     {
+        // This sucks :(
+        if ($player->id !== $this->player_id) {
+            return;
+        }
+
         $player->is_active = false;
         $player->beneficiary_id = $this->beneficiary_id;
 

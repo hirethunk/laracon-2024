@@ -43,7 +43,7 @@ class AdminApprovedNewPlayer extends Event
     {
         $player->user_id = $this->user_id;
         $player->game_id = $this->game_id;
-        $player->name = $this->state(UserState::class)->name;
+        $player->name = $this->user()->name;
         $player->upvotes = [];
         $player->downvotes = [];
         $player->ballots_cast = [];
@@ -53,12 +53,22 @@ class AdminApprovedNewPlayer extends Event
 
     public function applyToUser(UserState $user): void
     {
+        // This sucks :(
+        if ($user->id !== $this->user_id) {
+            return;
+        }
+
         $user->current_player_id = $this->player_id;
     }
 
-    public function applyReferrer(): void
+    public function applyReferrer(UserState $user): void
     {
-        if (! $referrer = $this->user()->referrer()) {
+        // This sucks :(
+        if ($user->id !== $this->user_id) {
+            return;
+        }
+
+        if (! $referrer = $user->referrer()) {
             return;
         }
 
