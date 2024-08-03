@@ -89,16 +89,19 @@ class GameState extends State
             : $this->player_ids->contains(id($player));
     }
 
-    public function useCode(string $code): void
+    public function useCode(string $code): bool
     {
         if ($this->unused_codes->contains($code)) {
             $this->unused_codes = $this->unused_codes->reject($code);
             $this->used_codes->push($code);
+			return true;
         }
 
         if (! $this->isCodeValid($code)) {
             throw new InvalidArgumentException('Invalid secret code.');
         }
+		
+		return false;
     }
 
     public function isCodeValid(string $code): bool

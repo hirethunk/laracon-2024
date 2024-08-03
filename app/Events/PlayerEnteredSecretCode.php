@@ -18,14 +18,17 @@ class PlayerEnteredSecretCode extends Event
     use RequiresActiveGame;
 
     public string $secret_code;
+	
+	protected bool $applied = false;
 
     public function apply(GameState $game)
     {
         try {
-            $game->useCode($this->secret_code);
-            $this->applyUpvoteToPlayer(
-                $this->player_id, $this->player_id, $this->type
-            );
+            if ($game->useCode($this->secret_code)) {
+	            $this->applyUpvoteToPlayer(
+		            $this->player_id, $this->player_id, 'secret-code'
+	            );
+            }
         } catch (InvalidArgumentException) {
             // If you try to use a bogus code, you receive a downvote
             $this->applyDownvoteToPlayer(
