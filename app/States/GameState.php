@@ -51,4 +51,52 @@ class GameState extends State
     {
         return collect($this->player_ids)->map(fn ($id) => PlayerState::load($id));
     }
+	
+	public function addPlayer(PlayerState|int $player): static
+	{
+		$player = state($player, PlayerState::class);
+		
+		$this->user_ids_awaiting_approval = $this->user_ids_awaiting_approval->reject(fn($id) => $id === $player->user_id);
+		$this->player_ids->push($player->id);
+		
+		return $this;
+	}
+	
+	public function isAdmin(PlayerState|int $player): bool
+	{
+		return $this->admin_user_ids->contains(id($player));
+	}
+	
+	public function isAwaitingApproval(UserState|int $user): bool
+	{
+		return $this->user_ids_awaiting_approval->contains(id($user));
+	}
+	
+	public function isPlayer(PlayerState|int|null $player = null, UserState|int|null $user = null): bool
+	{
+		if (null === $player && null === $user) {
+			throw new InvalidArgumentException('isPlayer requires a $player or $user argument');
+		}
+		
+		return null !== $user
+			? $this->players()->contains(fn(PlayerState $state) => $state->user_id === id($user))
+			: $this->player_ids->contains(id($player));
+	}
+	
+	public function useCode(string $code): void
+	{
+		if ($this->unused_codes->contains($code)) {
+			$this->unused_codes = $this->unused_codes->reject($code);
+			$this->used_codes->push($code);
+		}
+		
+		if (! $this->isCodeValid($code)) {
+			throw new InvalidArgumentException('Invalid secret code.');
+		}
+	}
+	
+	public function isCodeValid(string $code): bool
+	{
+		return $this->used_codes->contains($code) || $this->unused_codes->contains($code);
+	}
 }
