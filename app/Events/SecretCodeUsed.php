@@ -16,10 +16,9 @@ class SecretCodeUsed extends Event
 
     public function applyToGame(GameState $game)
     {
-        if (collect($game->unused_codes)->contains($this->secret_code)) {
+        if ($game->unused_codes->contains($this->secret_code)) {
             $game->unused_codes = collect($game->unused_codes)
-                ->filter(fn ($code) => $code !== $this->secret_code)
-                ->toArray();
+                ->filter(fn ($code) => $code !== $this->secret_code);
 
             $game->used_codes[] = $this->secret_code;
         }

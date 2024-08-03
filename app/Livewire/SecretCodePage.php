@@ -38,9 +38,9 @@ class SecretCodePage extends Component
     {
         $game = $this->game->state();
 
-        $unused_codes = collect($game->unused_codes);
+        $unused_codes = $game->unused_codes;
 
-        $used_codes = collect($game->used_codes);
+        $used_codes = $game->used_codes;
 
         if ($used_codes->contains($this->code)) {
             $this->message = 'This code has already been used.';
