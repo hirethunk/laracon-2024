@@ -9,7 +9,7 @@ use Thunk\Verbs\Event;
 
 class GameEnded extends Event
 {
-	use HasGame;
+    use HasGame;
 
     public function apply(GameState $game)
     {
@@ -18,6 +18,6 @@ class GameEnded extends Event
 
     public function handle()
     {
-		Game::find($this->game_id)->update(['status' => 'ended']);
+        Game::find($this->game_id)->update(['status' => 'ended']);
     }
 }

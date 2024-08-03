@@ -8,7 +8,7 @@ use Thunk\Verbs\Event;
 
 class GameModifiersAddedToGame extends Event
 {
-	use HasGame;
+    use HasGame;
 
     public array $modifiers;
 

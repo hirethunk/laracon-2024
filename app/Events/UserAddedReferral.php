@@ -13,17 +13,17 @@ use Thunk\Verbs\Event;
 
 class UserAddedReferral extends Event
 {
-	use HasGame;
-	use HasUser;
+    use HasGame;
+    use HasUser;
 
     #[StateId(PlayerState::class)]
     public int $referrer_player_id;
 
-	public function validateGame(GameState $game)
+    public function validateGame(GameState $game)
     {
         $this->assert(
-			assertion: $game->isPlayer($this->referrer_player_id), 
-			exception: 'Referrer is not in game.'
+            assertion: $game->isPlayer($this->referrer_player_id),
+            exception: 'Referrer is not in game.'
         );
     }
 
@@ -34,7 +34,7 @@ class UserAddedReferral extends Event
 
     public function handle()
     {
-		User::find($this->user_id)
-			->update(['referrer_player_id' => $this->referrer_player_id]);
+        User::find($this->user_id)
+            ->update(['referrer_player_id' => $this->referrer_player_id]);
     }
 }

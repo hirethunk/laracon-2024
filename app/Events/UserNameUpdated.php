@@ -9,15 +9,15 @@ use Thunk\Verbs\Event;
 
 class UserNameUpdated extends Event
 {
-	use HasUser;
+    use HasUser;
 
     public string $name;
 
     public function authorize()
     {
         $this->assert(
-			assertion: ! $this->user()->currentPlayer(), 
-			exception: 'Cannot change name after Approval.'
+            assertion: ! $this->user()->currentPlayer(),
+            exception: 'Cannot change name after Approval.'
         );
     }
 
@@ -28,6 +28,6 @@ class UserNameUpdated extends Event
 
     public function handle()
     {
-		User::find($this->user_id)->update(['name' => $this->name]);
+        User::find($this->user_id)->update(['name' => $this->name]);
     }
 }

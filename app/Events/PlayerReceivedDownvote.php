@@ -13,26 +13,26 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedDownvote extends Event implements ExposesHistory
 {
-	use RequiresActiveGame;
-	use AffectsVotes;
-	use HasVoter;
-	use HasPlayer;
-	use HasGame;
+    use AffectsVotes;
+    use HasGame;
+    use HasPlayer;
+    use HasVoter;
+    use RequiresActiveGame;
 
-	public int $amount = 1;
+    public int $amount = 1;
 
     public string $type;
 
-	public function apply()
+    public function apply()
     {
-		$this->applyDownvoteToPlayer(
-			$this->player_id, $this->voter_id, $this->type, $this->amount
-		);
+        $this->applyDownvoteToPlayer(
+            $this->player_id, $this->voter_id, $this->type, $this->amount
+        );
     }
 
     public function handle()
     {
-		$this->syncPlayerScore($this->player());
+        $this->syncPlayerScore($this->player());
     }
 
     public function asHistory(): array|string|HistoryComponentDto

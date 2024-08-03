@@ -10,8 +10,8 @@ use Thunk\Verbs\Event;
 
 class UserPromotedToAdmin extends Event
 {
-	use HasUser;
-	use HasGame;
+    use HasGame;
+    use HasUser;
 
     public function applyToUser(UserState $user)
     {

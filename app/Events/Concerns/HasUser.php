@@ -2,18 +2,16 @@
 
 namespace App\Events\Concerns;
 
-use App\States\GameState;
-use App\States\PlayerState;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
 trait HasUser
 {
-	#[StateId(UserState::class, 'user')]
-	public int $user_id;
-	
-	public function user(): UserState
-	{
-		return $this->states()->get('user');
-	}
+    #[StateId(UserState::class, 'user')]
+    public int $user_id;
+
+    public function user(): UserState
+    {
+        return $this->states()->get('user');
+    }
 }

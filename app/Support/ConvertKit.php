@@ -19,7 +19,7 @@ class ConvertKit
         return Http::post("https://api.convertkit.com/v3/forms/{$formId}/subscribe", array_filter([
             'api_key' => $this->apiKey,
             'email' => $email,
-	        'first_name' => $first_name,
+            'first_name' => $first_name,
         ]))->json();
     }
 }

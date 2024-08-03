@@ -9,19 +9,19 @@ use Thunk\Verbs\Event;
 
 class UserRequestedToJoinGame extends Event
 {
-	use HasUser;
-	use HasGame;
+    use HasGame;
+    use HasUser;
 
-	public function validate(GameState $game)
+    public function validate(GameState $game)
     {
         $this->assert(
-			assertion: ! $game->isAwaitingApproval($this->user_id), 
-			exception: 'User has already requested to join this game.'
+            assertion: ! $game->isAwaitingApproval($this->user_id),
+            exception: 'User has already requested to join this game.'
         );
 
         $this->assert(
-			assertion: ! $game->isPlayer(user: $this->user_id), 
-			exception: 'User is already in the game.'
+            assertion: ! $game->isPlayer(user: $this->user_id),
+            exception: 'User is already in the game.'
         );
     }
 

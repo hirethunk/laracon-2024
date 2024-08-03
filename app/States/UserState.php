@@ -25,11 +25,11 @@ class UserState extends State
 
     public function currentPlayer(): ?PlayerState
     {
-		return state($this->current_player_id, PlayerState::class);
-	}
-	
-	public function referrer(): ?PlayerState
-	{
-		return state($this->referrer_player_id, PlayerState::class);
+        return state($this->current_player_id, PlayerState::class);
+    }
+
+    public function referrer(): ?PlayerState
+    {
+        return state($this->referrer_player_id, PlayerState::class);
     }
 }

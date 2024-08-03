@@ -13,26 +13,26 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-	use RequiresActiveGame;
-	use HasPlayer;
-	use HasVoter;
-	use HasGame;
-	use AffectsVotes;
+    use AffectsVotes;
+    use HasGame;
+    use HasPlayer;
+    use HasVoter;
+    use RequiresActiveGame;
 
     public int $amount;
 
     public string $type;
-	
-	public function apply()
+
+    public function apply()
     {
-		$this->applyUpvoteToPlayer(
-			$this->player_id, $this->voter_id, $this->type, $this->amount
-		);
+        $this->applyUpvoteToPlayer(
+            $this->player_id, $this->voter_id, $this->type, $this->amount
+        );
     }
 
     public function handle()
     {
-		$this->syncPlayerScore($this->player());
+        $this->syncPlayerScore($this->player());
     }
 
     public function asHistory(): array|string|HistoryComponentDto
@@ -42,8 +42,8 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
-				'voter_name' => $this->voter()->name,
-				'score' => $this->player()->score(),
+                'voter_name' => $this->voter()->name,
+                'score' => $this->player()->score(),
             ]
         );
     }
