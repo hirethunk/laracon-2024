@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
 use App\Models\Game;
 use App\States\GameState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -9,8 +10,7 @@ use Thunk\Verbs\Event;
 
 class GameEnded extends Event
 {
-    #[StateId(GameState::class)]
-    public int $game_id;
+	use HasGame;
 
     public function apply(GameState $state)
     {

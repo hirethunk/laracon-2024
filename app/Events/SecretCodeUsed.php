@@ -2,18 +2,15 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
+use App\Events\Concerns\HasPlayer;
 use App\States\GameState;
-use App\States\PlayerState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class SecretCodeUsed extends Event
 {
-    #[StateId(PlayerState::class)]
-    public int $player_id;
-
-    #[StateId(GameState::class)]
-    public int $game_id;
+	use HasPlayer;
+	use HasGame;
 
     public string $secret_code;
 

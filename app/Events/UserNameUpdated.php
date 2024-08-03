@@ -2,22 +2,21 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasUser;
 use App\Models\User;
 use App\States\UserState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class UserNameUpdated extends Event
 {
-    #[StateId(UserState::class)]
-    public ?int $user_id = null;
+	use HasUser;
 
     public string $name;
 
     public function authorize()
     {
         $this->assert(
-            ! $this->state(UserState::class)->currentPlayer(),
+            ! $this->user()->currentPlayer(),
             'Cannot change name after Approval.'
         );
     }

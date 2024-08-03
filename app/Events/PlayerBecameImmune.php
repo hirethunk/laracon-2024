@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
+use App\Events\Concerns\HasPlayer;
 use App\States\GameState;
 use App\States\PlayerState;
 use Illuminate\Support\Carbon;
@@ -10,15 +12,12 @@ use Thunk\Verbs\Event;
 
 class PlayerBecameImmune extends Event
 {
-    #[StateId(PlayerState::class)]
-    public int $player_id;
+    use HasPlayer;
+	use HasGame;
 
     public string $source;
 
     public Carbon $is_immune_until;
-
-    #[StateId(GameState::class)]
-    public int $game_id;
 
     public function applyToPlayer(PlayerState $state)
     {

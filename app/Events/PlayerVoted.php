@@ -2,40 +2,29 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
+use App\Events\Concerns\HasPlayer;
+use App\Events\Concerns\RequiresActiveGame;
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class PlayerVoted extends Event
 {
-    #[StateId(PlayerState::class)]
-    public int $player_id;
+	use HasGame;
+	use HasPlayer;
+	use RequiresActiveGame;
 
     public int $upvotee_id;
 
     public int $downvotee_id;
 
-    #[StateId(GameState::class)]
-    public int $game_id;
-
     public function authorize()
     {
-        $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
-            'Voter is not in the game.'
-        );
-
-        $this->assert(
-            GameState::load($this->game_id)->is_active,
-            'The game is over.'
-        );
-
         if (app()->environment('production') || app()->environment('testing')) {
             // Unlimited voting while testing locally
             $this->assert(
-                $this->state(PlayerState::class)->canVote(),
+                $this->player()->canVote(),
                 'Voter must wait 1 hour between votes.'
             );
         }
@@ -48,7 +37,7 @@ class PlayerVoted extends Event
             'Cannot vote for yourself.'
         );
 
-        $players = $this->state(GameState::class)->player_ids;
+        $players = $this->game()->player_ids;
 
         $this->assert(
             $players->contains($this->upvotee_id),
@@ -92,7 +81,7 @@ class PlayerVoted extends Event
 
     public function fired()
     {
-        $amount = $this->state(GameState::class)->activeModifier()['slug'] === 'double-down'
+        $amount = $this->game()->activeModifier()['slug'] === 'double-down'
             ? 2
             : 1;
 
@@ -112,7 +101,7 @@ class PlayerVoted extends Event
             amount: $amount,
         );
 
-        $modifier = $this->state(GameState::class)->activeModifier();
+        $modifier = $this->game()->activeModifier();
 
         if ($modifier['slug'] === 'buddy-system') {
             $buddy_system_started_at = $modifier['starts_at'];

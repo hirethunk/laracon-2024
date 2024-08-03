@@ -2,29 +2,21 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
+use App\Events\Concerns\HasPlayer;
+use App\Events\Concerns\RequiresActiveGame;
 use App\Models\Player;
 use App\States\GameState;
 use App\States\PlayerState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class PlayerResigned extends Event
 {
-    #[StateId(PlayerState::class)]
-    public int $player_id;
+	use HasGame;
+	use HasPlayer;
+	use RequiresActiveGame;
 
     public int $beneficiary_id;
-
-    #[StateId(GameState::class)]
-    public int $game_id;
-
-    public function authorize()
-    {
-        $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
-            'Player is not in the game.'
-        );
-    }
 
     public function validate()
     {
@@ -41,11 +33,6 @@ class PlayerResigned extends Event
         $this->assert(
             PlayerState::load($this->beneficiary_id)->is_active,
             'Beneficiary has already resigned.'
-        );
-
-        $this->assert(
-            GameState::load($this->game_id)->is_active,
-            'The game is over.'
         );
     }
 

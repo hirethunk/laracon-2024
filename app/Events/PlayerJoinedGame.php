@@ -2,6 +2,9 @@
 
 namespace App\Events;
 
+use App\Events\Concerns\HasGame;
+use App\Events\Concerns\HasPlayer;
+use App\Events\Concerns\HasUser;
 use App\Models\Player;
 use App\Models\User;
 use App\States\GameState;
@@ -12,14 +15,9 @@ use Thunk\Verbs\Event;
 
 class PlayerJoinedGame extends Event
 {
-    #[StateId(UserState::class)]
-    public int $user_id;
-
-    #[StateId(GameState::class)]
-    public int $game_id;
-
-    #[StateId(PlayerState::class)]
-    public int $player_id;
+	use HasUser;
+	use HasGame;
+	use HasPlayer;
 
     public function applyToUser(UserState $state)
     {
@@ -40,7 +38,7 @@ class PlayerJoinedGame extends Event
     {
         $state->user_id = $this->user_id;
         $state->game_id = $this->game_id;
-        $state->name = $this->state(UserState::class)->name;
+        $state->name = $this->user()->name;
         $state->upvotes = [];
         $state->downvotes = [];
         $state->ballots_cast = [];
@@ -50,7 +48,7 @@ class PlayerJoinedGame extends Event
 
     public function fired()
     {
-        $referrer = $this->state(UserState::class)->referrer_player_id;
+        $referrer = $this->user()->referrer_player_id;
 
         if ($referrer) {
             PlayerReceivedUpvote::fire(
@@ -69,7 +67,7 @@ class PlayerJoinedGame extends Event
                 amount: 1,
             );
 
-            if ($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
+            if ($this->game()->activeModifier()['slug'] === 'signing-bonus') {
                 PlayerBecameImmune::fire(
                     player_id: $referrer,
                     game_id: $this->game_id,
