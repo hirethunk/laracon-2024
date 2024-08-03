@@ -28,10 +28,6 @@ class UserNameUpdated extends Event
 
     public function handle()
     {
-        $user = User::find($this->user_id);
-
-        $user->name = $this->name;
-
-        $user->save();
+		User::find($this->user_id)->update(['name' => $this->name]);
     }
 }

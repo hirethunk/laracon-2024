@@ -18,10 +18,6 @@ class GameEnded extends Event
 
     public function handle()
     {
-        $game = Game::find($this->game_id);
-
-        $game->update([
-            'status' => 'ended',
-        ]);
+		Game::find($this->game_id)->update(['status' => 'ended']);
     }
 }

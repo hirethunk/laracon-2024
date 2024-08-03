@@ -22,7 +22,6 @@ class GameCreated extends Event
     {
         $game->name = $this->name;
         $game->user_ids_awaiting_approval = collect();
-        $game->user_ids_approved = collect();
         $game->player_ids = collect();
         $game->admin_user_ids = collect();
         $game->unused_codes = collect();

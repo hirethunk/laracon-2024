@@ -19,8 +19,6 @@ class GameState extends State
 
     public Collection $player_ids;
 
-    public Collection $user_ids_approved;
-
     public Collection $admin_user_ids;
 
     public Collection $unused_codes;

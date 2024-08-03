@@ -18,8 +18,8 @@ class UserPromotedToAdmin extends Event
         $user->is_admin_for->push($this->game_id);
     }
 
-    public function applyToGame(GameState $user)
+    public function applyToGame(GameState $game)
     {
-        $user->admin_user_ids->push($this->user_id);
+        $game->admin_user_ids->push($this->user_id);
     }
 }
