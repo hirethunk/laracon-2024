@@ -13,13 +13,13 @@ class UserPromotedToAdmin extends Event
 	use HasUser;
 	use HasGame;
 
-    public function applyToUser(UserState $state)
+    public function applyToUser(UserState $user)
     {
-        $state->is_admin_for->push($this->game_id);
+        $user->is_admin_for->push($this->game_id);
     }
 
-    public function applyToGame(GameState $state)
+    public function applyToGame(GameState $user)
     {
-        $state->admin_user_ids->push($this->user_id);
+        $user->admin_user_ids->push($this->user_id);
     }
 }

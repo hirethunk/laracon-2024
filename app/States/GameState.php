@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use Thunk\Verbs\State;
 
 class GameState extends State
@@ -22,9 +23,9 @@ class GameState extends State
 
     public Collection $admin_user_ids;
 
-    public array $unused_codes;
+    public Collection $unused_codes;
 
-    public array $used_codes;
+    public Collection $used_codes;
 
     public Carbon $starts_at;
 
@@ -36,6 +37,13 @@ class GameState extends State
             && Carbon::parse($modifier['ends_at']) >= now()
         )->first();
     }
+
+	public function hasActiveModifier(string $slug): bool
+	{
+		$modifier = $this->activeModifier();
+		
+		return $modifier && $modifier['slug'] === $slug;
+	}
 
     public function model()
     {

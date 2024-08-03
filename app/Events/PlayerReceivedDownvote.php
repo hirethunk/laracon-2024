@@ -23,9 +23,9 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
 
     public string $type;
 
-    public function apply(PlayerState $state)
+    public function apply(PlayerState $player)
     {
-        $state->downvotes[] = [
+        $player->downvotes[] = [
             'source' => $this->voter_id,
             'votes' => $this->amount,
             'type' => $this->type,
@@ -48,8 +48,8 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => -$this->amount,
-                'voter_name' => Player::find($this->voter_id)->user->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'voter_name' => $this->voter()->name,
+                'score' => $this->player()->score(),
             ]
         );
     }

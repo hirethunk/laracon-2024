@@ -19,31 +19,31 @@ class PlayerJoinedGame extends Event
 	use HasGame;
 	use HasPlayer;
 
-    public function applyToUser(UserState $state)
+    public function applyToUser(UserState $user)
     {
-        $state->current_player_id = $this->player_id;
+        $user->current_player_id = $this->player_id;
     }
 
-    public function applyToGame(GameState $state)
+    public function applyToGame(GameState $game)
     {
-        $state->user_ids_awaiting_approval = $state->user_ids_awaiting_approval
+        $game->user_ids_awaiting_approval = $game->user_ids_awaiting_approval
             ->reject(fn ($id) => $id === $this->user_id);
 
-        $state->user_ids_approved->push($this->user_id);
+        $game->user_ids_approved->push($this->user_id);
 
-        $state->player_ids->push($this->player_id);
+        $game->player_ids->push($this->player_id);
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        $state->user_id = $this->user_id;
-        $state->game_id = $this->game_id;
-        $state->name = $this->user()->name;
-        $state->upvotes = [];
-        $state->downvotes = [];
-        $state->ballots_cast = [];
-        $state->is_active = true;
-        $state->is_immune_until = now();
+        $player->user_id = $this->user_id;
+        $player->game_id = $this->game_id;
+        $player->name = $this->user()->name;
+        $player->upvotes = [];
+        $player->downvotes = [];
+        $player->ballots_cast = [];
+        $player->is_active = true;
+        $player->is_immune_until = now();
     }
 
     public function fired()

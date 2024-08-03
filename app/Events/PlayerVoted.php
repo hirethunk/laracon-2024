@@ -21,58 +21,40 @@ class PlayerVoted extends Event
 
     public function authorize()
     {
-        if (app()->environment('production') || app()->environment('testing')) {
             // Unlimited voting while testing locally
-            $this->assert(
-                $this->player()->canVote(),
-                'Voter must wait 1 hour between votes.'
-            );
-        }
+		if (app()->isLocal()) {
+			return;
+		}
+		
+        $this->assert(
+			assertion: $this->player()->canVote(),
+			exception: 'Voter must wait 1 hour between votes.'
+        );
     }
 
     public function validate()
     {
-        $this->assert(
-            $this->upvotee_id !== $this->player_id && $this->downvotee_id !== $this->player_id,
-            'Cannot vote for yourself.'
-        );
+	    $this->assert(
+		    assertion: $this->upvotee_id !== $this->player_id && $this->downvotee_id !== $this->player_id,
+		    exception: 'Cannot vote for yourself.'
+	    );
 
-        $players = $this->game()->player_ids;
+		$game = $this->game();
+		$upvotee = $this->states()->get('upvotee');
+		$downvotee = $this->states()->get('downvotee');
 
-        $this->assert(
-            $players->contains($this->upvotee_id),
-            'Upvotee is not in the game.'
-        );
+		$this->assert($game->isPlayer($upvotee), 'Upvotee is not in the game.');
+		$this->assert($upvotee->is_active, 'Upvotee has already resigned.');
+		$this->assert(! $upvotee->cannotBeUpvoted(), 'Upvotee is immune from upvotes.');
 
-        $this->assert(
-            PlayerState::load($this->upvotee_id)->is_active,
-            'Upvotee has already resigned.'
-        );
-
-        $this->assert(
-            $players->contains($this->downvotee_id),
-            'Downvotee is not in the game.'
-        );
-
-        $this->assert(
-            PlayerState::load($this->downvotee_id)->is_active,
-            'Downvotee has already resigned.'
-        );
-
-        $this->assert(
-            ! PlayerState::load($this->downvotee_id)->cannotBeDownvoted(),
-            'Downvotee is immune from downvotes.'
-        );
-
-        $this->assert(
-            ! PlayerState::load($this->upvotee_id)->cannotBeUpvoted(),
-            'Upvotee is immune from upvotes.'
-        );
+		$this->assert($game->isPlayer($downvotee), 'Downvotee is not in the game.');
+		$this->assert($downvotee->is_active, 'Downvotee has already resigned.');
+		$this->assert(! $downvotee->cannotBeDownvoted(), 'Downvotee is immune from downvotes.');
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        $state->ballots_cast[] = [
+        $player->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
             'voted_at' => now(),

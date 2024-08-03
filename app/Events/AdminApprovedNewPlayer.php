@@ -6,6 +6,7 @@ use App\Events\Concerns\HasAdmin;
 use App\Events\Concerns\HasGame;
 use App\Events\Concerns\HasUser;
 use App\Events\Concerns\RequiresActiveGame;
+use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -20,11 +21,11 @@ class AdminApprovedNewPlayer extends Event
 	#[StateId(PlayerState::class)]
 	public ?int $player_id = null;
 
-    public function validate()
+    public function validate(GameState $game)
     {
         $this->assert(
-            ! $this->game()->players()->map(fn ($p) => $p->user_id)->contains($this->user_id),
-            'User is already in the game.'
+			assertion: ! $game->isPlayer(user: $this->user_id), 
+			exception: 'User is already in the game.'
         );
     }
 

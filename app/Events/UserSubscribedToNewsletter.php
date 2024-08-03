@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Support\ConvertKit;
+use Thunk\Verbs\Attributes\Hooks\Once;
 use Thunk\Verbs\Event;
 
 class UserSubscribedToNewsletter extends Event

@@ -16,6 +16,6 @@ class SecretCodesAddedToGame extends Event
 
     public function apply(GameState $state)
     {
-        $state->unused_codes = $this->codes;
+        $state->unused_codes = collect($this->codes);
     }
 }

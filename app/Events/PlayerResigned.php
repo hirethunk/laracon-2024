@@ -16,40 +16,36 @@ class PlayerResigned extends Event
 	use HasPlayer;
 	use RequiresActiveGame;
 
+	#[StateId(PlayerState::class, 'beneficiary')]
     public int $beneficiary_id;
 
     public function validate()
     {
         $this->assert(
-            PlayerState::load($this->player_id)->is_active,
-            'Player has already resigned.'
+			assertion: $this->player()->is_active,
+			exception: 'Player has already resigned.'
         );
 
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->beneficiary_id),
-            'Beneficiary is not in the game.'
+			assertion: $this->game()->isPlayer($this->beneficiary_id),
+			exception: 'Beneficiary is not in the game.'
         );
 
         $this->assert(
-            PlayerState::load($this->beneficiary_id)->is_active,
-            'Beneficiary has already resigned.'
+			assertion: $this->states()->get('beneficiary')->is_active,
+			exception: 'Beneficiary has already resigned.'
         );
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        $state->is_active = false;
-        $state->beneficiary_id = $this->beneficiary_id;
-    }
-
-    public function applyToGame(GameState $state)
-    {
-        // @todo why does this function need to exist?
+        $player->is_active = false;
+        $player->beneficiary_id = $this->beneficiary_id;
     }
 
     public function fired()
     {
-        $score = $this->state(PlayerState::class)->score();
+        $score = $this->player()->score();
 
         if ($score > 0) {
             PlayerReceivedUpvote::fire(

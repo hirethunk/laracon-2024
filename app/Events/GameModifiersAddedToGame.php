@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Events\Concerns\HasGame;
 use App\States\GameState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class GameModifiersAddedToGame extends Event
@@ -13,8 +12,8 @@ class GameModifiersAddedToGame extends Event
 
     public array $modifiers;
 
-    public function apply(GameState $state)
+    public function apply(GameState $game)
     {
-        $state->modifiers = $this->modifiers;
+        $game->modifiers = $this->modifiers;
     }
 }

@@ -18,27 +18,18 @@ class GameCreated extends Event
 
     public Carbon $starts_at;
 
-    public function apply(GameState $state)
+    public function apply(GameState $game)
     {
-        $state->name = $this->name;
-
-        $state->user_ids_awaiting_approval = collect();
-
-        $state->user_ids_approved = collect();
-
-        $state->player_ids = collect();
-
-        $state->admin_user_ids = collect();
-
-        $state->unused_codes = [];
-
-        $state->used_codes = [];
-
-        $state->starts_at = $this->starts_at;
-
-        $state->modifiers = [];
-
-        $state->is_active = true;
+        $game->name = $this->name;
+        $game->user_ids_awaiting_approval = collect();
+        $game->user_ids_approved = collect();
+        $game->player_ids = collect();
+        $game->admin_user_ids = collect();
+        $game->unused_codes = collect();
+        $game->used_codes = collect();
+        $game->starts_at = $this->starts_at;
+        $game->modifiers = [];
+        $game->is_active = true;
     }
 
     public function fired()

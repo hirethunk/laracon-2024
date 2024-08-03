@@ -16,8 +16,8 @@ class UserNameUpdated extends Event
     public function authorize()
     {
         $this->assert(
-            ! $this->user()->currentPlayer(),
-            'Cannot change name after Approval.'
+			assertion: ! $this->user()->currentPlayer(), 
+			exception: 'Cannot change name after Approval.'
         );
     }
 
