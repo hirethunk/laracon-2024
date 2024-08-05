@@ -1,8 +1,8 @@
-<x-guest-layout>
-    <div class="flex flex-col space-y-4">
-        <h2 class="text-3xl text-center">The Thunk Pyramid Scheme</p>
+<x-welcome-layout>
+    <x-form.card>
+        <h2 class="text-3xl text-center font-bold mt-2">The Thunk Pyramid Scheme</h2>
 
-        <div class="flex flex-row justify-center space-x-4 mt-4">
+        <div class="flex flex-row justify-center space-x-4 mt-6">
             @if(Auth::user())
                 <a href="{{ route('home') }}">
                     <x-primary-button>
@@ -22,14 +22,14 @@
                 </a>
             @endif
         </div>
-    </div>
-    <div class="py-8 font-normal text-sm">
-        <h3 class="text-2xl pb-2">The rules are simple:</h3>
-        <ol>
-            <li>1. Join the game by talking to the man with the golden briefcase.</li>
-            <li>2. You can upvote and downvote other players once per hour.</li>
-            <li>3. The player with the highest score at 5pm on August 28 wins the $1,500 in the briefcase.</li>
-            <li>4. There will be twists and turns. Keep an eye out for ways to win extra upvotes.</li>
+    </x-form.card>
+    <div class="pt-8 font-normal text-sm text-white">
+        <h3 class="text-2xl pb-4">The rules are simple:</h3>
+        <ol class="list-decimal px-4">
+            <li>Join the game by talking to the man with the golden briefcase.</li>
+            <li>You can upvote and downvote other players once per hour.</li>
+            <li>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">$1,500</span> in the briefcase.</li>
+            <li>There will be twists and turns. Keep an eye out for ways to win extra upvotes.</li>
         </ol>
         <div class="flex flex-col space-y-4">
             <h3 class="text-2xl mt-8">FAQ</h3>
@@ -42,7 +42,7 @@
                 <p>Also yes.</p>
             </div>
             <div>
-                <p class="italic">Are you actually giving $1,500 away? </p>
+                <p class="italic">Are you actually giving <span class="text-gold-500">$1,500</span> away?</p>
                 <p>Take one look at that briefcase if you think we're messing around.</p>
             </div>
             <div>
@@ -51,4 +51,4 @@
             </div>
         </div>
     </div>
-</x-guest-layout>
+</x-welcome-layout>

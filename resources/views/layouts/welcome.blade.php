@@ -13,6 +13,7 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
@@ -27,9 +28,7 @@
             </div>
 
             <main class="max-w-lg w-full">
-                <x-form.card>
-                    {{ $slot }}
-                </x-form.card>
+                {{ $slot }}
             </main>
         </div>
     </body>
