@@ -23,17 +23,11 @@ class PlayerEnteredSecretCode extends Event
 
     public function apply(GameState $game)
     {
-        try {
-            if ($game->useCode($this->secret_code)) {
-	            $this->applyUpvoteToPlayer(
-		            $this->player_id, $this->player_id, 'secret-code'
-	            );
-            }
-        } catch (InvalidArgumentException) {
-            // If you try to use a bogus code, you receive a downvote
-            $this->applyDownvoteToPlayer(
-                $this->player_id, $this->player_id, 'invalid-secret-code'
-            );
+		// TODO: Switch to `useCode` to prevent ultimate onstage humiliation
+        if ($game->isCodeValid($this->secret_code)) {
+	        $this->applyUpvoteToPlayer(
+		        $this->player_id, $this->player_id, 'secret-code'
+	        );
         }
     }
 
