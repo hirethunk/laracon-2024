@@ -30,6 +30,12 @@ class PlayerDashboard extends Component
     }
 
     #[Computed]
+    public function gameIsActive(): bool
+    {
+        return ! $this->game->state()->ends_at > now();
+    }
+
+    #[Computed]
     public function modifier()
     {
         return $this->game->state()->activeModifier();
