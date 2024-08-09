@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Events\PlayerVoted;
 use App\Models\Game;
 use App\Models\Player;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
+use App\Events\PlayerVoted;
+use App\States\PlayerState;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Collection;
 
 class VotingCard extends Component
 {
@@ -15,28 +16,6 @@ class VotingCard extends Component
     public function game(): Game
     {
         return $this->player->game;
-    }
-
-    #[Computed]
-    public function upvoteOptions()
-    {
-        return $this->game->players
-            ->reject(fn ($p) => $p->id === $this->player->id
-                || $p->state()->cannotBeUpvoted()
-            )
-            ->filter(fn ($p) => $p->state()->is_active)
-            ->sortBy(fn ($p) => $p->name);
-    }
-
-    #[Computed]
-    public function downvoteOptions()
-    {
-        return $this->game->players
-            ->reject(fn ($p) => $p->id === $this->player->id
-                || $p->state()->cannotBeDownvoted()
-            )
-            ->filter(fn ($p) => $p->state()->is_active)
-            ->sortBy(fn ($p) => $p->name);
     }
 
     #[Computed]
@@ -48,6 +27,10 @@ class VotingCard extends Component
     public Player $player;
 
     public Collection $players;
+
+    public Collection $upvote_options;
+
+    public Collection $downvote_options;
 
     public bool $player_can_vote;
 
@@ -63,11 +46,48 @@ class VotingCard extends Component
     public function mount(Player $player)
     {
         $this->player = $player;
+
+        $this->setVoteeOptions();
+    }
+
+    public function setVoteeOptions()
+    {
+        $this->downvote_options = $this->game->players
+            ->reject(fn ($p) => $p->id === $this->player->id
+                || $p->state()->cannotBeDownvoted()
+            )
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortBy(fn ($p) => $p->name);
+
+        $this->upvote_options = $this->game->players
+            ->reject(fn ($p) => $p->id === $this->player->id
+                || $p->state()->cannotBeUpvoted()
+            )
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortBy(fn ($p) => $p->name);
     }
 
     public function vote()
     {
         $this->validate();
+
+        if (! PlayerState::load($this->downvote_target_id)->is_active) {
+            $this->downvote_target_id = null;
+
+            session()->flash('error', 'Downvotee has resigned. Please select another player.');
+
+            $this->setVoteeOptions();
+        }
+
+        if (! PlayerState::load($this->upvote_target_id)->is_active) {
+            $this->upvote_target_id = null;
+
+            session()->flash('error', 'Upvotee has resigned. Please select another player.');
+
+            $this->setVoteeOptions();
+
+            return;
+        }
 
         PlayerVoted::fire(
             player_id: $this->player->id,

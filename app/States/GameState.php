@@ -12,8 +12,6 @@ class GameState extends State
 {
     public string $name;
 
-    public bool $is_active;
-
     public Collection $user_ids_awaiting_approval;
 
     public Collection $player_ids;
@@ -27,6 +25,8 @@ class GameState extends State
     public array $used_codes;
 
     public Carbon $starts_at;
+
+    public Carbon $ends_at;
 
     public array $modifiers;
 
