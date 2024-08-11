@@ -36,9 +36,9 @@ class GameCreated extends Event
 
         $state->starts_at = $this->starts_at;
 
-        $state->modifiers = [];
+        $state->ends_at = $this->starts_at->addHours(36);
 
-        $state->is_active = true;
+        $state->modifiers = [];
     }
 
     public function fired()

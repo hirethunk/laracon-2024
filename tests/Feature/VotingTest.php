@@ -1,7 +1,9 @@
 <?php
 
-use App\Events\PlayerVoted;
 use App\Models\Game;
+use Livewire\Livewire;
+use App\Events\PlayerVoted;
+use App\Livewire\VotingCard;
 use Illuminate\Support\Carbon;
 use Thunk\Verbs\Facades\Verbs;
 

@@ -25,6 +25,12 @@
                 </div>
             </div>
 
+              @if (session()->has('error'))
+                <div class="pt-4 text-red-600">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="flex justify-between items-center mt-8">
                 <x-primary-button wire:click="vote" wire:loading.attr="disabled" color="gold">
                     Vote

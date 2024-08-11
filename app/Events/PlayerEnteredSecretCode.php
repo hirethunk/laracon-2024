@@ -25,7 +25,7 @@ class PlayerEnteredSecretCode extends Event
         );
 
         $this->assert(
-            GameState::load($this->game_id)->is_active,
+            GameState::load($this->game_id)->ends_at > now(),
             'The game is over.'
         );
     }

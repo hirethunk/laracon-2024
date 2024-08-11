@@ -1,7 +1,7 @@
 <div>
     {{-- Approve Users --}}
     <x-card>
-        <h1 class="text-lg text-gold-500 cinzel mb-4">Approve Users<h1>
+        <h1 class="text-lg text-gold-500 font-serif mb-4">Approve Users<h1>
 
         <div class="flex flex-col">
             <p class="text-sm">

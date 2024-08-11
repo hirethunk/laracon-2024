@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $daniel_id = UserCreated::fire(
             name: 'Daniel Coulbourne',
-            email: 'd@coulb.com',
+            email: 'daniel@thunk.dev',
             password: bcrypt('password'),
         )->user_id;
 
