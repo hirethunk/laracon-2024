@@ -42,7 +42,7 @@
                 <div x-show="! show" class="text-gold-500"><x-icons.chevron-down/></div>
                 <div x-show="show" class="text-gold-500"><x-icons.chevron-up/></div>
             </button>
-            <div x-show="show" class="pt-4 flex flex-col space-y-4">
+            <div x-show="show" x-collapse class="pt-4 flex flex-col space-y-4">
                 <div>
                     <p class="italic">Is this a brazen scheme to build a mailing list and create a reason for you to come say hi to us at Laracon?</p>
                     <p>Yes.</p>
