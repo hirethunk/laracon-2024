@@ -16,7 +16,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased font-normal bg-black opacity-95">
+    <body class="cardo-regular text-gray-900 antialiased font-normal bg-black/95">
         <div class="min-h-screen flex flex-col gap-y-10 px-4 sm:justify-center items-center py-10">
             <div>
                 <a href="/">
