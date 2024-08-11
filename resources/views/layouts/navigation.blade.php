@@ -11,14 +11,14 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center cinzel">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center font-serif">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
                         {{ __('home') }}
                     </x-nav-link>
                 </div>
 
                 @foreach(Auth::user()->state()->is_admin_for as $game_id)
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center cinzel">
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center font-serif">
                         <x-nav-link :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard', $game_id)">
                             Admin for {{ App\Models\Game::find($game_id)->name }}
                         </x-nav-link>
@@ -34,7 +34,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6 z-10">
                 <x-dropdown align="right" width="48" contentClasses="bg-gold-500">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-md text-gold-500 font-bold cinzel hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 lowercase">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 rounded-md text-gold-500 font-bold font-serif hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 lowercase">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">

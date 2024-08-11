@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class'=> 'cinzel font-bold text-2xl text-gold-500']) }}>
+<div {{ $attributes->merge(['class'=> 'font-serif font-bold text-2xl text-gold-500']) }}>
     $
     <span class="hidden sm:inline-block">
     $

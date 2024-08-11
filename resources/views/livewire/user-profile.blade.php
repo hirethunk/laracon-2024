@@ -5,7 +5,7 @@
         </h2>
 
         @if(! $this->user->is_approved)
-            <p class="mt-1 cardo-regular text-md text-gray-600">
+            <p class="mt-1 font-sans text-md text-gray-600">
                 {{ __("Your Name must match your Laracon Badge") }}
             </p>
         @endif

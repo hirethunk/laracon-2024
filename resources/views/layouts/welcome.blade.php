@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-          <!-- Fonts -->
+         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased font-normal">
-        <div class="min-h-screen flex flex-col gap-y-10 px-4 sm:justify-center items-center py-10 bg-black">
+    <body class="font-sans text-gray-900 antialiased font-normal bg-black opacity-95">
+        <div class="min-h-screen flex flex-col gap-y-10 px-4 sm:justify-center items-center py-10">
             <div>
                 <a href="/">
                     <x-application-logo class="text-6xl" />
@@ -25,9 +25,7 @@
             </div>
 
             <main class="max-w-lg w-full">
-                <x-form.card>
-                    {{ $slot }}
-                </x-form.card>
+                {{ $slot }}
             </main>
         </div>
     </body>
