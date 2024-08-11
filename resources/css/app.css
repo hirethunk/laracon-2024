@@ -91,26 +91,3 @@
       background: var(--gold-900);
     }
 }
-
-/* Fonts */
-.cinzel {
-    font-family: 'Cinzel', serif;
-}
-
-.cardo-regular {
-    font-family: "Cardo", serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.cardo-bold {
-    font-family: "Cardo", serif;
-    font-weight: 700;
-    font-style: normal;
-}
-
-.cardo-regular-italic {
-    font-family: "Cardo", serif;
-    font-weight: 400;
-    font-style: italic;
-}

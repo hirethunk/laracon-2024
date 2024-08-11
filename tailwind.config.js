@@ -12,7 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'serif': ['Cinzel', 'serif'],
+                'sans': ['Rubik', 'sans-serif'],
             },
             backgroundImage: {
                 'gold-100': 'var(--gold-100)',
