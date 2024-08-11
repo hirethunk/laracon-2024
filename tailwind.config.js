@@ -12,8 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                'serif': ['Cinzel', 'serif'],
-                'sans': ['Rubik', 'sans-serif'],
+                'serif': ['Cinzel', 'Georgia', 'Times New Roman', 'serif'],
+                'sans': ['Rubik', 'Arial', 'Helvetica', 'sans-serif'],
             },
             backgroundImage: {
                 'gold-100': 'var(--gold-100)',
