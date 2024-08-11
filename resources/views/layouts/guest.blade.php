@@ -29,7 +29,7 @@
             </div>
 
             <main class="max-w-lg w-full">
-                <x-card class="text-gold-500">
+                <x-card>
                     {{ $slot }}
                 </x-card>
             </main>
