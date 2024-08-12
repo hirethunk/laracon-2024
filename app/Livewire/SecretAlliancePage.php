@@ -2,23 +2,20 @@
 
 namespace App\Livewire;
 
-use App\Models\Game;
-use App\Models\User;
-use App\Models\Player;
-use Livewire\Component;
-use Thunk\Verbs\Facades\Verbs;
-use Livewire\Attributes\Computed;
 use App\Events\PlayerAssignedAlly;
-use Illuminate\Support\Facades\Auth;
 use App\Events\PlayerEnteredAllianceCode;
 use App\Events\PlayerPlayedPrisonersDilemma;
-use App\Events\PlayerPlayerPrisonersDilemma;
+use App\Models\Game;
+use App\Models\Player;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Thunk\Verbs\Facades\Verbs;
 
 class SecretAlliancePage extends Component
 {
-    public int $code;
-
-    public $message = '';
+    public string $code;
 
     #[Computed]
     public function user(): User
@@ -42,28 +39,32 @@ class SecretAlliancePage extends Component
     public function ally()
     {
         $ally = $this->player->state()->ally();
-        
+
         if ($ally) {
             return $ally;
         }
 
-        $ally_id = $this->game->state()->players()
+        $ally = $this->game->state()->players()
             ->filter(function ($player) {
                 return $player->id !== $this->player->id
                     && ! $player->ally()
                     && $player->is_active;
             })
-            ->random()
-            ->id;
-        
+            ->shuffle()
+            ->first();
+
+        if (! $ally) {
+            return null;
+        }
+
         PlayerAssignedAlly::fire(
             player_id: $this->player->id,
             game_id: $this->game->id,
-            ally_id: $ally_id,
+            ally_id: $ally->id,
         );
 
         PlayerAssignedAlly::fire(
-            player_id: $ally_id,
+            player_id: $ally->id,
             game_id: $this->game->id,
             ally_id: $this->player->id,
         );
@@ -75,11 +76,17 @@ class SecretAlliancePage extends Component
 
     public function connectWithAlly()
     {
+        if ((int) $this->code !== $this->ally->code_to_give_to_ally) {
+            session()->flash('error', 'Invalid code.');
+
+            return;
+        }
+
         PlayerEnteredAllianceCode::fire(
             player_id: $this->player->id,
             game_id: $this->game->id,
             ally_id: $this->ally->id,
-            alliance_code: $this->code,
+            alliance_code: (int) $this->code,
         );
     }
 

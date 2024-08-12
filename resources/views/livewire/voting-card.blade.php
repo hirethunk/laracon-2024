@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-              @if (session()->has('error'))
+            @if (session()->has('error'))
                 <div class="pt-4 text-red-600">
                     {{ session('error') }}
                 </div>

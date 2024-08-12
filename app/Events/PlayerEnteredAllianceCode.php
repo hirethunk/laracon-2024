@@ -2,10 +2,10 @@
 
 namespace App\Events;
 
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
@@ -31,6 +31,14 @@ class PlayerEnteredAllianceCode extends Event implements ExposesHistory
         $this->assert(
             GameState::load($this->game_id)->ends_at > now(),
             'The game is over.'
+        );
+    }
+
+    public function validate()
+    {
+        $this->assert(
+            ! PlayerState::load($this->player_id)->has_connected_with_ally,
+            'Already connected with ally.'
         );
     }
 

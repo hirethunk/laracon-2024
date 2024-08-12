@@ -1,11 +1,9 @@
 <?php
 
+use App\Livewire\SecretAlliancePage;
 use App\Models\Game;
 use Livewire\Livewire;
 use Thunk\Verbs\Facades\Verbs;
-use App\Livewire\SecretAlliancePage;
-use App\Events\PlayerEnteredSecretCode;
-use App\Events\PlayerEnteredAllianceCode;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -31,7 +29,7 @@ it('assigns a random alliance when you visit the page', function () {
     expect($ally->ally_id)->toBe($this->taylor->id);
 });
 
-it('gives you an upvote for connecting with your ally', function() {
+it('gives you an upvote for connecting with your ally', function () {
     $this->actingAs($this->taylor->user);
 
     Livewire::test(SecretAlliancePage::class, [
@@ -42,15 +40,15 @@ it('gives you an upvote for connecting with your ally', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->set('code', $ally->code_to_give_to_ally)
         ->call('connectWithAlly');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
-            'player' => $ally->model(),
-        ])
+        'player' => $ally->model(),
+    ])
         ->set('code', $this->taylor->state()->code_to_give_to_ally)
         ->call('connectWithAlly');
 
@@ -63,7 +61,7 @@ it('gives you an upvote for connecting with your ally', function() {
     expect($ally->has_connected_with_ally)->toBeTrue();
 });
 
-it('gives allies upvotes for cooperating', function() {
+it('gives allies upvotes for cooperating', function () {
     $this->actingAs($this->taylor->user);
 
     Livewire::test(SecretAlliancePage::class, [
@@ -74,15 +72,15 @@ it('gives allies upvotes for cooperating', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->set('code', $ally->code_to_give_to_ally)
         ->call('connectWithAlly');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
-            'player' => $ally->model(),
-        ])
+        'player' => $ally->model(),
+    ])
         ->set('code', $this->taylor->state()->code_to_give_to_ally)
         ->call('connectWithAlly');
 
@@ -90,14 +88,14 @@ it('gives allies upvotes for cooperating', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->call('playNice');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $ally->model(),
-        ])
+    ])
         ->call('playNice');
 
     expect($this->taylor->state()->score())->toBe(3);
@@ -107,7 +105,7 @@ it('gives allies upvotes for cooperating', function() {
     expect($ally->prisoners_dilemma_choice)->toBe('nice');
 });
 
-it('gives allies downvotes for both being nasty', function() {
+it('gives allies downvotes for both being nasty', function () {
     $this->actingAs($this->taylor->user);
 
     Livewire::test(SecretAlliancePage::class, [
@@ -118,15 +116,15 @@ it('gives allies downvotes for both being nasty', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->set('code', $ally->code_to_give_to_ally)
         ->call('connectWithAlly');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
-            'player' => $ally->model(),
-        ])
+        'player' => $ally->model(),
+    ])
         ->set('code', $this->taylor->state()->code_to_give_to_ally)
         ->call('connectWithAlly');
 
@@ -134,14 +132,14 @@ it('gives allies downvotes for both being nasty', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->call('playNasty');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $ally->model(),
-        ])
+    ])
         ->call('playNasty');
 
     expect($this->taylor->state()->score())->toBe(-1);
@@ -151,7 +149,7 @@ it('gives allies downvotes for both being nasty', function() {
     expect($ally->prisoners_dilemma_choice)->toBe('nasty');
 });
 
-it('gives ally 5 upvotes for being nasty when ally was nice', function() {
+it('gives ally 5 upvotes for being nasty when ally was nice', function () {
     $this->actingAs($this->taylor->user);
 
     Livewire::test(SecretAlliancePage::class, [
@@ -162,15 +160,15 @@ it('gives ally 5 upvotes for being nasty when ally was nice', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->set('code', $ally->code_to_give_to_ally)
         ->call('connectWithAlly');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
-            'player' => $ally->model(),
-        ])
+        'player' => $ally->model(),
+    ])
         ->set('code', $this->taylor->state()->code_to_give_to_ally)
         ->call('connectWithAlly');
 
@@ -178,14 +176,14 @@ it('gives ally 5 upvotes for being nasty when ally was nice', function() {
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $this->taylor,
-        ])
+    ])
         ->call('playNasty');
 
     $this->actingAs($ally->model()->user);
 
     Livewire::test(SecretAlliancePage::class, [
         'player' => $ally->model(),
-        ])
+    ])
         ->call('playNice');
 
     expect($this->taylor->state()->score())->toBe(6);

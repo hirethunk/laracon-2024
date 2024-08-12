@@ -2,12 +2,12 @@
 
 namespace App\Events;
 
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
-class PlayerPlayedPrisonersDilemma extends Event 
+class PlayerPlayedPrisonersDilemma extends Event
 {
     #[StateId(PlayerState::class)]
     public int $player_id;
@@ -32,6 +32,14 @@ class PlayerPlayedPrisonersDilemma extends Event
         );
     }
 
+    public function validate()
+    {
+        $this->assert(
+            ! PlayerState::load($this->player_id)->prisoners_dilemma_choice,
+            'Already played Prisoners Dilemma.'
+        );
+    }
+
     public function apply(PlayerState $state)
     {
         $state->prisoners_dilemma_choice = $this->nice_or_nasty;
@@ -40,7 +48,7 @@ class PlayerPlayedPrisonersDilemma extends Event
     public function fired()
     {
         $ally = PlayerState::load($this->ally_id);
-        
+
         if (! $ally->prisoners_dilemma_choice) {
             return;
         }
@@ -61,7 +69,7 @@ class PlayerPlayedPrisonersDilemma extends Event
                 type: 'prisoners-dilemma-nice-nice',
                 amount: 2,
             );
-        };
+        }
 
         if ($this->nice_or_nasty === 'nasty' && $ally->prisoners_dilemma_choice === 'nasty') {
             PlayerReceivedDownvote::fire(
@@ -79,15 +87,15 @@ class PlayerPlayedPrisonersDilemma extends Event
                 type: 'prisoners-dilemma-nasty-nasty',
                 amount: 2,
             );
-        };
+        }
 
         if ($this->nice_or_nasty !== $ally->prisoners_dilemma_choice) {
-            $nasty_player_id = $this->nice_or_nasty === 'nasty' 
-                ? $this->player_id 
+            $nasty_player_id = $this->nice_or_nasty === 'nasty'
+                ? $this->player_id
                 : $this->ally_id;
 
-            $nice_player_id = $this->nice_or_nasty === 'nice' 
-                ? $this->player_id 
+            $nice_player_id = $this->nice_or_nasty === 'nice'
+                ? $this->player_id
                 : $this->ally_id;
 
             PlayerReceivedUpvote::fire(
@@ -97,6 +105,6 @@ class PlayerPlayedPrisonersDilemma extends Event
                 type: 'prisoners-dilemma-nasty-nice',
                 amount: 5,
             );
-        };
+        }
     }
 }
