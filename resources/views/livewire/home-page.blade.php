@@ -12,7 +12,7 @@
         <p>
             Your account name must match the name on your Laracon badge.
             You can change your name on your
-            <a href="/profile" class="text-indigo-400">Profile Page</a>.
+            <a href="/profile" class="text-link">Profile Page</a>.
         </p>
     </div>
     <x-card>
@@ -22,20 +22,19 @@
                 When you join the game, you will receive an extra upvote, and so will they.
             </p>
         @else
-            <p class="pb-4 text-white">
+            <p class="pb-4 text-sm text-neutral-300">
                 Before you join, you may add a referrer. Select an active player. When you join the game, you will receive an extra upvote, and so will they.
             </p>
 
             <x-form.select
                 label="Referrer"
                 name="referrer_id"
-                custom="w-6/12"
                 wire:model="referrer_id"
                 :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
                 selected="Choose a Player"
             />
             <div class="flex items-center justify-between mt-4">
-                <x-primary-button wire:click="addReferrer" wire:loading.attr="disabled" color="gold">
+                <x-primary-button wire:click="addReferrer" wire:loading.attr="disabled">
                     Add Referrer
                 </x-primary-button>
             </div>

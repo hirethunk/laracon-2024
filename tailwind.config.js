@@ -27,6 +27,7 @@ export default {
                'gold-500-dark': '#d4af37',
                'gold-900-light': '#cabc43',
                'gold-900-dark': '#b28f32',
+               'link': '#679AD1',
             },
         },
     },

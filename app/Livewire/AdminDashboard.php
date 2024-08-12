@@ -6,6 +6,7 @@ use App\Events\AdminApprovedNewPlayer;
 use App\Models\Game;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class AdminDashboard extends Component
@@ -51,8 +52,9 @@ class AdminDashboard extends Component
         return redirect()->route('admin-dashboard', $this->game->id);
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.admin-dashboard')->layout('layouts.app');
+        return view('livewire.admin-dashboard');
     }
 }

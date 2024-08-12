@@ -7,18 +7,18 @@
         <div class="flex flex-row justify-center space-x-4 mt-6">
             @if(Auth::user())
                 <a href="{{ route('home') }}">
-                    <x-primary-button color="gold">
+                    <x-primary-button>
                         Dashboard
                     </x-primary-button>
                 </a>
             @else
                 <a href="{{ route('register') }}">
-                    <x-primary-button color="gold">
+                    <x-primary-button>
                         Register
                     </x-primary-button>
                 </a>
                 <a href="{{ route('login') }}">
-                    <x-primary-button color="gold">
+                    <x-primary-button>
                         Login
                     </x-primary-button>
                 </a>

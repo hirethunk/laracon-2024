@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Events\PlayerVoted;
 use App\Models\Game;
 use App\Models\Player;
-use Livewire\Component;
-use App\Events\PlayerVoted;
 use App\States\PlayerState;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class VotingCard extends Component
 {

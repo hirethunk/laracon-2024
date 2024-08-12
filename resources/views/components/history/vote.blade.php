@@ -48,7 +48,7 @@
         ])>
             {{ $text }}
         </p>
-        <time class="flex-none py-0.5 text-sm items-center leading-5 text-gray-500">
+        <time class="flex-none py-0.5 text-sm items-center leading-5 text-neutral-500">
             {{$time}}
         </time>
     </div>

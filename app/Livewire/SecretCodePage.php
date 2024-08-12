@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class SecretCodePage extends Component
@@ -61,8 +62,9 @@ class SecretCodePage extends Component
         );
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.secret-code-page')->layout('layouts.app');
+        return view('livewire.secret-code-page');
     }
 }

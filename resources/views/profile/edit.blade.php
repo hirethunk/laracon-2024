@@ -8,7 +8,9 @@
     <div class="space-y-4">
         <x-card>
             @if(auth()->user()->currentPlayer())
-                <p class="text-gold-500">The game is afoot, and you can no longer change your name.</p>
+                <p class="text-sm text-neutral-300">
+                    The game is afoot, and you may no longer change your name.
+                </p>
             @else
                 <livewire:user-profile />
             @endif

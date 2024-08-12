@@ -20,7 +20,7 @@
                 />
             @endif
         @empty
-            <div class="text-center text-gray-400">No History Yet</div>
+            <div class="text-center text-neutral-400">No History Yet</div>
         @endforelse
     </ul>
 </div>

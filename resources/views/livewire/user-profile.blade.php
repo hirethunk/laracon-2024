@@ -1,11 +1,11 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gold-900">
+        <h2 class="text-lg text-gold-500 font-serif font-medium">
             {{ __('Profile Information') }}
         </h2>
 
         @if(! $this->user->is_approved)
-            <p class="mt-1 font-sans text-md text-gold-500">
+            <p class="mt-1 text-sm text-neutral-300">
                 {{ __("Your Name must match your Laracon Badge") }}
             </p>
         @endif
