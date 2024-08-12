@@ -10,13 +10,13 @@
         @if ($this->game_is_active)
             @if($this->modifier)
                 <x-card>
-                    <h2 class="text-2xl font-bold text-gold-500">
+                    <h2 class="text-lg text-gold-500 font-serif font-medium">
                         {{ $this->modifier['title'] }}
                     </h2>
-                    <p class="mt-4">
+                    <p class="mt-1 pb-4 text-sm text-neutral-300">
                         {{ $this->modifier['description'] }}
                     </p>
-                    <p class="mt-4 text-xs italic">
+                    <p class="text-xs italic">
                         Throughout the game, there will be modifiers here that change the rules.
                     </p>
                 </x-card>
@@ -29,8 +29,10 @@
             <livewire:resignation-card :player="$this->player"/>
         @else
             <x-card>
-                <h2 class="text-2xl font-bold text-gold-500">Thanks for playing</h2>
-                <p class="mt-4">Tip your waiters, drive safe, and <a href="https://thunk.dev" class="text-link">hire Thunk</a>.</p>
+                <h2 class="text-lg text-gold-500 font-serif font-medium">Thanks for playing</h2>
+                <p class="mt-1 text-sm text-neutral-300">
+                    Tip your waiters, drive safe, and <a href="https://thunk.dev" class="text-link">hire Thunk</a>.
+                </p>
             </x-card>
         @endif
 

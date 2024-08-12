@@ -21,14 +21,14 @@
                 </x-danger-button>
             </div>
         @else
-            <h2>You have resigned.</h2>
+            <p class="text-sm text-neutral-300">You have resigned.</p>
 
             <div class="flex justify-between items-center mt-2">
                 <div>
                     @isset($this->beneficiary)
                         <p>
                             Beneficiary:
-                            <span class="text-gold-900">{{ $this->beneficiary }}</span>
+                            <span class="text-gold-500">{{ $this->beneficiary }}</span>
                         </p>
                     @endisset
                 </div>

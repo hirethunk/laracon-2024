@@ -1,4 +1,4 @@
-<x-form.label customStyle="w-8/12 font-bold" name="{{ $label }}" label="{{ $name ?? $label }}" />
+<x-form.label customStyle="text-sm text-neutral-200 font-medium" name="{{ $label }}" label="{{ $name ?? $label }}" />
 <select
     name="{{ $name }}"
     id="{{ $name }}"

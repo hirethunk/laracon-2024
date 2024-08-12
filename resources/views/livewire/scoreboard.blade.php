@@ -1,6 +1,8 @@
 <div>
     <x-card>
-        <h1 class="text-lg text-gold-500 font-serif font-medium">Scoreboard<h1>
+        <h2 class="text-lg text-gold-500 font-serif font-medium">
+            Scoreboard
+        <h2>
         <p class="mt-1 pb-4 text-sm text-neutral-300">
             Click any player's name to see their score history
         </p>
