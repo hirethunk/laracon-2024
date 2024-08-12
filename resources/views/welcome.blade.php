@@ -28,12 +28,31 @@
 
     <div class="pt-8 font-normal text-sm text-white">
         <h3 class="text-2xl pb-4">The rules are simple:</h3>
-        <ol class="list-decimal marker:text-gold-100-dark px-4 space-y-2">
-        {{-- marker:text-[#fff1c8] --}}
-            <li>Join the game by talking to the man with the golden briefcase.</li>
-            <li>You can upvote and downvote other players once per hour.</li>
-            <li>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">$1,500</span> in the briefcase.</li>
-            <li>There will be twists and turns. Keep an eye out for ways to win extra upvotes.</li>
+        <ol class="space-y-2">
+            <li class="flex items-start">
+                <p class="text-gold-100-dark pr-2">
+                    <x-icons.briefcase class="w-5 h-5 pt-0.5"/>
+                </p>
+                <p>Join the game by talking to the man with the golden briefcase.</p>
+            </li>
+            <li class="flex items-start">
+                <p class="text-gold-100-dark pr-2">
+                    <x-icons.hand-thumb-up class="w-5 h-5 pt-0.5"/>
+                </p>
+                <p>You can upvote and downvote other players once per hour.</p>
+            </li>
+            <li class="flex items-start">
+                <p class="text-gold-100-dark pr-2">
+                    <x-icons.money class="w-5 h-5 pt-0.5"/>
+                </p>
+                <p>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">$1,500</span> in the briefcase.</p>
+            </li>
+            <li class="flex items-start">
+                <p class="text-gold-100-dark pr-2">
+                    <x-icons.eye class="w-5 h-5 pt-0.5"/>
+                </p>
+                <p>There will be twists and turns. Keep an eye out for ways to win extra upvotes.</p>
+            </li>
         </ol>
         <div x-data="{ show: false }">
             <button class="flex items-center gap-4 mt-8" x-on:click="show = !show" >

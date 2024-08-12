@@ -24,7 +24,7 @@
                 </a>
             </div>
 
-            <main class="max-w-lg w-full">
+            <main class="w-full py-4">
                 {{ $slot }}
             </main>
         </div>
