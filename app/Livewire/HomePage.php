@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Player;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class HomePage extends Component
@@ -59,8 +60,9 @@ class HomePage extends Component
         return redirect()->route('home');
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.home-page')->layout('layouts.app');
+        return view('livewire.home-page');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class PlayerDashboard extends Component
@@ -49,8 +50,9 @@ class PlayerDashboard extends Component
         return ! $mod || $mod['slug'] !== 'blackout';
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.player-dashboard')->layout('layouts.app');
+        return view('livewire.player-dashboard');
     }
 }
