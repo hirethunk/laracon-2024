@@ -14,6 +14,11 @@ switch ($color) {
         $textColor = 'text-black';
         $hover = 'hover:bg-gold-100';
         break;
+    case 'red':
+        $bgColor = 'bg-red-700';
+        $textColor = 'text-white';
+        $hover = 'hover:bg-red-400';
+        break;
 }
 @endphp
 

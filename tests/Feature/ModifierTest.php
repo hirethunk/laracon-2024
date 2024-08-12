@@ -19,7 +19,7 @@ beforeEach(function () {
 
     $this->game = Game::first();
 
-    testTime()->addMinutes(1);
+    // testTime()->addMinutes(1);
 });
 
 it('selects modifiers at the correct times', function () {

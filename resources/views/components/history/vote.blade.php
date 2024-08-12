@@ -22,8 +22,16 @@
         $text = 'Bonus for referring new player';
     } elseif($type === 'invalid-secret-code') {
         $text = 'Invalid Secret Code';
-    } elseif($type = 'secret-code-reward') {
+    } elseif($type === 'secret-code-reward') {
         $text = 'Found a secret code';
+    } elseif($type === 'ally-connection') {
+        $text = 'Connected with a secret ally';
+    } elseif($type === 'prisoners-dilemma-nice-nice') {
+        $text = 'Cooperated with ally';
+    } elseif($type === 'prisoners-dilemma-nasty-nasty') {
+        $text = 'Failed to cooperate with ally';
+    } elseif($type === 'prisoners-dilemma-nasty-nice') {
+        $text = 'Double crossed their ally';
     }
 
     $amount > 0

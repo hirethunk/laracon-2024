@@ -80,6 +80,18 @@ class DatabaseSeeder extends Seeder
             game_id: $game_id
         );
 
+        $caleb_porzio = UserCreated::fire(
+            name: 'Caleb Porzio',
+            email: 'caleb@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        AdminApprovedNewPlayer::fire(
+            admin_id: $admin_id,
+            user_id: $caleb_porzio,
+            game_id: $game_id
+        );
+
         $user_id = UserCreated::fire(
             name: 'Test User One',
             email: 'testOne@thunk.dev',
