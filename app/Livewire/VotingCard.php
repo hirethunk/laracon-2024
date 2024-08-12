@@ -77,6 +77,8 @@ class VotingCard extends Component
             session()->flash('error', 'Downvotee has resigned. Please select another player.');
 
             $this->setVoteeOptions();
+
+            return;
         }
 
         if (! PlayerState::load($this->upvote_target_id)->is_active) {
