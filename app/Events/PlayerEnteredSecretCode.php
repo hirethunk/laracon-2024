@@ -30,7 +30,18 @@ class PlayerEnteredSecretCode extends Event
         );
     }
 
-    public function fired()
+    public function applyToGame(GameState $game)
+    {
+        if (collect($game->unused_codes)->contains($this->secret_code)) {
+            $game->unused_codes = collect($game->unused_codes)
+                ->filter(fn ($code) => $code !== $this->secret_code)
+                ->toArray();
+
+            $game->used_codes[] = $this->secret_code;
+        }
+    }
+
+    public function applyToPlayer(PlayerState $state)
     {
         $game = $this->state(GameState::class);
 
@@ -43,21 +54,19 @@ class PlayerEnteredSecretCode extends Event
         }
 
         if ($code_is_unused) {
-            SecretCodeUsed::fire(
-                player_id: $this->player_id,
-                game_id: $this->game_id,
-                secret_code: $this->secret_code,
-            );
+            $state->upvotes[] = [
+                'source' => $this->player_id,
+                'votes' => 1,
+                'type' => 'secret-code-reward',
+            ];
 
             return;
         }
 
-        PlayerReceivedDownvote::fire(
-            player_id: $this->player_id,
-            voter_id: $this->player_id,
-            game_id: $this->game_id,
-            type: 'invalid-secret-code',
-            amount: 1,
-        );
+        $state->downvotes[] = [
+            'source' => $this->player_id,
+            'votes' => 1,
+            'type' => 'invalid_secret_code',
+        ];
     }
 }
