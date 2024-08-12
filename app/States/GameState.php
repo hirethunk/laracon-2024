@@ -32,9 +32,10 @@ class GameState extends State
 
     public function activeModifier()
     {
-        return collect($this->modifiers)->filter(fn ($modifier) => Carbon::parse($modifier['starts_at']) <= now()
-            && Carbon::parse($modifier['ends_at']) >= now()
-        )->first();
+        return collect($this->modifiers)
+            ->filter(fn ($modifier) => Carbon::parse($modifier['starts_at']) <= now()
+                && Carbon::parse($modifier['ends_at']) >= now()
+            )->first();
     }
 
     public function model()

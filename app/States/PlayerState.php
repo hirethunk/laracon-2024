@@ -27,6 +27,14 @@ class PlayerState extends State
 
     public int $beneficiary_id;
 
+    public $ally_id;
+
+    public int $code_to_give_to_ally;
+
+    public bool $has_connected_with_ally;
+
+    public string $prisoners_dilemma_choice;
+
     public Carbon $is_immune_until;
 
     public function model()
@@ -37,6 +45,11 @@ class PlayerState extends State
     public function game()
     {
         return GameState::load($this->game_id);
+    }
+
+    public function ally()
+    {
+        return $this->ally_id ? PlayerState::load($this->ally_id) : null;
     }
 
     public function score()
