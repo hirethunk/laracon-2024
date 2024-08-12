@@ -28,14 +28,12 @@ class SecretCodeUsed extends Event
         }
     }
 
-    public function fired()
+    public function applyToPlayer(PlayerState $state)
     {
-        PlayerReceivedUpvote::fire(
-            player_id: $this->player_id,
-            voter_id: $this->player_id,
-            game_id: $this->game_id,
-            type: 'secret-code-reward',
-            amount: 1,
-        );
+        $state->upvotes[] = [
+            'source' => $this->player_id,
+            'votes' => 1,
+            'type' => 'secret-code-reward',
+        ];
     }
 }
