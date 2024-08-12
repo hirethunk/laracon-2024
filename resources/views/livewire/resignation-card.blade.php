@@ -3,7 +3,8 @@
         @if($this->player->is_active)
             <div class="flex flex-col">
                 <p class="pb-4 text-sm text-neutral-300">
-                    Had enough? If you resign, your score will be given to the player you choose below.
+                    Had enough? Feel free to resign. You will no longer be able to vote.
+                    If you resign, your score will be given to the player you choose below.
                 </p>
                 <x-form.select
                     label="Beneficiary"
@@ -14,6 +15,12 @@
                     selected="Choose a Player"
                 />
             </div>
+
+            @if (session()->has('error'))
+                <div class="pt-4 text-red-600">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <div class="flex justify-between items-center mt-4">
                 <x-danger-button wire:click="resign" wire:loading.attr="disabled">

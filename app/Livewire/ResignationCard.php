@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Events\PlayerResigned;
 use App\Models\Player;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
+use App\States\PlayerState;
+use App\Events\PlayerResigned;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Collection;
 
 class ResignationCard extends Component
 {
@@ -35,6 +36,11 @@ class ResignationCard extends Component
     {
         $this->player = $player;
 
+        $this->setPlayers();
+    }
+
+    public function setPlayers()
+    {
         $this->players = $this->player->game->players
             ->reject(fn ($p) => $p->id === $this->player->id)
             ->filter(fn ($p) => $p->state()->is_active)
@@ -44,6 +50,16 @@ class ResignationCard extends Component
     public function resign()
     {
         $this->validate();
+
+        if (! PlayerState::load($this->beneficiary_id)->is_active) {
+            $this->beneficiary_id = null;
+
+            session()->flash('error', 'Beneficiary has resigned. Please select another player.');
+
+            $this->setPlayers();
+
+            return;
+        }
 
         PlayerResigned::fire(
             player_id: $this->player->id,
