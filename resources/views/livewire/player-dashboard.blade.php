@@ -1,7 +1,7 @@
 <div wire:poll>
     @if($this->game_is_active)
         <p class="pb-8 text-center text-sm">
-            Game ends {{ $this->game->state()->ends_at->diffForHumans() }} 
+            Game ends {{ $this->game->state()->ends_at->diffForHumans() }}
             (5pm CST August 28)
         </p>
     @endif

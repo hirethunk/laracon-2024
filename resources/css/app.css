@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.container {
+    @apply mx-auto w-full max-w-lg px-4;
+}
+
 /* Colors */
 :root {
     --gold-100: linear-gradient(to right, #e8d47a 0%, #fff1c8 50%, #e8d47a 100%);
@@ -14,21 +18,21 @@
     background: var(--gold-100);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: brightness(1.35);
+    filter: brightness(1.40);
 }
 
 .text-gold-500 {
     background: var(--gold-500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: brightness(1.35);
+    filter: brightness(1.40);
 }
 
 .text-gold-900 {
     background: var(--gold-900);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: brightness(1.35);
+    filter: brightness(1.40);
 }
 
 /* Border */

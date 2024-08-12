@@ -6,20 +6,20 @@
     </x-slot>
 
     <div class="space-y-4">
-        <x-form.card>
+        <x-card>
             @if(auth()->user()->currentPlayer())
-                <p class="text-black">The game is afoot, and you can no longer change your name.</p>
+                <p class="text-gold-500">The game is afoot, and you can no longer change your name.</p>
             @else
                 <livewire:user-profile />
             @endif
-        </x-form.card>
+        </x-card>
 
-        <x-form.card>
+        <x-card>
             @include('profile.partials.update-password-form')
-        </x-form.card>
+        </x-card>
 
-        <x-form.card>
+        <x-card>
             @include('profile.partials.delete-user-form')
-        </x-form.card>
+        </x-card>
     </div>
 </x-app-layout>
