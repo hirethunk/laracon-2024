@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -12,34 +11,29 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class)]
+    #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
+    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
-    #[StateId(GameState::class)]
     public int $game_id;
 
     public int $amount;
 
     public string $type;
 
-    public function validate()
+    public function validate(PlayerState $player, PlayerState $voter)
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
+            $player->game_id === $this->game_id,
             'Player is not in the game.'
         );
 
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->voter_id),
-            'Voter is not in the game.'
+            $voter->game_id === $this->game_id,
+            'Player is not in the game.'
         );
-    }
-
-    public function applyToGame(GameState $state)
-    {
-        // @todo why does this function need to exist?
     }
 
     public function applyToPlayer(PlayerState $state)
@@ -67,8 +61,8 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
-                'voter_name' => PlayerState::load($this->voter_id)->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'voter_name' => $this->state('voter')->name,
+                'score' => $this->state('player')->score(),
             ]
         );
     }
