@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
+         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
@@ -16,25 +16,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-black/95">
-        <div class="min-h-screen text-white">
-            @include('layouts.navigation')
-
-            <div class="space-y-4 py-4">
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="shadow">
-                        <div class="py-8 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endif
-
-                <!-- Page Content -->
-                <main class="{{ !isset($header) ? 'py-4' : '' }} px-4 max-w-lg mx-auto">
-                    {{ $slot }}
-                </main>
+    <body class="cardo-regular text-white antialiased font-normal bg-black/95">
+        <div class="min-h-screen flex flex-col gap-y-10 px-4 sm:justify-center items-center py-10">
+            <div>
+                <a href="/">
+                    <x-application-logo class="text-6xl" />
+                </a>
             </div>
+
+            <main class="w-full py-4">
+                {{ $slot }}
+            </main>
         </div>
     </body>
 </html>

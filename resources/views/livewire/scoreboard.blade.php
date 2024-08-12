@@ -11,12 +11,12 @@
                         @foreach($players as $player)
                             <tr>
                                 @if($player->id === $this->player->id)
-                                    <td class="text-left font-bold text-gold-900">
+                                    <td class="text-left font-bold text-gold-500">
                                         <a href="{{ route('player.profile', $player) }}">
                                             {{ $player->user->name }}
                                         </a>
                                     </td>
-                                    <td class="text-right font-bold text-gold-900">{{ $player->score }}</td>
+                                    <td class="text-right font-bold text-gold-500">{{ $player->score }}</td>
                                 @else
                                 <td class="text-left">
                                         <a href="{{ route('player.profile', $player) }}">
