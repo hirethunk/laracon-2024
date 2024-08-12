@@ -1,35 +1,31 @@
 <div>
     <x-card>
-        <div class="flex flex-col">
-            <div class="flex flex-col space-y-4">
-                <h1 class="text-2xl font-bold text-gold-500">Scoreboard</h1>
-                <p class="text-sm">Click any player's name to see their score history</p>
-            </div>
-            <div class="mt-8">
-                <table class="w-full text-lg">
-                    <tbody>
-                        @foreach($players as $player)
-                            <tr>
-                                @if($player->id === $this->player->id)
-                                    <td class="text-left font-bold text-gold-500">
-                                        <a href="{{ route('player.profile', $player) }}">
-                                            {{ $player->user->name }}
-                                        </a>
-                                    </td>
-                                    <td class="text-right font-bold text-gold-500">{{ $player->score }}</td>
-                                @else
-                                <td class="text-left">
-                                        <a href="{{ route('player.profile', $player) }}">
-                                            {{ $player->user->name }}
-                                        </a>
-                                    </td>
-                                    <td class="text-right">{{ $player->score }}</td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <h1 class="text-lg text-gold-500 font-serif font-medium">Scoreboard<h1>
+        <p class="mt-1 pb-4 text-sm text-neutral-300">
+            Click any player's name to see their score history
+        </p>
+        <table class="w-full">
+            <tbody>
+                @foreach($players as $player)
+                    <tr>
+                        @if($player->id === $this->player->id)
+                            <td class="text-left text-gold-500">
+                                <a href="{{ route('player.profile', $player) }}">
+                                    {{ $player->user->name }}
+                                </a>
+                            </td>
+                            <td class="text-right text-gold-500">{{ $player->score }}</td>
+                        @else
+                        <td class="text-left">
+                                <a href="{{ route('player.profile', $player) }}">
+                                    {{ $player->user->name }}
+                                </a>
+                            </td>
+                            <td class="text-right">{{ $player->score }}</td>
+                        @endif
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </x-card>
 </div>

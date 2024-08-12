@@ -10,7 +10,7 @@
     class="{{ $gap }} flex"
     {{ $attributes }}
 >
-    <label for="{{ $label ?? $name }}" class="{{ $customStyle }}">
+    <label for="{{ $label ?? $name }}" class="text-neutral-200 font-medium {{ $customStyle }}">
         {{ ucwords(str_replace( '_', ' ', $name)) }}
     </label>
 </h3>

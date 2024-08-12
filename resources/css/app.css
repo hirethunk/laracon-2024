@@ -8,9 +8,9 @@
 
 /* Colors */
 :root {
-    --gold-100: linear-gradient(to right, #e8d47a 0%, #fff1c8 50%, #e8d47a 100%);
-    --gold-500: linear-gradient(to right, #d4af37 0%, #ffe57f 50%, #d4af37 100%);
-    --gold-900: linear-gradient(to right, #b28f32 0%, #cabc43 50%, #b28f32 100%);
+    --gold-100: linear-gradient(to top right, #e8d47a 0%, #fff1c8 50%, #e8d47a 100%);
+    --gold-500: linear-gradient(to top right, #d4af37 0%, #ffe57f 50%, #d4af37 100%);
+    --gold-900: linear-gradient(to top right, #b28f32 0%, #cabc43 50%, #b28f32 100%);
 }
 
 /* Text */
