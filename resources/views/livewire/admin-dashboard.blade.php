@@ -16,10 +16,14 @@
             />
         </div>
 
-        <div class="flex justify-between items-center mt-4">
+        <div class="flex space-x-4 items-center mt-4">
             <x-primary-button wire:click="approve" wire:loading.attr="disabled">
                 Approve
             </x-primary-button>
+
+            <x-danger-button wire:click="reject" wire:loading.attr="disabled">
+                Reject
+            </x-danger-button>
         </div>
     </x-card>
 </div>

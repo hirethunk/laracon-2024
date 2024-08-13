@@ -17,7 +17,7 @@ beforeEach(function () {
 
     $this->getUnapprovedUser();
 
-    $this->actingAs($this->unapprovedUser);
+    $this->actingAs($this->unapproved_user);
 });
 
 it('renders successfully', function () {
@@ -27,19 +27,19 @@ it('renders successfully', function () {
 
 it('updates the user name', function () {
     expect('unapproved')
-        ->toEqual($this->unapprovedUser->fresh()->name)
-        ->toEqual($this->unapprovedUser->state()->name);
+        ->toEqual($this->unapproved_user->fresh()->name)
+        ->toEqual($this->unapproved_user->state()->name);
 
     Livewire::test(UserProfile::class)
         ->set('name', 'John Doe')
         ->call('updateName');
 
     expect('John Doe')
-        ->toEqual($this->unapprovedUser->state()->name)
-        ->toEqual($this->unapprovedUser->fresh()->name);
+        ->toEqual($this->unapproved_user->state()->name)
+        ->toEqual($this->unapproved_user->fresh()->name);
 
     $this->assertDatabaseHas('users', [
-        'id' => $this->unapprovedUser->id,
+        'id' => $this->unapproved_user->id,
         'name' => 'John Doe',
     ]);
 });

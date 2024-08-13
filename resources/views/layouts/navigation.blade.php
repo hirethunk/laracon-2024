@@ -23,7 +23,7 @@
                     </x-nav-link>
                 </div>
 
-                @foreach(Auth::user()->state()->is_admin_for as $game_id)
+                @foreach(collect(Auth::user()->state()->is_admin_for) as $game_id)
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-2xl font-bold leading-tight text-center font-serif">
                         <x-nav-link :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard', $game_id)">
                             Admin for {{ App\Models\Game::find($game_id)->name }}
@@ -89,7 +89,7 @@
                 {{ __('Home') }}
             </x-responsive-nav-link>
 
-            @foreach(Auth::user()->state()->is_admin_for as $game_id)
+            @foreach(collect(Auth::user()->state()->is_admin_for) as $game_id)
                 <x-responsive-nav-link class="hover:bg-gold-100" :href="route('admin-dashboard', $game_id)" :active="request()->routeIs('admin-dashboard', $game_id)">
                     Admin for {{ App\Models\Game::find($game_id)->name }}
                 </x-responsive-nav-link>

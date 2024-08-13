@@ -135,5 +135,16 @@ class DatabaseSeeder extends Seeder
             user_id: $user_id,
             game_id: $game_id
         );
+
+        $user_id = UserCreated::fire(
+            name: 'Test User Four',
+            email: 'blah@thunk.dev',
+            password: bcrypt('password'),
+        )->user_id;
+
+        UserRequestedToJoinGame::fire(
+            user_id: $user_id,
+            game_id: $game_id
+        );
     }
 }

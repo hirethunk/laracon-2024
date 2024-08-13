@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Events\AdminApprovedNewPlayer;
+use App\Events\AdminRejectedNewPlayer;
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -31,7 +33,19 @@ class AdminDashboard extends Component
     #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->mapWithKeys(fn ($user) => [$user->id => $user->name]);
+        return $this->unapprovedUsers->mapWithKeys(function ($unapproved_user) {
+            $looks_like_dupe = User::all()
+                ->reject(fn ($user) => $user->id === $unapproved_user->id)
+                ->pluck('name')
+                ->filter(fn ($name) => $name === $unapproved_user->name
+                )->isNotEmpty();
+
+            $name_modified = $looks_like_dupe
+                ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
+                : $unapproved_user->name.' ('.$unapproved_user->email.')';
+
+            return [$unapproved_user->id => $name_modified];
+        });
     }
 
     public function approve()
@@ -48,6 +62,22 @@ class AdminDashboard extends Component
         );
 
         session()->flash('event', 'AdminApprovedNewPlayer');
+
+        return redirect()->route('admin-dashboard', $this->game->id);
+    }
+
+    public function reject()
+    {
+        if ($this->user_id === null) {
+            return;
+        }
+
+        AdminRejectedNewPlayer::fire(
+            admin_id: $this->user->id,
+            user_id: $this->user_id,
+            game_id: $this->game->id,
+            player_id: null,
+        );
 
         return redirect()->route('admin-dashboard', $this->game->id);
     }

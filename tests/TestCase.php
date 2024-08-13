@@ -22,7 +22,9 @@ abstract class TestCase extends BaseTestCase
 
     public User $admin;
 
-    public User $unapprovedUser;
+    public User $unapproved_user;
+
+    public Game $game;
 
     public function bootGame()
     {
@@ -117,6 +119,8 @@ abstract class TestCase extends BaseTestCase
                 game_id: $game->id,
             );
         });
+
+        $this->game = $game;
     }
 
     public function getUnapprovedUser()
@@ -132,6 +136,6 @@ abstract class TestCase extends BaseTestCase
             game_id: Game::first()->id,
         );
 
-        $this->unapprovedUser = User::find($user_id);
+        $this->unapproved_user = User::find($user_id);
     }
 }
