@@ -19,3 +19,7 @@ it('renders successfully for admin but not others', function () {
         ->test(AdminDashboard::class, ['game' => $this->game])
         ->assertStatus(403);
 })->skip();
+
+it('allows admins to approve new players', function () {
+    dd('do this');
+});

@@ -8,7 +8,7 @@ use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-class AdminApprovedNewPlayer extends Event
+class AdminRejectedNewPlayer extends Event
 {
     public int $admin_id;
 
@@ -23,11 +23,9 @@ class AdminApprovedNewPlayer extends Event
 
     public function authorize()
     {
-        dd($this->state(UserState::class)->is_admin_for);
-
         $this->assert(
             $this->state(UserState::class)->is_admin_for->contains($this->admin_id),
-            'Only admins can approve new players.'
+            'Only admins can reject new players.'
         );
     }
 
@@ -44,12 +42,9 @@ class AdminApprovedNewPlayer extends Event
         );
     }
 
-    public function fired()
+    public function applyToGame(GameState $state)
     {
-        PlayerJoinedGame::fire(
-            user_id: $this->user_id,
-            game_id: $this->game_id,
-            player_id: $this->player_id,
-        );
+        $state->user_ids_awaiting_approval = $state->user_ids_awaiting_approval
+            ->reject(fn ($id) => $id === $this->user_id);
     }
 }
