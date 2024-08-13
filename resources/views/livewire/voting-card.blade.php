@@ -36,7 +36,7 @@
             </div>
         @else
             <div >
-                <p>You may vote once per hour. Vote again {{ $this->player->state()->lastVotedAt()->addHours(1)->diffForHumans() }}.</p>
+                <p class="text-sm text-neutral-300">You may vote once per hour. Vote again {{ $this->player->state()->lastVotedAt()->addHours(1)->diffForHumans() }}.</p>
             </div>
         @endif
     </x-card>
