@@ -23,6 +23,8 @@ class PlayerJoinedGame extends Event
 
     public function applyToUser(UserState $state)
     {
+        $state->current_game_id = $this->game_id;
+
         $state->current_player_id = $this->player_id;
     }
 

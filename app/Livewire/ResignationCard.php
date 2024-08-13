@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\Player;
-use Livewire\Component;
-use App\States\PlayerState;
 use App\Events\PlayerResigned;
-use Livewire\Attributes\Computed;
+use App\Models\Player;
+use App\States\PlayerState;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class ResignationCard extends Component
 {

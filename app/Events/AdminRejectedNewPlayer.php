@@ -24,7 +24,7 @@ class AdminRejectedNewPlayer extends Event
     public function authorize()
     {
         $this->assert(
-            $this->state(UserState::class)->is_admin_for->contains($this->admin_id),
+            UserState::load($this->admin_id)->is_admin_for->contains($this->game_id),
             'Only admins can reject new players.'
         );
     }

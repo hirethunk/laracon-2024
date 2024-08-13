@@ -75,7 +75,7 @@
                     <p>Take one look at that briefcase if you think we're messing around.</p>
                 </div>
                 <div>
-                    <p class="italic">It seems like there are a lot of ways to big-brain this game, team up with people, lie, cheat, steal, etc.?</p>
+                    <p class="italic">It seems like there are a lot of ways to come up with big-brain strategies, team up with people, lie, etc.?</p>
                     <p>That's the spirit. The world is your oyster, my friend.</p>
                 </div>
             </div>

@@ -94,7 +94,7 @@
                     <ul class="text-white font-normal mt-4 space-y-2">
                         <li>1. You will reach out to <a href="https://thunk.dev" class="text-link">Thunk</a> when you need to hire world class Laravel developers and product managers.</li>
                         <li>2. Thunk can email you to keep in touch. We hate email too, and solemnly swear not to email more than once a month.</li>
-                        <li>3. You promise to channel your inner scumbag, and play this game in the most dishonorable, despicable way imagineable.</li>
+                        <li>3. You promise to channel your inner scumbag, and play this game in the most dishonorable way imagineable.</li>
                         <li>4. You agree that while DDD is pretty smart in theory, Verbs is the best way to do event sourcing.</li>
                         <li>5. You agree to cheer very loudly when Daniel Coulbourne gives his talk.</li>
                     </ul>

@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\Game;
-use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Events\AdminApprovedNewPlayer;
 use App\Events\AdminRejectedNewPlayer;
+use App\Models\Game;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 class AdminDashboard extends Component
 {
@@ -37,13 +37,12 @@ class AdminDashboard extends Component
             $looks_like_dupe = User::all()
                 ->reject(fn ($user) => $user->id === $unapproved_user->id)
                 ->pluck('name')
-                ->filter(fn ($name) => 
-                    $name === $unapproved_user->name
+                ->filter(fn ($name) => $name === $unapproved_user->name
                 )->isNotEmpty();
 
-            $name_modified = $looks_like_dupe 
-                ? 'DUPE: ' . $unapproved_user->name . ' (' . $unapproved_user->email . ')'
-                : $unapproved_user->name . ' (' . $unapproved_user->email . ')';
+            $name_modified = $looks_like_dupe
+                ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
+                : $unapproved_user->name.' ('.$unapproved_user->email.')';
 
             return [$unapproved_user->id => $name_modified];
         });
