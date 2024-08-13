@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\AdminDashboard;
-use App\Models\User;
 use Livewire\Livewire;
 use Thunk\Verbs\Facades\Verbs;
 
