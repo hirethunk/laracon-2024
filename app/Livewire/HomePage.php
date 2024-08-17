@@ -38,11 +38,16 @@ class HomePage extends Component
         return $this->game->players;
     }
 
-    public function mount()
+    public function isApproved()
     {
         if ($this->user->currentPlayer()) {
             return redirect()->route('player-dashboard', ['player' => $this->user->currentPlayer()]);
         }
+    }
+
+    public function mount()
+    {
+        $this->isApproved();
     }
 
     public function addReferrer()
