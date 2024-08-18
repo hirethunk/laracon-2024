@@ -2,6 +2,7 @@ id: 64441
 name: pyramid-scheme
 environments:
   production:
+    domain: pyramid.thunk.dev
     database: prod
     memory: 1024
     cli-memory: 512
