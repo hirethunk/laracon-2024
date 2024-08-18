@@ -10,4 +10,4 @@ environments:
       - "composer install --no-dev"
       - "php artisan event:cache"
       - "npm ci && npm run build && rm -rf node_modules"
-      - "php artisan migrate --force"
+      - "php artisan migrate"
