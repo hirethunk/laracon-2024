@@ -7,6 +7,7 @@ use App\Models\Player;
 use Livewire\Component;
 use App\States\GameState;
 use App\States\PlayerState;
+use Livewire\Attributes\Layout;
 use App\Events\UserRequestedToJoinGame;
 
 class JoinGame extends Component
@@ -20,7 +21,8 @@ class JoinGame extends Component
             game_id: $this->game->id
         );
     }
-    
+
+    #[Layout('layouts.app')]
     public function render()
     {
         if(Player::where([
