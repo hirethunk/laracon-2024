@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "coconutcraig/laravel-postmark": "^3.2",
         "hirethunk/verbs": "dev-main",
         "hirethunk/verbs-history": "dev-main",
         "laravel/framework": "^11.0",
