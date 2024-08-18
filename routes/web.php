@@ -1,19 +1,22 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Livewire\AdminDashboard;
 use App\Livewire\HomePage;
-use App\Livewire\PlayerDashboard;
+use App\Livewire\Autocomplete;
 use App\Livewire\PlayerProfile;
-use App\Livewire\SecretAlliancePage;
+use App\Livewire\AdminDashboard;
 use App\Livewire\SecretCodePage;
+use App\Livewire\PlayerDashboard;
+use App\Livewire\SecretAlliancePage;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/autocomplete', Autocomplete::class)->name('autocomplete');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
