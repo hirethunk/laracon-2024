@@ -13,9 +13,5 @@
                 Request to join
             </x-primary-button>
         </div>
-        @if ($this->message)
-            <div class="mt-4">
-                <p class="text-neutral-400 text-sm">{{ $this->message }}</p>
-        @endif
     </x-card>
 </div>
