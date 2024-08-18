@@ -1,8 +1,11 @@
 <?php
 
-use App\Events\PlayerEnteredSecretCode;
 use App\Models\Game;
+use Livewire\Livewire;
+use Illuminate\Support\Carbon;
 use Thunk\Verbs\Facades\Verbs;
+use App\Livewire\SecretCodePage;
+use App\Events\PlayerEnteredSecretCode;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -21,6 +24,30 @@ it('a player can input a secret code for an upvote', function () {
 
     expect($this->taylor->state()->upvotes)->toHaveCount(1);
     expect($this->taylor->state()->score())->toBe(1);
+});
+
+it('allows player to submit code in livewire component', function() {
+    $this->actingAs($this->taylor->user);
+
+    Livewire::test(SecretCodePage::class)
+        // ->assertSeeText("Submit")
+        ->set('code', 'GO1VCQJ0OQ')
+        ->call('submitCode');
+
+    expect($this->taylor->state()->upvotes)->toHaveCount(1);
+    expect($this->taylor->state()->score())->toBe(1);
+
+    Livewire::test(SecretCodePage::class)
+        // ->assertSeeText("Submit")
+        ->set('code', 'I created Laravel')
+        ->call('submitCode');
+
+    expect($this->taylor->state()->upvotes)->toHaveCount(1);
+    expect($this->taylor->state()->downvotes)->toHaveCount(1);
+    expect($this->taylor->state()->score())->toBe(0);
+
+    Livewire::test(SecretCodePage::class)
+        ->assertSeeText('bad code');
 });
 
 it('does not reward player for using the same code twice', function () {
@@ -49,4 +76,18 @@ it('penalizes players for using invalid codes', function () {
 
     expect($this->taylor->state()->downvotes)->toHaveCount(1);
     expect($this->taylor->state()->score())->toBe(-1);
+});
+
+it('does not allow players to enter codes for an hour after using invalid codes', function () {
+    PlayerEnteredSecretCode::fire(
+        player_id: $this->taylor->id,
+        game_id: $this->game->id,
+        secret_code: 'I created Laravel'
+    );
+
+    expect($this->taylor->state()->canSubmitCode())->toBeFalse();
+
+    Carbon::setTestNow(now()->addMinutes(61));
+
+    expect($this->taylor->state()->canSubmitCode())->toBeTrue();
 });

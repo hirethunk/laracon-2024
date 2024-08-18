@@ -2,10 +2,11 @@
 
 namespace App\Events;
 
+use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
-use Thunk\Verbs\Event;
+use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 
 class PlayerEnteredSecretCode extends Event
 {
@@ -45,15 +46,19 @@ class PlayerEnteredSecretCode extends Event
     {
         $game = $this->state(GameState::class);
 
-        $code_is_unused = collect($game->unused_codes)->contains($this->secret_code);
+        if (! $game->codeIsValid($this->secret_code)) {
+            $state->downvotes[] = [
+                'source' => $this->player_id,
+                'votes' => 1,
+                'type' => 'invalid_secret_code',
+            ];
+    
+            $state->can_submit_code_at = now()->addMinutes(60);
 
-        $code_is_used = collect($game->used_codes)->contains($this->secret_code);
-
-        if ($code_is_used) {
             return;
         }
-
-        if ($code_is_unused) {
+        
+        if ($game->codeIsUnused($this->secret_code)) {
             $state->upvotes[] = [
                 'source' => $this->player_id,
                 'votes' => 1,
@@ -62,11 +67,34 @@ class PlayerEnteredSecretCode extends Event
 
             return;
         }
+    }
 
-        $state->downvotes[] = [
-            'source' => $this->player_id,
-            'votes' => 1,
-            'type' => 'invalid_secret_code',
-        ];
+    public function asHistory(): array|string|HistoryComponentDto
+    {
+        $game = $this->state(GameState::class);
+
+        if ($game->codeIsUnused($this->secret_code)) {
+            return new HistoryComponentDto(
+                component: 'history.vote',
+                props: [
+                    'type' => 'secret-code-reward',
+                    'amount' => 1,
+                    'voter_name' => PlayerState::load($this->voter_id)->name,
+                    'score' => $this->state(PlayerState::class)->score(),
+                ]
+            );
+        }
+
+        if (! $game->codeIsValid($this->secret_code)) {
+            return new HistoryComponentDto(
+                component: 'history.vote',
+                props: [
+                    'type' => 'invalid_secret_code',
+                    'amount' => -1,
+                    'voter_name' => PlayerState::load($this->player_id)->name,
+                    'score' => $this->state(PlayerState::class)->score(),
+                ]
+            );
+        }
     }
 }

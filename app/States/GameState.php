@@ -48,6 +48,21 @@ class GameState extends State
         return collect($this->user_ids_awaiting_approval)->map(fn ($id) => User::find($id));
     }
 
+    public function codeIsUsed(string $code)
+    {
+        return collect($this->used_codes)->contains($code);
+    }
+
+    public function codeIsUnused(string $code)
+    {
+        return collect($this->unused_codes)->contains($code);
+    }
+
+    public function codeIsValid(string $code)
+    {
+        return $this->codeIsUnused($code) || $this->codeIsUsed($code);
+    }
+
     public function players()
     {
         return collect($this->player_ids)->map(fn ($id) => PlayerState::load($id));

@@ -37,6 +37,8 @@ class PlayerState extends State
 
     public Carbon $is_immune_until;
 
+    public Carbon $can_submit_code_at;
+
     public function model()
     {
         return Player::find($this->id);
@@ -77,6 +79,11 @@ class PlayerState extends State
         return collect($this->ballots_cast)->count() > 0
             ? Carbon::parse(collect($this->ballots_cast)->max('voted_at'))
             : $this->game()->starts_at;
+    }
+
+    public function canSubmitCode(): bool
+    {
+        return $this->can_submit_code_at < now();
     }
 
     public function cannotBeUpvoted(): bool
