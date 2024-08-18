@@ -10,6 +10,7 @@
         "hirethunk/verbs-history": "dev-main",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "laravel/vapor-core": "^2.37",
         "livewire/livewire": "^3.4",
         "spatie/pest-plugin-test-time": "^2.1"
     },
