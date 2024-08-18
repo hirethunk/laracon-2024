@@ -51,6 +51,7 @@ class PlayerJoinedGame extends Event
         $state->has_connected_with_ally = false;
         $state->prisoners_dilemma_choice = '';
         $state->code_to_give_to_ally = rand(1000, 9999);
+        $state->can_submit_code_at = now();
     }
 
     public function fired()
