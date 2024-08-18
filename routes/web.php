@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Livewire\AdminDashboard;
 use App\Livewire\HomePage;
+use App\Livewire\JoinGame;
 use App\Livewire\PlayerDashboard;
 use App\Livewire\PlayerProfile;
 use App\Livewire\SecretAlliancePage;
@@ -18,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/games/{game_id}', JoinGame::class)->name('join-game');
     Route::get('/home', HomePage::class)->name('home');
     Route::get('/secret-code', SecretCodePage::class)->name('secret-code');
     Route::get('/secret-alliance', SecretAlliancePage::class)->name('secret-alliance');
