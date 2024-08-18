@@ -14,13 +14,7 @@ class PlayerAssignedAlly extends Event
 
     public int $ally_id;
 
-    #[StateId(GameState::class)]
     public int $game_id;
-
-    public function applyToGame(GameState $state)
-    {
-        // @todo why does this function need to exist?
-    }
 
     public function applyToPlayer(PlayerState $state)
     {
