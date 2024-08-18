@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\States\GameState;
 use App\States\PlayerState;
 use Illuminate\Support\Carbon;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -17,7 +16,6 @@ class PlayerBecameImmune extends Event
 
     public Carbon $is_immune_until;
 
-    #[StateId(GameState::class)]
     public int $game_id;
 
     public function applyToPlayer(PlayerState $state)
