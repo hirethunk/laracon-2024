@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/games/{game_id}', JoinGame::class)->name('join-game');
+    Route::get('/games/{game}', JoinGame::class)->name('join-game');
     Route::get('/home', HomePage::class)->name('home');
     Route::get('/secret-code', SecretCodePage::class)->name('secret-code');
     Route::get('/secret-alliance', SecretAlliancePage::class)->name('secret-alliance');

@@ -2,21 +2,22 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Events\UserRequestedToJoinGame;
+use App\Models\Game;
 use App\Models\Player;
+use Livewire\Component;
 use App\States\GameState;
 use App\States\PlayerState;
+use App\Events\UserRequestedToJoinGame;
 
 class JoinGame extends Component
 {
-    public int $game_id;
+    public Game $game;
 
     public function requestToJoinGame()
     {
         UserRequestedToJoinGame::fire(
             user_id: auth()->id(),
-            game_id: $this->game_id
+            game_id: $this->game->id
         );
     }
     
@@ -24,7 +25,7 @@ class JoinGame extends Component
     {
         if(Player::where([
             'user_id' => auth()->id(),
-            'game_id' => $this->game_id
+            'game_id' => $this->game->id
         ])->exists()) {
             return redirect()->route('home');
         }
