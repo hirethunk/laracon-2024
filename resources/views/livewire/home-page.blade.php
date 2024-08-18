@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="space-y-4" wire:poll.5000ms="isApproved">
     <x-slot name="header" class="text-gold-500">
         <h2 class="text-5xl font-bold leading-tight text-center sm:text-6xl md:text-7xl font-serif text-gold-500">
             {{ __("let's make some money") }}
