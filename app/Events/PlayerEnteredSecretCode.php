@@ -12,7 +12,6 @@ class PlayerEnteredSecretCode extends Event
     #[StateId(PlayerState::class)]
     public int $player_id;
 
-    #[StateId(GameState::class)]
     public int $game_id;
 
     public string $secret_code;
@@ -20,10 +19,11 @@ class PlayerEnteredSecretCode extends Event
     public function authorize()
     {
         $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
+            PlayerState::load($this->player_id)->game_id === $this->game_id,
             'Player is not in the game.'
         );
 
+        // @todo this seems important. But maybe we can avoid it?
         $this->assert(
             GameState::load($this->game_id)->ends_at > now(),
             'The game is over.'

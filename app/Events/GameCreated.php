@@ -50,9 +50,11 @@ class GameCreated extends Event
             modifiers: $template->modifiers(),
         );
 
-        SecretCodesAddedToGame::fire(
-            game_id: $this->game_id,
-            codes: $template::CODES,
+        collect($template::CODES)->each(fn ($code) => 
+            SecretCodeCreated::fire(
+                game_id: $this->game_id,
+                code: $code,
+            )
         );
     }
 
