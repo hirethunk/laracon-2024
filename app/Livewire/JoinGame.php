@@ -14,7 +14,7 @@ class JoinGame extends Component
 {
     public Game $game;
 
-    public function requestToJoinGame()
+    public function requestJoinGame()
     {
         UserRequestedToJoinGame::fire(
             user_id: auth()->id(),
