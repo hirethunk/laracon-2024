@@ -29,6 +29,7 @@
             <x-form.autocomplete
                 label="referrer"
                 selected="referrer_id"
+                search="search"
                 :options="$this->options"
             />
 

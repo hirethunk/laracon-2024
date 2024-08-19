@@ -11,6 +11,7 @@
             <x-form.autocomplete
                 label="Unapproved Users"
                 selected="user_id"
+                search="search"
                 :options="$this->options"
             />
         </div>
