@@ -11,7 +11,7 @@ class UsersList extends Component
 {
     public $search = '';
 
-    public $userId = null;
+    public $user_id = null;
 
     #[Computed]
     public function users()

@@ -12,7 +12,9 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    public int $referrer_id;
+    public $search = '';
+
+    public $referrer_id = null;
 
     #[Computed]
     public function user()
@@ -38,6 +40,18 @@ class HomePage extends Component
         return $this->game->players;
     }
 
+    #[Computed]
+    public function options()
+    {
+        return $this->players->filter(function ($player) {
+            if (isset($this->search)) {
+                return stripos($player->user->name, $this->search) !== false;
+            }
+        })->mapWithKeys(function ($player) {
+            return [$player->id => $player->user->name];
+        });
+    }
+
     public function mount()
     {
         if ($this->user->currentPlayer()) {
@@ -53,7 +67,7 @@ class HomePage extends Component
 
         UserAddedReferral::fire(
             user_id: $this->user->id,
-            referrer_player_id: $this->referrer_id,
+            referrer_player_id: (int) $this->referrer_id,
             game_id: $this->game->id,
         );
 

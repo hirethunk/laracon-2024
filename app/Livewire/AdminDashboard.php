@@ -13,7 +13,9 @@ use Livewire\Component;
 
 class AdminDashboard extends Component
 {
-    public ?int $user_id;
+    public $search = '';
+
+    public $user_id = null;
 
     public Game $game;
 
@@ -33,7 +35,11 @@ class AdminDashboard extends Component
     #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->mapWithKeys(function ($unapproved_user) {
+        return $this->unapprovedUsers->filter(function ($user) {
+            if (isset($this->search)) {
+                return stripos($user->name, $this->search) !== false;
+            }
+        })->mapWithKeys(function ($unapproved_user) {
             $looks_like_dupe = User::all()
                 ->reject(fn ($user) => $user->id === $unapproved_user->id)
                 ->pluck('name')
@@ -56,7 +62,7 @@ class AdminDashboard extends Component
 
         AdminApprovedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: $this->user_id,
+            user_id: (int) $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );
@@ -74,7 +80,7 @@ class AdminDashboard extends Component
 
         AdminRejectedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: $this->user_id,
+            user_id: (int) $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );

@@ -7,12 +7,11 @@
             <p class="mt-1 pb-4 text-sm text-neutral-300">
                 A User's name <span class="text-gold-500">must</span> match their Laracon Badge
             </p>
-            <x-form.select
+
+            <x-form.autocomplete
                 label="Unapproved Users"
-                name="user"
-                wire:model.live="user_id"
+                selected="user_id"
                 :options="$this->options"
-                selected="Select a User"
             />
         </div>
 

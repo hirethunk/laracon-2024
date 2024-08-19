@@ -26,13 +26,12 @@
                 Before you join, you may add a referrer. Select an active player. When you join the game, you will receive an extra upvote, and so will they.
             </p>
 
-            <x-form.select
-                label="Referrer"
-                name="referrer_id"
-                wire:model="referrer_id"
-                :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
-                selected="Choose a Player"
+            <x-form.autocomplete
+                label="referrer"
+                selected="referrer_id"
+                :options="$this->options"
             />
+
             <div class="flex items-center justify-between mt-4">
                 <x-primary-button wire:click="addReferrer" wire:loading.attr="disabled">
                     Add Referrer
