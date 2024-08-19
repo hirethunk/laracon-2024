@@ -33,13 +33,13 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
     }
 
     // @todo this is the one thing you have to uncomment to make things work. 
-    // public function validate()
-    // {
-    //     $this->assert(
-    //         $this->state(GameState::class)->codeIsUnused($this->secret_code),
-    //         'Code has already been used.'
-    //     );
-    // }
+    public function validate()
+    {
+        $this->assert(
+            $this->state(GameState::class)->codeIsUnused($this->secret_code),
+            'Code has already been used.'
+        );
+    }
 
     public function applyToGame(GameState $game)
     {
