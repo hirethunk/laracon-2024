@@ -9,7 +9,7 @@
         <x-autocomplete.list class="text-blue-400 bg-white max-h-56">
             @foreach ($this->users as $user)
                 <x-autocomplete.item
-                    :key="$user->id"
+                    key="{{ $user->id }}"
                     :value="$user->name"
                 >
                     {{ $user->name }}
