@@ -32,8 +32,8 @@ it('a player can resign', function () {
         downvotee_id: $this->taylor->id,
     );
 
-    $this->assertEquals(2, $this->aaron->state()->score());
-    $this->assertEquals(-1, $this->caleb->state()->score());
+    $this->assertEquals(2, $this->aaron->state()->score);
+    $this->assertEquals(-1, $this->caleb->state()->score);
 
     PlayerResigned::fire(
         player_id: $this->aaron->id,
@@ -41,7 +41,7 @@ it('a player can resign', function () {
         beneficiary_id: $this->caleb->id,
     );
 
-    $this->assertEquals(1, $this->caleb->state()->score());
+    $this->assertEquals(1, $this->caleb->state()->score);
 });
 
 it('does not allow players to vote for someone who resigned', function () {

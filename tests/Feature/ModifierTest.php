@@ -159,8 +159,8 @@ it('doubles ballot votes with double down', function () {
         game_id: $this->game->id
     );
 
-    expect($this->taylor->state()->score())->toBe(2);
-    expect($this->aaron->state()->score())->toBe(-2);
+    expect($this->taylor->state()->score)->toBe(2);
+    expect($this->aaron->state()->score)->toBe(-2);
 
     testTime()->addHours(4);
 
@@ -174,8 +174,8 @@ it('doubles ballot votes with double down', function () {
         game_id: $this->game->id
     );
 
-    expect($this->taylor->state()->score())->toBe(3);
-    expect($this->aaron->state()->score())->toBe(-3);
+    expect($this->taylor->state()->score)->toBe(3);
+    expect($this->aaron->state()->score)->toBe(-3);
 });
 
 it('gives bonus votes for buddy system', function () {
@@ -192,9 +192,9 @@ it('gives bonus votes for buddy system', function () {
     );
 
     // the initial ballot has a normal effect
-    expect($this->taylor->state()->score())->toBe(1);
-    expect($this->caleb->state()->score())->toBe(0);
-    expect($this->aaron->state()->score())->toBe(-1);
+    expect($this->taylor->state()->score)->toBe(1);
+    expect($this->caleb->state()->score)->toBe(0);
+    expect($this->aaron->state()->score)->toBe(-1);
 
     PlayerVoted::fire(
         player_id: $this->taylor->id,
@@ -204,9 +204,9 @@ it('gives bonus votes for buddy system', function () {
     );
 
     // taylor's ballot gives him and caleb bonus votes
-    expect($this->taylor->state()->score())->toBe(3);
-    expect($this->caleb->state()->score())->toBe(3);
-    expect($this->aaron->state()->score())->toBe(-2);
+    expect($this->taylor->state()->score)->toBe(3);
+    expect($this->caleb->state()->score)->toBe(3);
+    expect($this->aaron->state()->score)->toBe(-2);
 
     testTime()->addMinutes(61);
 
@@ -218,9 +218,9 @@ it('gives bonus votes for buddy system', function () {
     );
 
     // the bonus only applies once per player, so this ballot is normal
-    expect($this->taylor->state()->score())->toBe(3);
-    expect($this->caleb->state()->score())->toBe(4);
-    expect($this->aaron->state()->score())->toBe(-3);
+    expect($this->taylor->state()->score)->toBe(3);
+    expect($this->caleb->state()->score)->toBe(4);
+    expect($this->aaron->state()->score)->toBe(-3);
 
     PlayerVoted::fire(
         player_id: $this->aaron->id,
@@ -237,9 +237,9 @@ it('gives bonus votes for buddy system', function () {
     );
 
     // a player can be in multiple buddy pairs
-    expect($this->taylor->state()->score())->toBe(1);
-    expect($this->caleb->state()->score())->toBe(7);
-    expect($this->aaron->state()->score())->toBe(0);
+    expect($this->taylor->state()->score)->toBe(1);
+    expect($this->caleb->state()->score)->toBe(7);
+    expect($this->aaron->state()->score)->toBe(0);
 
     testTime()->addHours(19);
 
@@ -253,9 +253,9 @@ it('gives bonus votes for buddy system', function () {
         game_id: $this->game->id
     );
 
-    expect($this->taylor->state()->score())->toBe(2);
-    expect($this->caleb->state()->score())->toBe(7);
-    expect($this->aaron->state()->score())->toBe(-1);
+    expect($this->taylor->state()->score)->toBe(2);
+    expect($this->caleb->state()->score)->toBe(7);
+    expect($this->aaron->state()->score)->toBe(-1);
 
     PlayerVoted::fire(
         player_id: $this->taylor->id,
@@ -265,9 +265,9 @@ it('gives bonus votes for buddy system', function () {
     );
 
     // the buddy system bonus is no longer active
-    expect($this->taylor->state()->score())->toBe(2);
-    expect($this->caleb->state()->score())->toBe(8);
-    expect($this->aaron->state()->score())->toBe(-2);
+    expect($this->taylor->state()->score)->toBe(2);
+    expect($this->caleb->state()->score)->toBe(8);
+    expect($this->aaron->state()->score)->toBe(-2);
 });
 
 it('first shall be last does not allow upvotes for positive players or downvotes for negative players', function () {

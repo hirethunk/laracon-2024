@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -12,13 +11,11 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class)]
+    #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
+    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
-
-    #[StateId(GameState::class)]
-    public int $game_id;
 
     public int $amount;
 
@@ -27,48 +24,44 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
     public function validate()
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
-            'Player is not in the game.'
-        );
-
-        $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->voter_id),
-            'Voter is not in the game.'
+            $this->states()->get('voter')->game_id === $this->states()->get('player')->game_id,
+            'Voter and target are not in the same game.'
         );
     }
 
-    public function applyToGame(GameState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        // @todo why does this function need to exist?
-    }
+        if ($this->voter_id === $player->id) {
+            // remove this once this PR is merged:
+            // https://github.com/hirethunk/verbs/pull/155
+            return;
+        }
 
-    public function applyToPlayer(PlayerState $state)
-    {
-        $state->upvotes[] = [
-            'source' => $this->voter_id,
-            'votes' => $this->amount,
-            'type' => $this->type,
-        ];
+        $player->score += $this->amount;
+
+        if ($this->type === 'buddy-system-reward') {
+            $player->buddy_system_reward_received = true;
+        }
     }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->score = $this->state(PlayerState::class)->score();
-
-        $player->save();
+        Player::find($this->player_id)->update([
+            'score' => $this->states()->get('player')->score,
+        ]);
     }
 
     public function asHistory(): array|string|HistoryComponentDto
     {
+        // @todo for some reason this is showing up as two items in the history, even tho scores are right
+
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
                 'voter_name' => PlayerState::load($this->voter_id)->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'score' => $this->states()->get('player')->score,
             ]
         );
     }

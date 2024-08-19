@@ -13,20 +13,23 @@ class PlayerState extends State
 
     public string $name;
 
-    public bool $is_active;
+    public int $score = 0;
 
     public int $user_id;
 
     public int $game_id;
 
-    public array $downvotes;
+    public bool $is_active;
 
-    public array $upvotes;
-
+    // used for buddy system
     public array $ballots_cast;
 
+    public bool $buddy_system_reward_received = false;
+
+    // used for resign and kingmake mechanic
     public int $beneficiary_id;
 
+    // used for secret alliances
     public $ally_id;
 
     public int $code_to_give_to_ally;
@@ -37,6 +40,7 @@ class PlayerState extends State
 
     public Carbon $is_immune_until;
 
+    // used to lock people out for submitting invalid codes.
     public Carbon $can_submit_code_at;
 
     public function model()
@@ -52,11 +56,6 @@ class PlayerState extends State
     public function ally()
     {
         return $this->ally_id ? PlayerState::load($this->ally_id) : null;
-    }
-
-    public function score()
-    {
-        return collect($this->upvotes)->sum('votes') - collect($this->downvotes)->sum('votes');
     }
 
     public function canVote(): bool
@@ -88,19 +87,16 @@ class PlayerState extends State
 
     public function cannotBeUpvoted(): bool
     {
-        $mod = $this->game()->activeModifier();
-
-        return $mod && $mod['slug'] === 'first-shall-be-last' && $this->score() > 0;
+        return $this->game()->modifierIsActive('first-shall-be-last')
+            && $this->score > 0;
     }
 
     public function cannotBeDownvoted(): bool
     {
-        $mod = $this->game()->activeModifier();
-
-        if ($mod && $mod['slug'] === 'first-shall-be-last' && $this->score() < 0) {
-            return true;
-        }
-
-        return $this->is_immune_until > now();
+        return $this->is_immune_until > now()
+            || (
+                $this->game()->modifierIsActive('first-shall-be-last')
+                && $this->score < 0
+            );
     }
 }

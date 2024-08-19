@@ -21,10 +21,8 @@ it('a player can upvote and downvote other players', function () {
         downvotee_id: $this->caleb->id,
     );
 
-    expect($this->aaron->state()->upvotes)->toHaveCount(1);
-    expect($this->aaron->state()->score())->toBe(1);
-    expect($this->caleb->state()->downvotes)->toHaveCount(1);
-    expect($this->caleb->state()->score())->toBe(-1);
+    expect($this->aaron->state()->score)->toBe(1);
+    expect($this->caleb->state()->score)->toBe(-1);
 });
 
 it('a player cannot vote for themselves', function () {
@@ -89,8 +87,6 @@ it('players can vote again after 1 hour', function () {
         downvotee_id: $this->caleb->id,
     );
 
-    expect($this->aaron->state()->upvotes)->toHaveCount(2);
-    expect($this->aaron->state()->score())->toBe(2);
-    expect($this->caleb->state()->downvotes)->toHaveCount(2);
-    expect($this->caleb->state()->score())->toBe(-2);
+    expect($this->aaron->state()->score)->toBe(2);
+    expect($this->caleb->state()->score)->toBe(-2);
 });
