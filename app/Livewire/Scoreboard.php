@@ -30,14 +30,14 @@ class Scoreboard extends Component
     {
         $this->player = $player;
 
-        $this->players = $this->player->state()->game()->players()
-            ->filter(fn ($p) => $p->is_active)
-            ->map(fn ($p) => [
-                'id' => $p->id,
-                'name' => $p->name,
-                'score' => $p->score,
-            ])
-            ->sortByDesc(fn ($p) => $p['score']);
+        $players_in_game = $this->player->game->players
+            ->filter(fn ($p) => $p->state()->is_active)
+            ->sortByDesc('score');
+
+        $resigned_players = $this->player->game->players
+            ->filter(fn ($p) => ! $p->state()->is_active);
+
+        $this->players = $players_in_game->concat($resigned_players);
     }
 
     public function render()
