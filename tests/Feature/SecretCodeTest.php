@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Game;
-use Livewire\Livewire;
-use Illuminate\Support\Carbon;
-use Thunk\Verbs\Facades\Verbs;
-use App\Livewire\SecretCodePage;
 use App\Events\PlayerEnteredSecretCode;
+use App\Livewire\SecretCodePage;
+use App\Models\Game;
+use Illuminate\Support\Carbon;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function () {
     Verbs::commitImmediately();

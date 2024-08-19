@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -54,6 +53,8 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function asHistory(): array|string|HistoryComponentDto
     {
+        // @todo for some reason this is showing up as two items in the history, even tho scores are right
+
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [

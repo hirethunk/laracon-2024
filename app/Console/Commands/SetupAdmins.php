@@ -4,13 +4,13 @@ namespace App\Console\Commands;
 
 use App\Events\UserCreated;
 use Glhd\Bits\Snowflake;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Thunk\Verbs\Facades\Verbs;
 
 class SetupAdmins extends Command
 {
     protected $signature = 'init:admins';
+
     protected $description = 'Creates all the admins';
 
     public function handle()

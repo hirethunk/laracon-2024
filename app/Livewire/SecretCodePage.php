@@ -45,6 +45,8 @@ class SecretCodePage extends Component
 
         if ($used_codes->contains($this->code)) {
             $this->message = 'This code has already been used.';
+
+            return;
         }
 
         if ($unused_codes->contains($this->code)) {

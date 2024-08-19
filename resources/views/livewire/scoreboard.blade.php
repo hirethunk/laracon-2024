@@ -10,20 +10,20 @@
             <tbody>
                 @foreach($players as $player)
                     <tr>
-                        @if($player->id === $this->player->id)
+                        @if($player['id'] === $this->player->id)
                             <td class="text-left text-gold-500">
-                                <a href="{{ route('player.profile', $player) }}">
-                                    {{ $player->user->name }}
+                                <a href="{{ route('player.profile', $player['id']) }}">
+                                    {{ $player['name'] }}
                                 </a>
                             </td>
-                            <td class="text-right text-gold-500">{{ $player->score }}</td>
+                            <td class="text-right text-gold-500">{{ $player['score'] }}</td>
                         @else
                         <td class="text-left">
-                                <a href="{{ route('player.profile', $player) }}">
-                                    {{ $player->user->name }}
+                                <a href="{{ route('player.profile', $player['id']) }}">
+                                    {{ $player['name'] }}
                                 </a>
                             </td>
-                            <td class="text-right">{{ $player->score }}</td>
+                            <td class="text-right">{{ $player['score'] }}</td>
                         @endif
                     </tr>
                 @endforeach

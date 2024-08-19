@@ -2,13 +2,14 @@
 
 namespace App\Events;
 
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
+use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
-class PlayerEnteredSecretCode extends Event
+class PlayerEnteredSecretCode extends Event implements ExposesHistory
 {
     #[StateId(PlayerState::class)]
     public int $player_id;
@@ -60,28 +61,40 @@ class PlayerEnteredSecretCode extends Event
     {
         $game = $this->state(GameState::class);
 
+        $player = PlayerState::load($this->player_id);
+
+        if (! $game->codeIsValid($this->secret_code)) {
+            return new HistoryComponentDto(
+                component: 'history.vote',
+                props: [
+                    'type' => 'invalid-secret-code',
+                    'amount' => -1,
+                    'voter_name' => $player->name,
+                    'score' => $player->score,
+                ]
+            );
+        }
+
         if ($game->codeIsUnused($this->secret_code)) {
             return new HistoryComponentDto(
                 component: 'history.vote',
                 props: [
                     'type' => 'secret-code-reward',
                     'amount' => 1,
-                    'voter_name' => PlayerState::load($this->voter_id)->name,
-                    'score' => $this->state(PlayerState::class)->score,
+                    'voter_name' => $player->name,
+                    'score' => $player->score,
                 ]
             );
         }
 
-        if (! $game->codeIsValid($this->secret_code)) {
-            return new HistoryComponentDto(
-                component: 'history.vote',
-                props: [
-                    'type' => 'invalid_secret_code',
-                    'amount' => -1,
-                    'voter_name' => PlayerState::load($this->player_id)->name,
-                    'score' => $this->state(PlayerState::class)->score,
-                ]
-            );
-        }
+        return new HistoryComponentDto(
+            component: 'history.vote',
+            props: [
+                'type' => 'attempted-to-reuse-code',
+                'amount' => 0,
+                'voter_name' => $player->name,
+                'score' => $player->score,
+            ]
+        );
     }
 }
