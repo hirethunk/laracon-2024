@@ -3,18 +3,18 @@
 
     <p>User ID: {{ $userId }}</p>
 
-    <x-lwa::autocomplete wire:model.live="userId">
-        <x-lwa::autocomplete.input wire:model.live="search" class="p-4 text-red-500" />
+    <x-autocomplete wire:model.live="userId">
+        <x-autocomplete.input wire:model.live="search" class="p-4 text-red-500" />
 
-        <x-lwa::autocomplete.list class="text-blue-400 bg-white max-h-56">
+        <x-autocomplete.list class="text-blue-400 bg-white max-h-56">
             @foreach ($this->users as $user)
-                <x-lwa::autocomplete.item
+                <x-autocomplete.item
                     :key="$user->id"
                     :value="$user->name"
                 >
                     {{ $user->name }}
-                </x-lwa::autocomplete.item>
+                </x-autocomplete.item>
             @endforeach
-        </x-lwa::autocomplete.list>
-    </x-lwa::autocomplete>
+        </x-autocomplete.list>
+    </x-autocomplete>
 </div>
