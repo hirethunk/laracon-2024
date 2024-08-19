@@ -30,12 +30,6 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function applyToPlayer(PlayerState $player)
     {
-        if ($this->voter_id === $player->id) {
-            // remove this once this PR is merged:
-            // https://github.com/hirethunk/verbs/pull/155
-            return;
-        }
-
         $player->score += $this->amount;
 
         if ($this->type === 'buddy-system-reward') {
