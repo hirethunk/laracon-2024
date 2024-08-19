@@ -8,6 +8,7 @@ use App\Events\UserPromotedToAdmin;
 use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
 use App\Models\User;
+use App\States\PlayerState;
 use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function () {
@@ -165,6 +166,7 @@ it('grants an upvote for referrer and referee', function () {
 
     $referrer_player_id = $this->referrer->fresh()->players->first()->id;
 
+
     UserAddedReferral::fire(
         user_id: $this->user->id,
         game_id: $this->game->id,
@@ -185,6 +187,11 @@ it('grants an upvote for referrer and referee', function () {
         game_id: $this->game->id,
     );
 
-    expect($this->user->fresh()->players->first()->state()->score())->toBe(1);
-    expect($this->referrer->fresh()->players->first()->state()->score())->toBe(1);
+    // dump('referrer', PlayerState::load($referrer_player_id));
+
+    // $player_id = $this->user->fresh()->players->first()->id;
+    // dump('referred', PlayerState::load($player_id));
+
+    expect($this->user->fresh()->players->first()->state()->score)->toBe(1);
+    expect($this->referrer->fresh()->players->first()->state()->score)->toBe(1);
 });

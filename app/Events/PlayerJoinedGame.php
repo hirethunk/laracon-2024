@@ -43,8 +43,6 @@ class PlayerJoinedGame extends Event
         $state->user_id = $this->user_id;
         $state->game_id = $this->game_id;
         $state->name = $this->state(UserState::class)->name;
-        $state->upvotes = [];
-        $state->downvotes = [];
         $state->ballots_cast = [];
         $state->is_active = true;
         $state->is_immune_until = now();

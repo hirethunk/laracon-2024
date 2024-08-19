@@ -39,6 +39,6 @@ it('can see another another players score history', function () {
         ->test(PlayerProfile::class, [
             'player' => $this->taylor,
         ]);
-
+        
     $component->assertSee('Downvoted by Caleb Porzio');
 });
