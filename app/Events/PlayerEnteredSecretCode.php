@@ -32,6 +32,15 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         );
     }
 
+    // @todo this is the one thing you have to uncomment to make things work. 
+    // public function validate()
+    // {
+    //     $this->assert(
+    //         $this->state(GameState::class)->codeIsUnused($this->secret_code),
+    //         'Code has already been used.'
+    //     );
+    // }
+
     public function applyToGame(GameState $game)
     {
         if (collect($game->unused_codes)->contains($this->secret_code)) {
@@ -47,14 +56,13 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
     {
         $game = $this->state(GameState::class);
 
-        if ($game->codeIsUnused($this->secret_code)) {
-            $player->score += 1;
-        }
-
         if (! $game->codeIsValid($this->secret_code)) {
             $player->score -= 1;
             $player->can_submit_code_at = now()->addMinutes(60);
+            return;
         }
+
+        $player->score += 1;
     }
 
     public function asHistory(): array|string|HistoryComponentDto
@@ -75,23 +83,11 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
             );
         }
 
-        if ($game->codeIsUnused($this->secret_code)) {
-            return new HistoryComponentDto(
-                component: 'history.vote',
-                props: [
-                    'type' => 'secret-code-reward',
-                    'amount' => 1,
-                    'voter_name' => $player->name,
-                    'score' => $player->score,
-                ]
-            );
-        }
-
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [
-                'type' => 'attempted-to-reuse-code',
-                'amount' => 0,
+                'type' => 'secret-code-reward',
+                'amount' => 1,
                 'voter_name' => $player->name,
                 'score' => $player->score,
             ]
