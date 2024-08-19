@@ -31,17 +31,6 @@ class PlayerEnteredSecretCode extends Event
         );
     }
 
-    public function applyToGame(GameState $game)
-    {
-        if (collect($game->unused_codes)->contains($this->secret_code)) {
-            $game->unused_codes = collect($game->unused_codes)
-                ->filter(fn ($code) => $code !== $this->secret_code)
-                ->toArray();
-
-            $game->used_codes[] = $this->secret_code;
-        }
-    }
-
     public function applyToPlayer(PlayerState $player)
     {
         $game = $this->state(GameState::class);
@@ -53,6 +42,17 @@ class PlayerEnteredSecretCode extends Event
         if (! $game->codeIsValid($this->secret_code)) {
             $player->score -= 1;
             $player->can_submit_code_at = now()->addMinutes(60);
+        }
+    }
+
+    public function applyToGame(GameState $game)
+    {
+        if (collect($game->unused_codes)->contains($this->secret_code)) {
+            $game->unused_codes = collect($game->unused_codes)
+                ->filter(fn ($code) => $code !== $this->secret_code)
+                ->toArray();
+
+            $game->used_codes[] = $this->secret_code;
         }
     }
 

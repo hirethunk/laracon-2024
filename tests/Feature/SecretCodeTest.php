@@ -16,6 +16,7 @@ beforeEach(function () {
 });
 
 it('a player can input a secret code for an upvote', function () {
+    dump($this->game->state()->used_codes);
     PlayerEnteredSecretCode::fire(
         player_id: $this->taylor->id,
         game_id: $this->game->id,
