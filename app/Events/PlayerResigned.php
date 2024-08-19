@@ -62,7 +62,7 @@ class PlayerResigned extends Event
 
     public function fired()
     {
-        $score = $this->state(PlayerState::class)->score();
+        $score = $this->state(PlayerState::class)->score;
 
         if ($score > 0) {
             PlayerReceivedUpvote::fire(

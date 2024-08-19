@@ -92,9 +92,7 @@ class PlayerVoted extends Event
 
     public function fired()
     {
-        $amount = $this->state(GameState::class)->activeModifier()['slug'] === 'double-down'
-            ? 2
-            : 1;
+        $amount = $this->state(GameState::class)->modifierIsActive('double-down') ? 2 : 1;
 
         PlayerReceivedUpvote::fire(
             player_id: $this->upvotee_id,
@@ -124,10 +122,7 @@ class PlayerVoted extends Event
                 ->filter(fn ($b) => $b['voted_at'] > $buddy_system_started_at)
                 ->first();
 
-            $buddy_reward_already_given = collect($buddy->upvotes)
-                ->filter(fn ($u) => $u['source'] === $this->player_id)
-                ->filter(fn ($u) => $u['type'] === 'buddy-system-reward')
-                ->first();
+            $buddy_reward_already_given = $buddy->buddy_system_reward_received;
 
             if ($mutual_vote_exists && ! $buddy_reward_already_given) {
                 PlayerReceivedUpvote::fire(

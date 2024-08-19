@@ -42,30 +42,17 @@ class PlayerEnteredSecretCode extends Event
         }
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
         $game = $this->state(GameState::class);
 
-        if (! $game->codeIsValid($this->secret_code)) {
-            $state->downvotes[] = [
-                'source' => $this->player_id,
-                'votes' => 1,
-                'type' => 'invalid_secret_code',
-            ];
-    
-            $state->can_submit_code_at = now()->addMinutes(60);
-
-            return;
-        }
-        
         if ($game->codeIsUnused($this->secret_code)) {
-            $state->upvotes[] = [
-                'source' => $this->player_id,
-                'votes' => 1,
-                'type' => 'secret-code-reward',
-            ];
+            $player->score += 1;
+        }
 
-            return;
+        if (! $game->codeIsValid($this->secret_code)) {
+            $player->score -= 1;
+            $player->can_submit_code_at = now()->addMinutes(60);
         }
     }
 
@@ -80,7 +67,7 @@ class PlayerEnteredSecretCode extends Event
                     'type' => 'secret-code-reward',
                     'amount' => 1,
                     'voter_name' => PlayerState::load($this->voter_id)->name,
-                    'score' => $this->state(PlayerState::class)->score(),
+                    'score' => $this->state(PlayerState::class)->score,
                 ]
             );
         }
@@ -92,7 +79,7 @@ class PlayerEnteredSecretCode extends Event
                     'type' => 'invalid_secret_code',
                     'amount' => -1,
                     'voter_name' => PlayerState::load($this->player_id)->name,
-                    'score' => $this->state(PlayerState::class)->score(),
+                    'score' => $this->state(PlayerState::class)->score,
                 ]
             );
         }
