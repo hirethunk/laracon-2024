@@ -17,8 +17,8 @@
                                 </a>
                             </td>
                             <td class="text-right text-gold-500">
-                                @if($player->is_active)
-                                    {{ $player->score }}
+                                @if($player['is_active'])
+                                    {{ $player['score'] }}
                                 @else
                                     <span class="text-neutral-300">Resigned</span>
                                 @endif
@@ -30,8 +30,8 @@
                                 </a>
                             </td>
                             <td class="text-right">
-                                @if($player->is_active)
-                                    {{ $player->score }}
+                                @if($player['is_active'])
+                                    {{ $player['score'] }}
                                 @else
                                     <span class="text-neutral-300">Resigned</span>
                                 @endif

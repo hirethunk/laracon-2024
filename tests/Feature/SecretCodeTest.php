@@ -53,11 +53,13 @@ it('does not reward player for using the same code twice', function () {
         secret_code: 'GO1VCQJ0OQ'
     );
 
-    PlayerEnteredSecretCode::fire(
-        player_id: $this->taylor->id,
-        game_id: $this->game->id,
-        secret_code: 'GO1VCQJ0OQ'
-    );
+    try {
+        PlayerEnteredSecretCode::fire(
+            player_id: $this->taylor->id,
+            game_id: $this->game->id,
+            secret_code: 'GO1VCQJ0OQ'
+        );
+    } catch (Exception $e) { }
 
     expect($this->taylor->state()->score)->toBe(1);
 });

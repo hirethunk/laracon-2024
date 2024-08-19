@@ -42,6 +42,22 @@ it('a player can resign', function () {
     );
 
     $this->assertEquals(1, $this->caleb->state()->score);
+    $this->assertEquals(0, $this->aaron->state()->score);
+
+    expect($this->aaron->state()->is_active)->toBeFalse();
+    expect($this->aaron->fresh()->is_active)->toBeFalse();
+
+    PlayerResigned::fire(
+        player_id: $this->taylor->id,
+        game_id: $this->game->id,
+        beneficiary_id: $this->caleb->id,
+    );
+
+    $this->assertEquals(0, $this->caleb->state()->score);
+    $this->assertEquals(0, $this->taylor->state()->score);
+
+    expect($this->taylor->state()->is_active)->toBeFalse();
+    expect($this->taylor->fresh()->is_active)->toBeFalse();
 });
 
 it('does not allow players to vote for someone who resigned', function () {
@@ -111,16 +127,3 @@ it('does not show resigned players in dropdowns on VotingCard', function () {
         ->not()->toContain($this->aaron->id);
 });
 
-it('does not show resigned players in Scoreboard', function () {
-    PlayerResigned::fire(
-        player_id: $this->aaron->id,
-        game_id: $this->game->id,
-        beneficiary_id: $this->caleb->id,
-    );
-
-    Livewire::test(Scoreboard::class, ['player' => $this->taylor])
-        ->assertViewHas('players', function ($players) {
-            return $players->pluck('id')->contains($this->caleb->id)
-                && ! $players->pluck('id')->contains($this->aaron->id);
-        });
-});

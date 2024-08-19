@@ -3,10 +3,10 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Thunk\Verbs\Event;
 use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 use Thunk\VerbsHistory\States\DTOs\HistoryComponentDto;
 use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
@@ -55,7 +55,8 @@ class PlayerResigned extends Event implements ExposesHistory
 
     public function applyToPlayer(PlayerState $state)
     {
-        $this->score = $this->state(PlayerState::class)->score();
+        $this->score = $this->state(PlayerState::class)->score;
+        $state->score = 0;
 
         $state->is_active = false;
         $state->beneficiary_id = $this->beneficiary_id;
@@ -73,7 +74,7 @@ class PlayerResigned extends Event implements ExposesHistory
                 player_id: $this->beneficiary_id,
                 voter_id: $this->player_id,
                 game_id: $this->game_id,
-                type: 'resignation',
+                type: 'inherited',
                 amount: $this->score,
             );
         }
@@ -83,7 +84,7 @@ class PlayerResigned extends Event implements ExposesHistory
                 player_id: $this->beneficiary_id,
                 voter_id: $this->player_id,
                 game_id: $this->game_id,
-                type: 'resignation',
+                type: 'inherited',
                 amount: -$this->score,
             );
         }
@@ -103,7 +104,7 @@ class PlayerResigned extends Event implements ExposesHistory
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [
-                'type' => 'resignation',
+                'type' => 'resigned',
                 'amount' => 0 - $this->score,
                 'voter_name' => PlayerState::load($this->beneficiary_id)->name,
                 'score' => 0,

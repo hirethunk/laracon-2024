@@ -32,11 +32,11 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         );
     }
 
-    // @todo this is the one thing you have to uncomment to make things work. 
+    // @todo this is the one thing you have to uncomment to make things work.
     public function validate()
     {
         $this->assert(
-            $this->state(GameState::class)->codeIsUnused($this->secret_code),
+            ! $this->state(GameState::class)->codeIsUsed($this->secret_code),
             'Code has already been used.'
         );
     }
@@ -59,6 +59,7 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         if (! $game->codeIsValid($this->secret_code)) {
             $player->score -= 1;
             $player->can_submit_code_at = now()->addMinutes(60);
+
             return;
         }
 

@@ -2,15 +2,15 @@
 
 namespace App\Livewire;
 
-use Exception;
-use App\Models\Game;
-use App\Models\User;
-use App\Models\Player;
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Events\PlayerEnteredSecretCode;
+use App\Models\Game;
+use App\Models\Player;
+use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 class SecretCodePage extends Component
 {

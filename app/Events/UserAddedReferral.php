@@ -30,11 +30,4 @@ class UserAddedReferral extends Event
     {
         $user->referrer_player_id = $this->referrer_player_id;
     }
-
-    public function handle()
-    {
-        User::find($this->user_id)->update([
-            'referrer_player_id' => $this->referrer_player_id,
-        ]);
-    }
 }
