@@ -9,10 +9,19 @@ use Livewire\Attributes\Computed;
 
 class UsersList extends Component
 {
+    public $search = '';
+
+    public $userId = null;
+
     #[Computed]
     public function users()
     {
-        return User::orderBy('name')->get();
+        return User::orderBy('name')
+            ->when(
+                $this->search,
+                fn ($query, $value) => $query->where('name', 'like', "%{$value}%")
+            )
+            ->get();
     }
 
     #[Layout('layouts.app')]
