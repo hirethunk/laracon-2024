@@ -67,10 +67,6 @@
                     <p>Yes.</p>
                 </div>
                 <div>
-                    <p class="italic">But is it cheaper than buying a booth at a conference? </p>
-                    <p>Also yes.</p>
-                </div>
-                <div>
                     <p class="italic">Are you actually giving <span class="text-gold-500">$1,500</span> away?</p>
                     <p>Take one look at that briefcase if you think we're messing around.</p>
                 </div>
