@@ -11,10 +11,9 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class, 'player')]
+    #[StateId(PlayerState::class)]
     public int $player_id;
 
-    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
     public int $amount;
@@ -24,7 +23,7 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
     public function validate()
     {
         $this->assert(
-            $this->states()->get('voter')->game_id === $this->states()->get('player')->game_id,
+            PlayerState::load($this->voter_id)->game_id === PlayerState::load($this->player_id)->game_id,
             'Voter and target are not in the same game.'
         );
     }
@@ -53,8 +52,6 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function asHistory(): array|string|HistoryComponentDto
     {
-        // @todo for some reason this is showing up as two items in the history, even tho scores are right
-
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [

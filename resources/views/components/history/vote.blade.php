@@ -9,7 +9,7 @@
 
 @php
     $text = match($type) {
-        'resignation' => 'Inherited from '.$voter_name,
+        'inherited' => 'Inherited from '.$voter_name,
         'buddy-system-reward' => 'Buddy System Reward',
         'referred' => 'Bonus for being referred',
         'got-referred' => 'Bonus for referring new player',
@@ -19,6 +19,7 @@
         'prisoners-dilemma-nice-nice' => 'Cooperated with ally',
         'prisoners-dilemma-nasty-nasty' => 'Failed to cooperate with ally',
         'prisoners-dilemma-nasty-nice' => 'Double crossed their ally',
+        'resigned' => 'Resigned and gave their score to '.$voter_name,
         default => $amount > 0
         ? $text = 'Upvoted by '.$voter_name
         : $text = 'Downvoted by '.$voter_name
