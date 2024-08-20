@@ -6,6 +6,7 @@
     <div
         x-data="{ show: true }"
         x-show="show"
+        x-cloak
         x-transition
         x-init="setTimeout(() => show = false, 2000)"
         class="flex items-center justify-center gap-2 p-4"
