@@ -42,8 +42,12 @@ class AdminApprovedNewPlayer extends Event
         );
     }
 
-    public function fired()
+    public function fired(GameState $game)
     {
+        if ($game->user_ids_approved->contains($this->user_id)) {
+            return;
+        }
+        
         PlayerJoinedGame::fire(
             user_id: $this->user_id,
             game_id: $this->game_id,

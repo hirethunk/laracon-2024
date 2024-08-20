@@ -28,6 +28,7 @@ class Scoreboard extends Component
 
     public function initializeProperties(Player $player)
     {
+        dump($player->state()->game()->player_ids);
         $this->player = $player;
 
         $players_in_game = $this->player->state()->game()->players()
