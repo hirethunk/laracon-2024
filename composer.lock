@@ -2257,12 +2257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hirethunk/verbs.git",
-                "reference": "22421d7c0cb0a01fd49797d832e7026aa63edbb1"
+                "reference": "1320130a60244a25a5f482f06316ad6761e6b49d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/22421d7c0cb0a01fd49797d832e7026aa63edbb1",
-                "reference": "22421d7c0cb0a01fd49797d832e7026aa63edbb1",
+                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/1320130a60244a25a5f482f06316ad6761e6b49d",
+                "reference": "1320130a60244a25a5f482f06316ad6761e6b49d",
                 "shasum": ""
             },
             "require": {
@@ -2330,7 +2330,7 @@
                 "issues": "https://github.com/hirethunk/verbs/issues",
                 "source": "https://github.com/hirethunk/verbs/tree/main"
             },
-            "time": "2024-08-19T20:48:51+00:00"
+            "time": "2024-08-20T20:53:54+00:00"
         },
         {
             "name": "hirethunk/verbs-history",
