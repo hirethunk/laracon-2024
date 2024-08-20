@@ -49,6 +49,11 @@ class GameState extends State
         return Game::find($this->id);
     }
 
+    public function isActive(): bool
+    {
+        return $this->starts_at <= now() && $this->ends_at >= now();
+    }
+
     public function usersAwaitingApproval()
     {
         return collect($this->user_ids_awaiting_approval)->map(fn ($id) => User::find($id));

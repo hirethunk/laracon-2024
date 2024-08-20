@@ -25,15 +25,26 @@ class SecretCodePage extends Component
     }
 
     #[Computed]
-    public function player(): Player
+    public function player(): ?Player
     {
         return $this->user->currentPlayer();
     }
 
     #[Computed]
-    public function game(): Game
+    public function game(): ?Game
     {
         return $this->user->currentGame();
+    }
+
+    public function mount()
+    {
+        if ($this->player === null) {
+            return redirect()->route('home');
+        }
+
+        if (! $this->game->state()->isActive()) {
+            return redirect()->route('home');
+        }
     }
 
     public function submitCode()
