@@ -58,7 +58,6 @@ class VotingCard extends Component
     public function mount(Player $player)
     {
         $this->player = $player;
-        $this->setVoteeOptions();
     }
 
     public function calculateDownvoteOptions()
@@ -72,7 +71,6 @@ class VotingCard extends Component
                 if (isset($this->downvote_search)) {
                     return stripos($p->user->name, $this->downvote_search) !== false;
                 }
-                return true;
             })
             ->sortBy(fn ($p) => $p->name);
     }
@@ -88,7 +86,6 @@ class VotingCard extends Component
                 if (isset($this->upvote_search)) {
                     return stripos($p->user->name, $this->upvote_search) !== false;
                 }
-                return true;
             })
             ->sortBy(fn ($p) => $p->name);
     }
