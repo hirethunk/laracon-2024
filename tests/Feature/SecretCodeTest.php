@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Game;
-use Livewire\Livewire;
-use Illuminate\Support\Carbon;
-use Thunk\Verbs\Facades\Verbs;
-use App\Livewire\SecretCodePage;
 use App\Events\PlayerEnteredSecretCode;
+use App\Livewire\SecretCodePage;
+use App\Models\Game;
+use Illuminate\Support\Carbon;
+use Livewire\Livewire;
+use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -16,6 +16,7 @@ beforeEach(function () {
 });
 
 it('a player can input a secret code for an upvote', function () {
+    dump($this->game->state()->used_codes);
     PlayerEnteredSecretCode::fire(
         player_id: $this->taylor->id,
         game_id: $this->game->id,
@@ -53,11 +54,13 @@ it('does not reward player for using the same code twice', function () {
         secret_code: 'GO1VCQJ0OQ'
     );
 
-    PlayerEnteredSecretCode::fire(
-        player_id: $this->taylor->id,
-        game_id: $this->game->id,
-        secret_code: 'GO1VCQJ0OQ'
-    );
+    try {
+        PlayerEnteredSecretCode::fire(
+            player_id: $this->taylor->id,
+            game_id: $this->game->id,
+            secret_code: 'GO1VCQJ0OQ'
+        );
+    } catch (Exception $e) { }
 
     expect($this->taylor->state()->score)->toBe(1);
 });

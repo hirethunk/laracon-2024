@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -12,10 +11,9 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedDownvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class, 'player')]
+    #[StateId(PlayerState::class)]
     public int $player_id;
 
-    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
     public int $amount;
@@ -50,8 +48,8 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => 0 - $this->amount,
-                'voter_name' => $this->states()->get('voter')->name,
-                'score' => $this->states()->get('player')->score,
+                'voter_name' => PlayerState::load($this->voter_id)->name,
+                'score' => PlayerState::load($this->player_id)->score,
             ]
         );
     }

@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Models\User;
 use App\States\GameState;
-use App\States\PlayerState;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -30,12 +29,5 @@ class UserAddedReferral extends Event
     public function applyToUser(UserState $user)
     {
         $user->referrer_player_id = $this->referrer_player_id;
-    }
-
-    public function handle()
-    {
-        User::find($this->user_id)->update([
-            'referrer_player_id' => $this->referrer_player_id,
-        ]);
     }
 }

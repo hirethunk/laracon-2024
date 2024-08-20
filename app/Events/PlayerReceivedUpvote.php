@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -12,10 +11,9 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class, 'player')]
+    #[StateId(PlayerState::class)]
     public int $player_id;
 
-    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
     public int $amount;

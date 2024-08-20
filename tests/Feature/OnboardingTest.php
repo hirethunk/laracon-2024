@@ -166,14 +166,12 @@ it('grants an upvote for referrer and referee', function () {
 
     $referrer_player_id = $this->referrer->fresh()->players->first()->id;
 
-
     UserAddedReferral::fire(
         user_id: $this->user->id,
         game_id: $this->game->id,
         referrer_player_id: $referrer_player_id,
     );
 
-    expect($this->user->fresh()->referrer_player_id)->toBe($referrer_player_id);
     expect($this->user->state()->referrer_player_id)->toBe($referrer_player_id);
 
     UserRequestedToJoinGame::fire(

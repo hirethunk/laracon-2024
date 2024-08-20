@@ -2,18 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
-use Glhd\Bits\Snowflake;
 use App\Events\GameCreated;
-use App\Events\UserCreated;
-use Illuminate\Support\Str;
-use Thunk\Verbs\Facades\Verbs;
-use Illuminate\Console\Command;
 use App\Events\UserPromotedToAdmin;
+use App\Models\User;
+use Illuminate\Console\Command;
+use Thunk\Verbs\Facades\Verbs;
 
 class CreateGame extends Command
 {
     protected $signature = 'init:game {game_name} {--delay_minutes=}';
+
     protected $description = 'Creates a game and adds all the admins as admins';
 
     public function handle()
