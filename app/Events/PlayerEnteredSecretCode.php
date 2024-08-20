@@ -42,35 +42,37 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         );
     }
 
-    public function applyToGame(GameState $game)
+    public function applyToPlayer(PlayerState $player, GameState $game)
     {
-        if (collect($game->unused_codes)->contains($this->secret_code)) {
-            $game->unused_codes = collect($game->unused_codes)
-                ->filter(fn ($code) => $code !== $this->secret_code)
-                ->toArray();
-
-            $game->used_codes[] = $this->secret_code;
-        }
-    }
-
-    public function applyToPlayer(PlayerState $player)
-    {
-        $game = $this->state(GameState::class);
-
         if (! $game->codeIsValid($this->secret_code)) {
             $player->score -= 1;
-            $player->can_submit_code_at = now()->addMinutes(60);
+            $player->can_submit_code_at = now()->addHour(1);
 
+            return;
+        }
+
+        if (! $game->codeIsUnused($this->secret_code)) {
             return;
         }
 
         $player->score += 1;
     }
 
+    // @todo - uncomment this before Larcon to prevent hackers from being too cool.
+    
+    public function applyToGame(GameState $game)
+    {
+        if (! $game->codeIsUnused($this->secret_code)) {
+            return;
+        }
+
+        $game->used_codes[] = $this->secret_code;
+        $game->unused_codes = array_filter($game->unused_codes, fn ($code) => $code !== $this->secret_code);
+    }
+
     public function asHistory(): array|string|HistoryComponentDto
     {
         $game = $this->state(GameState::class);
-
         $player = PlayerState::load($this->player_id);
 
         if (! $game->codeIsValid($this->secret_code)) {
