@@ -10,9 +10,10 @@ use Thunk\Verbs\Event;
 
 class AdminApprovedNewPlayer extends Event
 {
+    #[StateId(UserState::class, 'admin')]
     public int $admin_id;
 
-    #[StateId(UserState::class)]
+    #[StateId(UserState::class, 'user')]
     public int $user_id;
 
     #[StateId(GameState::class)]
@@ -21,23 +22,23 @@ class AdminApprovedNewPlayer extends Event
     #[StateId(PlayerState::class)]
     public ?int $player_id = null;
 
-    public function authorize()
+    public function authorize(UserState $admin)
     {
         $this->assert(
-            UserState::load($this->admin_id)->is_admin_for->contains($this->game_id),
+            $admin->is_admin_for->contains($this->game_id),
             'Only admins can approve new players.'
         );
     }
 
-    public function validate()
+    public function validate(GameState $game)
     {
         $this->assert(
-            ! $this->state(GameState::class)->players()->map(fn ($p) => $p->user_id)->contains($this->user_id),
+            ! $game->players()->map(fn ($p) => $p->user_id)->contains($this->user_id),
             'User is already in the game.'
         );
 
         $this->assert(
-            GameState::load($this->game_id)->ends_at > now(),
+            $game->ends_at > now(),
             'The game is over.'
         );
     }

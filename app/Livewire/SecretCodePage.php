@@ -52,6 +52,8 @@ class SecretCodePage extends Component
             $this->message = 'Invalid code. You have received a downvote.';
         }
 
+
+        // add retries?
         try {
             PlayerEnteredSecretCode::fire(
                 player_id: $this->player->id,

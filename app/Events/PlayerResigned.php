@@ -12,9 +12,10 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerResigned extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class)]
+    #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
+    #[StateId(PlayerState::class, 'beneficiary')]
     public int $beneficiary_id;
 
     #[StateId(GameState::class)]
@@ -22,49 +23,44 @@ class PlayerResigned extends Event implements ExposesHistory
 
     public int $score = 0;
 
-    public function authorize()
+    public function authorize(GameState $game)
     {
         $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
+            $game->player_ids->contains($this->player_id),
             'Player is not in the game.'
         );
     }
 
-    public function validate()
+    public function validate(GameState $game, PlayerState $player, PlayerState $beneficiary)
     {
         $this->assert(
-            PlayerState::load($this->player_id)->is_active,
+            $player->is_active,
             'Player has already resigned.'
         );
 
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->beneficiary_id),
+            $game->player_ids->contains($this->beneficiary_id),
             'Beneficiary is not in the game.'
         );
 
         $this->assert(
-            PlayerState::load($this->beneficiary_id)->is_active,
+            $beneficiary->is_active,
             'Beneficiary has already resigned.'
         );
 
         $this->assert(
-            GameState::load($this->game_id)->ends_at > now(),
+            $game->ends_at > now(),
             'The game is over.'
         );
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        $this->score = $this->state(PlayerState::class)->score;
-        $state->score = 0;
+        $this->score = $player->score;
+        $player->score = 0;
 
-        $state->is_active = false;
-        $state->beneficiary_id = $this->beneficiary_id;
-    }
-
-    public function applyToGame(GameState $state)
-    {
-        // @todo why does this function need to exist?
+        $player->is_active = false;
+        $player->beneficiary_id = $this->beneficiary_id;
     }
 
     public function fired()
