@@ -6,6 +6,7 @@ use App\Events\PlayerEnteredSecretCode;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -39,27 +40,27 @@ class SecretCodePage extends Component
     {
         $game = $this->game->state();
 
-        $unused_codes = collect($game->unused_codes);
-
-        $used_codes = collect($game->used_codes);
-
-        if ($used_codes->contains($this->code)) {
+        if ($game->codeIsUsed($this->code)) {
             $this->message = 'This code has already been used.';
         }
 
-        if ($unused_codes->contains($this->code)) {
+        if ($game->codeIsUnUsed($this->code)) {
             $this->message = 'Code accepted!';
         }
 
-        if (! $unused_codes->contains($this->code) && ! $used_codes->contains($this->code)) {
+        if (! $game->codeIsValid($this->code)) {
             $this->message = 'Invalid code. You have received a downvote.';
         }
 
-        PlayerEnteredSecretCode::fire(
-            player_id: $this->player->id,
-            game_id: $this->game->id,
-            secret_code: $this->code,
-        );
+        try {
+            PlayerEnteredSecretCode::fire(
+                player_id: $this->player->id,
+                game_id: $this->game->id,
+                secret_code: $this->code,
+            );
+        } catch (Exception $e) {
+            $this->message = $e->getMessage();
+        }
     }
 
     #[Layout('layouts.app')]

@@ -12,23 +12,30 @@ class PlayerState extends State
     use HasHistory;
 
     public string $name;
+
     public int $score = 0;
 
     public int $user_id;
+
     public int $game_id;
+
     public bool $is_active;
 
     // used for buddy system
     public array $ballots_cast;
+
     public bool $buddy_system_reward_received = false;
-    
+
     // used for resign and kingmake mechanic
     public int $beneficiary_id;
-    
+
     // used for secret alliances
     public $ally_id;
+
     public int $code_to_give_to_ally;
+
     public bool $has_connected_with_ally;
+
     public string $prisoners_dilemma_choice;
 
     public Carbon $is_immune_until;

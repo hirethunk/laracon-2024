@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -12,32 +11,25 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class, 'player')]
+    #[StateId(PlayerState::class)]
     public int $player_id;
 
-    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
     public int $amount;
 
     public string $type;
 
-    public function validate()
+    public function validate(PlayerState $player, PlayerState $voter)
     {
         $this->assert(
-            $this->states()->get('voter')->game_id === $this->states()->get('player')->game_id,
+            $voter->game_id === $player->game_id,
             'Voter and target are not in the same game.'
         );
     }
 
     public function applyToPlayer(PlayerState $player)
     {
-        if ($this->voter_id === $player->id) {
-            // remove this once this PR is merged:
-            // https://github.com/hirethunk/verbs/pull/155
-            return;
-        }
-
         $player->score += $this->amount;
 
         if ($this->type === 'buddy-system-reward') {
