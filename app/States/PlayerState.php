@@ -17,7 +17,7 @@ class PlayerState extends State
 
     public int $user_id;
 
-    public int $game_id;
+    public ?int $game_id = null;
 
     public bool $is_active;
 

@@ -21,15 +21,15 @@ class PlayerEnteredAllianceCode extends Event implements ExposesHistory
 
     public int $alliance_code;
 
-    public function authorize()
+    public function authorize(GameState $game)
     {
         $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
+            $game->player_ids->contains($this->player_id),
             'Player is not in the game.'
         );
 
         $this->assert(
-            GameState::load($this->game_id)->ends_at > now(),
+            $game->ends_at > now(),
             'The game is over.'
         );
     }

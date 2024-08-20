@@ -9,25 +9,26 @@ use Thunk\Verbs\Event;
 
 class PlayerPlayedPrisonersDilemma extends Event
 {
-    #[StateId(PlayerState::class)]
+    #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
     #[StateId(GameState::class)]
     public int $game_id;
 
+    #[StateId(PlayerState::class, 'ally')]
     public int $ally_id;
 
     public string $nice_or_nasty;
 
-    public function authorize()
+    public function authorize(GameState $game, PlayerState $player)
     {
         $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
+            $game->id === $player->game_id,
             'Player is not in the game.'
         );
 
         $this->assert(
-            GameState::load($this->game_id)->ends_at > now(),
+            $game->ends_at > now(),
             'The game is over.'
         );
     }
@@ -40,15 +41,13 @@ class PlayerPlayedPrisonersDilemma extends Event
         );
     }
 
-    public function apply(PlayerState $state)
+    public function apply(PlayerState $player)
     {
-        $state->prisoners_dilemma_choice = $this->nice_or_nasty;
+        $player->prisoners_dilemma_choice = $this->nice_or_nasty;
     }
 
-    public function fired()
+    public function fired(PlayerState $ally)
     {
-        $ally = PlayerState::load($this->ally_id);
-
         if (! $ally->prisoners_dilemma_choice) {
             return;
         }

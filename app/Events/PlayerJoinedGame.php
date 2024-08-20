@@ -34,8 +34,12 @@ class PlayerJoinedGame extends Event
             ->reject(fn ($id) => $id === $this->user_id);
 
         $state->user_ids_approved->push($this->user_id);
+        $state->user_ids_approved = $state->user_ids_approved->unique();
 
         $state->player_ids->push($this->player_id);
+
+        // @todo - figure out why this is happening 3 times on replay lmao.
+        $state->player_ids = $state->player_ids->unique();
     }
 
     public function applyToPlayer(PlayerState $state)
