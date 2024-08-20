@@ -22,32 +22,27 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
 
     public string $type;
 
-    public function validate()
+    public function validate(PlayerState $player, PlayerState $voter)
     {
         $this->assert(
-            $this->states()->get('voter')->game_id === $this->states()->get('player')->game_id,
+            $voter->game_id === $player->game_id,
             'Voter and target are not in the same game.'
         );
     }
 
     public function applyToPlayer(PlayerState $player)
     {
-        if ($this->voter_id === $player->id) {
-            // remove this once this PR is merged:
-            // https://github.com/hirethunk/verbs/pull/155
-            return;
-        }
-
         $player->score -= $this->amount;
     }
 
-    public function handle()
+    public function handle(PlayerState $player)
     {
         Player::find($this->player_id)->update([
-            'score' => $this->states()->get('player')->score,
+            'score' => $player->score,
         ]);
     }
 
+    // @todo it would be sick to be able to dependency inject the states into this method
     public function asHistory(): array|string|HistoryComponentDto
     {
         return new HistoryComponentDto(
