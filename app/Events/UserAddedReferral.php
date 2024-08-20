@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\States\GameState;
 use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;

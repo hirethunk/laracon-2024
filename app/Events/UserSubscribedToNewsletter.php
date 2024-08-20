@@ -13,6 +13,6 @@ class UserSubscribedToNewsletter extends Event
 
     public function handle()
     {
-        (new ConvertKit())->addSubscriber($this->email, env('CONVERTKIT_FORM_ID'));
+        (new ConvertKit)->addSubscriber($this->email, env('CONVERTKIT_FORM_ID'));
     }
 }

@@ -3,7 +3,6 @@
 use App\Events\PlayerResigned;
 use App\Events\PlayerVoted;
 use App\Livewire\ResignationCard;
-use App\Livewire\Scoreboard;
 use App\Livewire\VotingCard;
 use App\Models\Game;
 use Livewire\Livewire;
@@ -126,4 +125,3 @@ it('does not show resigned players in dropdowns on VotingCard', function () {
     expect($downvote_options->pluck('id'))
         ->not()->toContain($this->aaron->id);
 });
-
