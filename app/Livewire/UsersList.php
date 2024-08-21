@@ -3,9 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 class UsersList extends Component
 {

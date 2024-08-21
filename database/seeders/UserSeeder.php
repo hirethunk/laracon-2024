@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Game;
 use App\Events\UserCreated;
-use Illuminate\Database\Seeder;
 use App\Events\UserRequestedToJoinGame;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Game;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -19,8 +18,8 @@ class UserSeeder extends Seeder
     {
         for ($i = 1; $i <= $count; $i++) {
             $user_id = UserCreated::fire(
-                name: 'Test User' . $i,
-                email: 'test'. $i . '@thunk.dev',
+                name: 'Test User'.$i,
+                email: 'test'.$i.'@thunk.dev',
                 password: bcrypt('password'),
             )->user_id;
 
