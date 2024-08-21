@@ -53,14 +53,16 @@ class VotingCard extends Component
     public function setVoteeOptions()
     {
         $this->downvote_options = $this->game->players
-            ->reject(fn ($p) => $p->id === $this->player->id
+            ->reject(
+                fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeDownvoted()
             )
             ->filter(fn ($p) => $p->state()->is_active)
             ->sortBy(fn ($p) => $p->name);
 
         $this->upvote_options = $this->game->players
-            ->reject(fn ($p) => $p->id === $this->player->id
+            ->reject(
+                fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeUpvoted()
             )
             ->filter(fn ($p) => $p->state()->is_active)
@@ -100,7 +102,7 @@ class VotingCard extends Component
 
         session()->flash('event', 'PlayerVoted');
 
-        return redirect()->route('player-dashboard', $this->game->id);
+        return redirect()->route('player-dashboard');
     }
 
     public function render()

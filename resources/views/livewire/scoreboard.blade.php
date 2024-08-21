@@ -12,7 +12,7 @@
                     <tr>
                         @if($player['id'] === $this->player->id)
                             <td class="text-left text-gold-500">
-                                <a href="{{ route('player.profile', $player['id']) }}">
+                                <a href="{{ route('player.profile') }}">
                                     {{ $player['name'] }}
                                 </a>
                             </td>
@@ -25,7 +25,7 @@
                             </td>
                         @else
                         <td class="text-left">
-                                <a href="{{ route('player.profile', $player['id']) }}">
+                                <a href="{{ route('player.profile') }}">
                                     {{ $player['name'] }}
                                 </a>
                             </td>

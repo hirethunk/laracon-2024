@@ -41,7 +41,7 @@ class HomePage extends Component
     public function isApproved()
     {
         if ($this->user->currentPlayer()) {
-            return redirect()->route('player-dashboard', ['player' => $this->user->currentPlayer()]);
+            return redirect()->route('player-dashboard');
         }
     }
 
