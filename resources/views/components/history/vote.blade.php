@@ -30,34 +30,44 @@
         : $amount_string = $amount;
 @endphp
 
-<li class="relative flex gap-x-4 justify-between items-center text-sm py-2">
-    <div class="flex gap-x-2 items-center">
+<li class="relative flex gap-x-2 justify-between items-start text-sm py-2">
+    <!-- Left -->
+    <div class="flex items-start gap-x-2">
         <p @class([
-            "flex-auto py-0.5 leading-5",
+            "flex-auto py-0.5 leading-5 min-w-5",
             "text-gold-500" => $amount > 0,
             "text-white" => $amount < 1,
         ])>
-            {{$amount_string}}
+            <span class="tabular-nums flex justify-center">
+                {{ $amount_string }}
+            </span>
         </p>
-        <p class="flex-auto py-0.5 leading-5 text-gold-500">
-        <p @class([
-            "flex-auto py-0.5 leading-5",
-            "text-gold-500" => $amount > 0,
-            "text-white" => $amount < 1,
-        ])>
-            {{ $text }}
-        </p>
-        <time class="flex-none py-0.5 text-sm items-center leading-5 text-neutral-500">
-            {{$time}}
-        </time>
+
+        <!-- Center (with two rows) -->
+        <div class="flex flex-col">
+            <p @class([
+                "flex-auto py-0.5 leading-5",
+                "text-gold-500" => $amount > 0,
+                "text-white" => $amount < 1,
+            ])>
+                {{ $text }}
+            </p>
+            <time class="py-0.5 text-sm leading-5 text-neutral-500">
+                {{ $time }}
+            </time>
+        </div>
     </div>
+
+    <!-- Right -->
     <div class="flex gap-x-2">
         <p @class([
             "flex-auto py-0.5 leading-5",
             "text-gold-500" => $score > 0,
             "text-white" => $score < 1,
         ])>
-            {{$score}}
+            <span class="tabular-nums">
+                {{ $score }}
+            </span>
         </p>
     </div>
 </li>
