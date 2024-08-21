@@ -6,13 +6,11 @@
                     Had enough? Feel free to resign. You will no longer be able to vote.
                     If you resign, your score will be given to the player you choose below.
                 </p>
-                <x-form.select
-                    label="Beneficiary"
-                    name="beneficiary"
-                    custom="w-6/12"
-                    wire:model="beneficiary_id"
-                    :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
-                    selected="Choose a Player"
+                <x-form.autocomplete
+                    label="beneficiary"
+                    selected="beneficiary_id"
+                    search="search"
+                    :options="$this->options"
                 />
             </div>
 

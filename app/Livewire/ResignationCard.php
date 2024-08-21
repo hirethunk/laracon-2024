@@ -11,22 +11,28 @@ use Livewire\Component;
 
 class ResignationCard extends Component
 {
+    public Player $player;
+
+    public Collection $players;
+
+    public ?int $beneficiary_id = null;
+
     #[Computed]
     public function beneficiary()
     {
         return $this->players->first(fn ($p) => $p->id === $this->player->state()->beneficiary_id)->user->name ?? null;
     }
 
+    #[Computed]
+    public function options()
+    {
+        return $this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name]);
+    }
+
     public function mount(Player $player)
     {
         $this->initializeProperties($player);
     }
-
-    public Player $player;
-
-    public Collection $players;
-
-    public ?int $beneficiary_id = null;
 
     public $rules = [
         'beneficiary_id' => 'integer|exists:players,id',
@@ -64,7 +70,7 @@ class ResignationCard extends Component
         PlayerResigned::fire(
             player_id: $this->player->id,
             game_id: $this->player->game->id,
-            beneficiary_id: $this->beneficiary_id,
+            beneficiary_id: (int) $this->beneficiary_id,
         );
 
         session()->flash('event', 'PlayerResigned');
