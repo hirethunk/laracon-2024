@@ -52,11 +52,16 @@ class HomePage extends Component
         });
     }
 
-    public function mount()
+    public function isApproved()
     {
         if ($this->user->currentPlayer()) {
             return redirect()->route('player-dashboard', ['player' => $this->user->currentPlayer()]);
         }
+    }
+
+    public function mount()
+    {
+        $this->isApproved();
     }
 
     public function addReferrer()

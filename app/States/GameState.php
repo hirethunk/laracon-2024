@@ -33,9 +33,15 @@ class GameState extends State
     public function activeModifier()
     {
         return collect($this->modifiers)
-            ->filter(fn ($modifier) => Carbon::parse($modifier['starts_at']) <= now()
+            ->filter(
+                fn ($modifier) => Carbon::parse($modifier['starts_at']) <= now()
                 && Carbon::parse($modifier['ends_at']) >= now()
             )->first();
+    }
+
+    public function modifierIsActive(string $slug): bool
+    {
+        return $this->activeModifier() && $this->activeModifier()['slug'] === $slug;
     }
 
     public function model()
@@ -43,9 +49,29 @@ class GameState extends State
         return Game::find($this->id);
     }
 
+    public function isActive(): bool
+    {
+        return $this->starts_at <= now() && $this->ends_at >= now();
+    }
+
     public function usersAwaitingApproval()
     {
         return collect($this->user_ids_awaiting_approval)->map(fn ($id) => User::find($id));
+    }
+
+    public function codeIsUsed(string $code)
+    {
+        return collect($this->used_codes)->contains($code);
+    }
+
+    public function codeIsUnused(string $code)
+    {
+        return collect($this->unused_codes)->contains($code);
+    }
+
+    public function codeIsValid(string $code)
+    {
+        return $this->codeIsUnused($code) || $this->codeIsUsed($code);
     }
 
     public function players()

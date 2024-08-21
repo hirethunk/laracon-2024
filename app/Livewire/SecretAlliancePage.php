@@ -24,13 +24,13 @@ class SecretAlliancePage extends Component
     }
 
     #[Computed]
-    public function player(): Player
+    public function player(): ?Player
     {
         return $this->user->currentPlayer();
     }
 
     #[Computed]
-    public function game(): Game
+    public function game(): ?Game
     {
         return $this->user->currentGame();
     }
@@ -72,6 +72,17 @@ class SecretAlliancePage extends Component
         Verbs::commit();
 
         return $this->player->state()->ally();
+    }
+
+    public function mount()
+    {
+        if ($this->player === null) {
+            return redirect()->route('home');
+        }
+
+        if (! $this->game->state()->isActive()) {
+            return redirect()->route('home');
+        }
     }
 
     public function connectWithAlly()

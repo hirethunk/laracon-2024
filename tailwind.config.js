@@ -9,7 +9,7 @@ export default {
         './resources/views/**/*.blade.php',
         './vendor/joshhanley/livewire-autocomplete/resources/views/**/*.blade.php',
     ],
-
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {

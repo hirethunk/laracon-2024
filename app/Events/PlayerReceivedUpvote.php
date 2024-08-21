@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -17,47 +16,32 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public int $voter_id;
 
-    #[StateId(GameState::class)]
-    public int $game_id;
-
     public int $amount;
 
     public string $type;
 
-    public function validate()
+    public function validate(PlayerState $player, PlayerState $voter)
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
-            'Player is not in the game.'
-        );
-
-        $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->voter_id),
-            'Voter is not in the game.'
+            $voter->game_id === $player->game_id,
+            'Voter and target are not in the same game.'
         );
     }
 
-    public function applyToGame(GameState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        // @todo why does this function need to exist?
-    }
+        $player->score += $this->amount;
 
-    public function applyToPlayer(PlayerState $state)
-    {
-        $state->upvotes[] = [
-            'source' => $this->voter_id,
-            'votes' => $this->amount,
-            'type' => $this->type,
-        ];
+        if ($this->type === 'buddy-system-reward') {
+            $player->buddy_system_reward_received = true;
+        }
     }
 
     public function handle()
     {
-        $player = Player::find($this->player_id);
-
-        $player->score = $this->state(PlayerState::class)->score();
-
-        $player->save();
+        Player::find($this->player_id)->update([
+            'score' => $this->states()->get('player')->score,
+        ]);
     }
 
     public function asHistory(): array|string|HistoryComponentDto
@@ -68,7 +52,7 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
                 'type' => $this->type,
                 'amount' => $this->amount,
                 'voter_name' => PlayerState::load($this->voter_id)->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'score' => $this->states()->get('player')->score,
             ]
         );
     }

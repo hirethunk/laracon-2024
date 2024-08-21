@@ -34,8 +34,12 @@ class PlayerJoinedGame extends Event
             ->reject(fn ($id) => $id === $this->user_id);
 
         $state->user_ids_approved->push($this->user_id);
+        $state->user_ids_approved = $state->user_ids_approved->unique();
 
         $state->player_ids->push($this->player_id);
+
+        // @todo - figure out why this is happening 3 times on replay lmao.
+        $state->player_ids = $state->player_ids->unique();
     }
 
     public function applyToPlayer(PlayerState $state)
@@ -43,14 +47,13 @@ class PlayerJoinedGame extends Event
         $state->user_id = $this->user_id;
         $state->game_id = $this->game_id;
         $state->name = $this->state(UserState::class)->name;
-        $state->upvotes = [];
-        $state->downvotes = [];
         $state->ballots_cast = [];
         $state->is_active = true;
         $state->is_immune_until = now();
         $state->has_connected_with_ally = false;
         $state->prisoners_dilemma_choice = '';
         $state->code_to_give_to_ally = rand(1000, 9999);
+        $state->can_submit_code_at = now();
     }
 
     public function fired()

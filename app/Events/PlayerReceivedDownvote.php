@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Player;
-use App\States\GameState;
 use App\States\PlayerState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
@@ -17,53 +16,40 @@ class PlayerReceivedDownvote extends Event implements ExposesHistory
 
     public int $voter_id;
 
-    #[StateId(GameState::class)]
-    public int $game_id;
-
     public int $amount;
 
     public string $type;
 
-    public function validate()
+    public function validate(PlayerState $player, PlayerState $voter)
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->player_id),
-            'Player is not in the game.'
-        );
-
-        $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->voter_id),
-            'Voter is not in the game.'
+            $voter->game_id === $player->game_id,
+            'Voter and target are not in the same game.'
         );
     }
 
-    public function apply(PlayerState $state)
+    public function applyToPlayer(PlayerState $player)
     {
-        $state->downvotes[] = [
-            'source' => $this->voter_id,
-            'votes' => $this->amount,
-            'type' => $this->type,
-        ];
+        $player->score -= $this->amount;
     }
 
-    public function handle()
+    public function handle(PlayerState $player)
     {
-        $player = Player::find($this->player_id);
-
-        $player->score = $this->state(PlayerState::class)->score();
-
-        $player->save();
+        Player::find($this->player_id)->update([
+            'score' => $player->score,
+        ]);
     }
 
+    // @todo it would be sick to be able to dependency inject the states into this method
     public function asHistory(): array|string|HistoryComponentDto
     {
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [
                 'type' => $this->type,
-                'amount' => -$this->amount,
-                'voter_name' => Player::find($this->voter_id)->user->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'amount' => 0 - $this->amount,
+                'voter_name' => PlayerState::load($this->voter_id)->name,
+                'score' => PlayerState::load($this->player_id)->score,
             ]
         );
     }

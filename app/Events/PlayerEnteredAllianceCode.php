@@ -21,15 +21,15 @@ class PlayerEnteredAllianceCode extends Event implements ExposesHistory
 
     public int $alliance_code;
 
-    public function authorize()
+    public function authorize(GameState $game)
     {
         $this->assert(
-            GameState::load($this->game_id)->player_ids->contains($this->player_id),
+            $game->player_ids->contains($this->player_id),
             'Player is not in the game.'
         );
 
         $this->assert(
-            GameState::load($this->game_id)->ends_at > now(),
+            $game->ends_at > now(),
             'The game is over.'
         );
     }
@@ -42,19 +42,15 @@ class PlayerEnteredAllianceCode extends Event implements ExposesHistory
         );
     }
 
-    public function apply(PlayerState $state)
+    public function apply(PlayerState $player)
     {
         $code_is_correct = PlayerState::load($this->ally_id)
             ->code_to_give_to_ally === $this->alliance_code;
 
         if ($code_is_correct) {
-            $state->has_connected_with_ally = true;
+            $player->has_connected_with_ally = true;
 
-            $state->upvotes[] = [
-                'source' => $this->ally_id,
-                'votes' => 1,
-                'type' => 'ally-connection',
-            ];
+            $player->score += 1;
         }
     }
 
@@ -66,7 +62,7 @@ class PlayerEnteredAllianceCode extends Event implements ExposesHistory
                 'type' => 'ally-connection',
                 'amount' => 1,
                 'voter_name' => PlayerState::load($this->ally_id)->name,
-                'score' => $this->state(PlayerState::class)->score(),
+                'score' => $this->state(PlayerState::class)->score,
             ]
         );
     }

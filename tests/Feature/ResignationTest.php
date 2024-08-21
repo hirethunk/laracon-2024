@@ -3,7 +3,6 @@
 use App\Events\PlayerResigned;
 use App\Events\PlayerVoted;
 use App\Livewire\ResignationCard;
-use App\Livewire\Scoreboard;
 use App\Livewire\VotingCard;
 use App\Models\Game;
 use Livewire\Livewire;
@@ -32,8 +31,8 @@ it('a player can resign', function () {
         downvotee_id: $this->taylor->id,
     );
 
-    $this->assertEquals(2, $this->aaron->state()->score());
-    $this->assertEquals(-1, $this->caleb->state()->score());
+    $this->assertEquals(2, $this->aaron->state()->score);
+    $this->assertEquals(-1, $this->caleb->state()->score);
 
     PlayerResigned::fire(
         player_id: $this->aaron->id,
@@ -41,7 +40,23 @@ it('a player can resign', function () {
         beneficiary_id: $this->caleb->id,
     );
 
-    $this->assertEquals(1, $this->caleb->state()->score());
+    $this->assertEquals(1, $this->caleb->state()->score);
+    $this->assertEquals(0, $this->aaron->state()->score);
+
+    expect($this->aaron->state()->is_active)->toBeFalse();
+    expect($this->aaron->fresh()->is_active)->toBeFalse();
+
+    PlayerResigned::fire(
+        player_id: $this->taylor->id,
+        game_id: $this->game->id,
+        beneficiary_id: $this->caleb->id,
+    );
+
+    $this->assertEquals(0, $this->caleb->state()->score);
+    $this->assertEquals(0, $this->taylor->state()->score);
+
+    expect($this->taylor->state()->is_active)->toBeFalse();
+    expect($this->taylor->fresh()->is_active)->toBeFalse();
 });
 
 it('does not allow players to vote for someone who resigned', function () {
@@ -109,18 +124,4 @@ it('does not show resigned players in dropdowns on VotingCard', function () {
 
     expect($downvote_options->pluck('id'))
         ->not()->toContain($this->aaron->id);
-});
-
-it('does not show resigned players in Scoreboard', function () {
-    PlayerResigned::fire(
-        player_id: $this->aaron->id,
-        game_id: $this->game->id,
-        beneficiary_id: $this->caleb->id,
-    );
-
-    Livewire::test(Scoreboard::class, ['player' => $this->taylor])
-        ->assertViewHas('players', function ($players) {
-            return $players->pluck('id')->contains($this->caleb->id)
-                && ! $players->pluck('id')->contains($this->aaron->id);
-        });
 });

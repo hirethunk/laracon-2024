@@ -2,15 +2,20 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "coconutcraig/laravel-postmark": "^3.2",
         "hirethunk/verbs": "dev-main",
         "hirethunk/verbs-history": "dev-main",
         "joshhanley/livewire-autocomplete": "dev-next",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "laravel/vapor-core": "^2.37",
         "livewire/livewire": "^3.4",
         "spatie/pest-plugin-test-time": "^2.1"
     },
