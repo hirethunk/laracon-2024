@@ -77,7 +77,7 @@
                     wire:loading.attr="disabled"
                     color="red"
                 >
-                    Play dirty
+                    Play nasty
                 </x-primary-button>
         @elseif ($player_choice && ! $ally_choice)
             <p class="text-sm text-white font-normal mt-4">
