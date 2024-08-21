@@ -18,20 +18,20 @@
                             </td>
                             <td class="text-right text-gold-500">
                                 @if($player['is_active'])
-                                    {{ $player['score'] }}
+                                    <span class="tabular-nums">{{ $player['score'] }}</span>
                                 @else
                                     <span class="text-neutral-300">Resigned</span>
                                 @endif
                             </td>
                         @else
-                        <td class="text-left">
+                            <td class="text-left">
                                 <a href="{{ route('player.profile', $player['id']) }}">
                                     {{ $player['name'] }}
                                 </a>
                             </td>
                             <td class="text-right">
                                 @if($player['is_active'])
-                                    {{ $player['score'] }}
+                                    <span class="tabular-nums">{{ $player['score'] }}</span>
                                 @else
                                     <span class="text-neutral-300">Resigned</span>
                                 @endif
