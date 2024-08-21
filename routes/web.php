@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/secret-code', SecretCodePage::class)->name('secret-code');
     Route::get('/secret-alliance', SecretAlliancePage::class)->name('secret-alliance');
     Route::get('/players/player-dashboard', PlayerDashboard::class)->name('player-dashboard');
-    Route::get('/players/profile', PlayerProfile::class)->name('player.profile');
+    Route::get('/players/{player}/profile', PlayerProfile::class)->name('player.profile');
 });
 
 Route::middleware('admin')->group(function () {
