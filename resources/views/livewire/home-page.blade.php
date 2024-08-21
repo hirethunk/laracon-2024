@@ -18,7 +18,7 @@
     <x-card>
         @if($this->referrer)
             <p class="text-white">
-                Referred by <span class="text-gold-100">{{ $this->referrer->user->name }}.</span>
+                Referred by <span class="text-gold-500">{{ $this->referrer->user->name }}.</span>
                 When you join the game, you will receive an extra upvote, and so will they.
             </p>
         @else
