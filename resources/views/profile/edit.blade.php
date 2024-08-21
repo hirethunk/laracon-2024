@@ -19,9 +19,5 @@
         <x-card>
             @include('profile.partials.update-password-form')
         </x-card>
-
-        <x-card>
-            @include('profile.partials.delete-user-form')
-        </x-card>
     </div>
 </x-app-layout>

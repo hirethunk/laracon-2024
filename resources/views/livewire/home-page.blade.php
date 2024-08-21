@@ -30,7 +30,7 @@
                 label="Referrer"
                 name="referrer_id"
                 wire:model="referrer_id"
-                :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
+                :options="$this->players->mapWithKeys(fn($p) => [$p->id => $p->user?->name])"
                 selected="Choose a Player"
             />
             <div class="flex items-center justify-between mt-4">
