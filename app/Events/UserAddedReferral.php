@@ -17,10 +17,10 @@ class UserAddedReferral extends Event
 
     public int $referrer_player_id;
 
-    public function validate()
+    public function validate(GameState $game)
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->referrer_player_id),
+            $game->player_ids->contains($this->referrer_player_id),
             'Referrer is not in game.'
         );
     }
@@ -28,5 +28,12 @@ class UserAddedReferral extends Event
     public function applyToUser(UserState $user)
     {
         $user->referrer_player_id = $this->referrer_player_id;
+    }
+
+    public function handle(UserState $user)
+    {
+        $user->model()->update([
+            'referrer_player_id' => $user->referrer_player_id,
+        ]);
     }
 }
