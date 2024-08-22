@@ -41,21 +41,21 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         );
     }
 
-    public function applyToPlayer(PlayerState $player, GameState $game)
-    {
-        if (! $game->codeIsValid($this->secret_code)) {
-            $player->score -= 1;
-            $player->can_submit_code_at = now()->addHour(1);
+    // public function applyToPlayer(PlayerState $player, GameState $game)
+    // {
+    //     if (! $game->codeIsValid($this->secret_code)) {
+    //         $player->score -= 1;
+    //         $player->can_submit_code_at = now()->addHour(1);
 
-            return;
-        }
+    //         return;
+    //     }
 
-        if (! $game->codeIsUnused($this->secret_code)) {
-            return;
-        }
+    //     if (! $game->codeIsUnused($this->secret_code)) {
+    //         return;
+    //     }
 
-        $player->score += 1;
-    }
+    //     $player->score += 1;
+    // }
 
     // @todo - uncomment this before Larcon to prevent hackers from being too cool.
     public function applyToGame(GameState $game)
