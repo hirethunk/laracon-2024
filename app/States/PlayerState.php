@@ -88,7 +88,7 @@ class PlayerState extends State
     public function cannotBeUpvoted(): bool
     {
         return $this->game()->modifierIsActive('first-shall-be-last')
-            && $this->score > 0;
+            && $this->score > $this->game()->players()->avg(fn ($p) => $p->score);
     }
 
     public function cannotBeDownvoted(): bool
@@ -96,7 +96,7 @@ class PlayerState extends State
         return $this->is_immune_until > now()
             || (
                 $this->game()->modifierIsActive('first-shall-be-last')
-                && $this->score < 0
+                && $this->score < $this->game()->players()->avg(fn ($p) => $p->score)
             );
     }
 }
