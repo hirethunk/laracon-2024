@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->createUser(20);
+        $this->createUser(300);
     }
 
     protected function createUser(int $count): void

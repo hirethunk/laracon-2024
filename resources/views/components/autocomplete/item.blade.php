@@ -1,6 +1,6 @@
 <x-lwa::autocomplete.item
     :attributes="$attributes->class('')"
-    active=""
+    active="bg-blue-500 text-white"
     inactive=""
     disabled=""
     unstyled

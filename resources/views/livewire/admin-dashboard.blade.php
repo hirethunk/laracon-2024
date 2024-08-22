@@ -13,6 +13,7 @@
                 selected="user_id"
                 search="search"
                 :options="$this->options"
+                :clear="$user_id"
             />
         </div>
 
