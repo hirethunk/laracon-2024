@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    public int $referrer_id;
+    public ?int $referrer_id = null;
 
     #[Computed]
     public function user()
@@ -23,7 +23,7 @@ class HomePage extends Component
     #[Computed]
     public function referrer(): ?Player
     {
-        return $this->user->referringPlayer();
+        return Player::find($this->user->state()->referrer_player_id);
     }
 
     #[Computed]

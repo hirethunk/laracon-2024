@@ -17,10 +17,10 @@ class UserAddedReferral extends Event
 
     public int $referrer_player_id;
 
-    public function validate()
+    public function validate(GameState $game)
     {
         $this->assert(
-            $this->state(GameState::class)->player_ids->contains($this->referrer_player_id),
+            $game->player_ids->contains($this->referrer_player_id),
             'Referrer is not in game.'
         );
     }
