@@ -1,15 +1,17 @@
 <?php
 
-use App\Events\AdminApprovedNewPlayer;
-use App\Events\GameCreated;
-use App\Events\UserAddedReferral;
-use App\Events\UserCreated;
-use App\Events\UserPromotedToAdmin;
-use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
 use App\Models\User;
+use Livewire\Livewire;
+use App\Livewire\HomePage;
+use App\Events\GameCreated;
+use App\Events\UserCreated;
 use App\States\PlayerState;
 use Thunk\Verbs\Facades\Verbs;
+use App\Events\UserAddedReferral;
+use App\Events\UserPromotedToAdmin;
+use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserRequestedToJoinGame;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -192,4 +194,43 @@ it('grants an upvote for referrer and referee', function () {
 
     expect($this->user->fresh()->players->first()->state()->score)->toBe(1);
     expect($this->referrer->fresh()->players->first()->state()->score)->toBe(1);
+});
+
+test('there is confirmation once a referrer is chosen', function () {
+    $homePage = Livewire::actingAs($this->user)->test(HomePage::class);
+
+    $homePage->assertSee('Before you join, you may add a referrer');
+
+    $referrer_id = $homePage->get('referrer_id');
+
+    expect($referrer_id)->toBeNull();
+
+    UserRequestedToJoinGame::fire(
+        user_id: $this->referrer->id,
+        game_id: $this->game->id,
+    );
+
+    AdminApprovedNewPlayer::fire(
+        admin_id: $this->admin->id,
+        user_id: $this->referrer->id,
+        game_id: $this->game->id,
+    );
+
+    $referrer_player_id = $this->referrer->fresh()->players->first()->id;
+
+    $homePage
+        ->set('referrer_id', $referrer_player_id)
+        ->call('addReferrer');
+
+    expect($this->user->fresh()->referringPlayer()->user->name)
+        ->toBe($this->referrer->fresh()->players->first()->user->name);
+
+    $homePage = Livewire::actingAs($this->user->fresh())->test(HomePage::class);
+
+    $referrer = $homePage->get('referrer');
+
+    $homePage
+        ->assertDontSee('Before you join, you may add a referrer')
+        ->assertSee('Referred by')
+        ->assertSee($referrer->user->name);
 });

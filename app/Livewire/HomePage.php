@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    public int $referrer_id;
+    public ?int $referrer_id = null;
 
     #[Computed]
     public function user()
