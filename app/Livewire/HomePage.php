@@ -23,7 +23,7 @@ class HomePage extends Component
     #[Computed]
     public function referrer(): ?Player
     {
-        return $this->user->referringPlayer();
+        return Player::find($this->user->state()->referrer_player_id);
     }
 
     #[Computed]
