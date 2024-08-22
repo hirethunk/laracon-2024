@@ -52,7 +52,7 @@ class Laracon2024Template
             [
                 'slug' => 'first-shall-be-last',
                 'title' => 'The First Shall Be Last',
-                'description' => 'You cannot upvote players with positive scores, or downvote players with negative scores.',
+                'description' => 'You cannot upvote players with above average scores, or downvote players with below average scores.',
                 // starts at 5am of the final day
                 'starts_at' => $this->starts_at->copy()->addHours(24),
                 // ends at 12pm of the final day
