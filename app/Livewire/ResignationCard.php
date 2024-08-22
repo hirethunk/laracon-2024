@@ -15,7 +15,9 @@ class ResignationCard extends Component
 
     public Collection $players;
 
-    public ?int $beneficiary_id = null;
+    public ?string $search = '';
+
+    public null|int|string $beneficiary_id = null;
 
     #[Computed]
     public function beneficiary()
@@ -26,7 +28,13 @@ class ResignationCard extends Component
     #[Computed]
     public function options()
     {
-        return $this->players->mapWithKeys(fn($p) => [$p->id => $p->user->name]);
+        return $this->players->filter(function ($player) {
+            if (isset($this->search)) {
+                return stripos($player->user->name, $this->search) !== false;
+            }
+        })->mapWithKeys(function ($player) {
+            return [$player->id => $player->user->name];
+        });
     }
 
     public function mount(Player $player)

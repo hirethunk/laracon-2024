@@ -18,13 +18,13 @@ class VotingCard extends Component
 
     public bool $player_can_vote;
 
-    public $downvote_target_id = null;
+    public null|int|string $downvote_target_id = null;
 
-    public $upvote_target_id = null;
+    public null|int|string $upvote_target_id = null;
 
-    public $downvote_search = '';
+    public ?string $downvote_search = '';
 
-    public $upvote_search = '';
+    public ?string $upvote_search = '';
 
     public $rules = [
         'downvote_target_id' => 'integer|exists:players,id',

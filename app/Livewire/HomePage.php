@@ -12,9 +12,9 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    public $search = '';
+    public ?string $search = '';
 
-    public $referrer_id = null;
+    public null|int|string $referrer_id = null;
 
     #[Computed]
     public function user()

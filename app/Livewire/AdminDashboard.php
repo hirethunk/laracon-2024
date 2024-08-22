@@ -13,9 +13,9 @@ use Livewire\Component;
 
 class AdminDashboard extends Component
 {
-    public $search = '';
+    public ?string $search = '';
 
-    public $user_id = null;
+    public null|int|string $user_id = null;
 
     public Game $game;
 
