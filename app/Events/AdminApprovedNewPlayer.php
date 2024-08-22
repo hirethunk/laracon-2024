@@ -48,7 +48,7 @@ class AdminApprovedNewPlayer extends Event
         if ($game->user_ids_approved->contains($this->user_id)) {
             return;
         }
-        
+
         PlayerJoinedGame::fire(
             user_id: $this->user_id,
             game_id: $this->game_id,
