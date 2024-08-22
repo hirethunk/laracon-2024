@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 class ResetGameData extends Command
 {
     protected $signature = 'game:reset-data';
+
     protected $description = 'Truncates all the game data tables. Leaves the Verbs tables alone.';
 
     public function handle()
@@ -28,7 +29,7 @@ class ResetGameData extends Command
 
         $this->info('Truncating migrations table...');
         DB::table('migrations')->truncate();
-        
+
         if (DB::getDriverName() !== 'sqlite') {
             $this->info('Enabling foreign key checks...');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');

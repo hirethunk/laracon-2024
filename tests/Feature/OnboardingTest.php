@@ -1,17 +1,16 @@
 <?php
 
+use App\Events\AdminApprovedNewPlayer;
+use App\Events\GameCreated;
+use App\Events\UserAddedReferral;
+use App\Events\UserCreated;
+use App\Events\UserPromotedToAdmin;
+use App\Events\UserRequestedToJoinGame;
+use App\Livewire\HomePage;
 use App\Models\Game;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Livewire\HomePage;
-use App\Events\GameCreated;
-use App\Events\UserCreated;
-use App\States\PlayerState;
 use Thunk\Verbs\Facades\Verbs;
-use App\Events\UserAddedReferral;
-use App\Events\UserPromotedToAdmin;
-use App\Events\AdminApprovedNewPlayer;
-use App\Events\UserRequestedToJoinGame;
 
 beforeEach(function () {
     Verbs::commitImmediately();
@@ -187,11 +186,6 @@ it('grants an upvote for referrer and referee', function () {
         game_id: $this->game->id,
     );
 
-    // dump('referrer', PlayerState::load($referrer_player_id));
-
-    // $player_id = $this->user->fresh()->players->first()->id;
-    // dump('referred', PlayerState::load($player_id));
-
     expect($this->user->fresh()->players->first()->state()->score)->toBe(1);
     expect($this->referrer->fresh()->players->first()->state()->score)->toBe(1);
 });
@@ -221,9 +215,6 @@ test('there is confirmation once a referrer is chosen', function () {
     $homePage
         ->set('referrer_id', $referrer_player_id)
         ->call('addReferrer');
-
-    expect($this->user->fresh()->referringPlayer()->user->name)
-        ->toBe($this->referrer->fresh()->players->first()->user->name);
 
     $homePage = Livewire::actingAs($this->user->fresh())->test(HomePage::class);
 

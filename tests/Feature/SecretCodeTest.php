@@ -19,7 +19,7 @@ it('a player can input a secret code for an upvote', function () {
     PlayerEnteredSecretCode::fire(
         player_id: $this->taylor->id,
         game_id: $this->game->id,
-        secret_code: 'GO1VCQJ0OQ'
+        secret_code: '96191483'
     );
 
     expect($this->taylor->state()->score)->toBe(1);
@@ -30,7 +30,7 @@ it('allows player to submit code in livewire component', function () {
 
     Livewire::test(SecretCodePage::class)
         // ->assertSeeText("Submit")
-        ->set('code', 'GO1VCQJ0OQ')
+        ->set('code', '96191483')
         ->call('submitCode');
 
     expect($this->taylor->state()->score)->toBe(1);
@@ -50,14 +50,14 @@ it('does not reward player for using the same code twice', function () {
     PlayerEnteredSecretCode::fire(
         player_id: $this->taylor->id,
         game_id: $this->game->id,
-        secret_code: 'GO1VCQJ0OQ'
+        secret_code: '96191483'
     );
 
     try {
         PlayerEnteredSecretCode::fire(
             player_id: $this->taylor->id,
             game_id: $this->game->id,
-            secret_code: 'GO1VCQJ0OQ'
+            secret_code: '96191483'
         );
     } catch (Exception $e) {
     }
