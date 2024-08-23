@@ -39,7 +39,9 @@ class AdminDashboard extends Component
             if (isset($this->search)) {
                 return stripos($user->name, $this->search) !== false;
             }
-        })->mapWithKeys(function ($unapproved_user) {
+        })
+        ->sortBy(fn ($user) => $user->name)
+        ->mapWithKeys(function ($unapproved_user) {
             $looks_like_dupe = User::all()
                 ->reject(fn ($user) => $user->id === $unapproved_user->id)
                 ->pluck('name')
