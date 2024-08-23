@@ -28,7 +28,7 @@
             </x-autocomplete.item>
         @endforeach
 
-        @if(! $options->isNotEmpty())
+        @if($options->isEmpty())
             <x-autocomplete.empty
                 x-show="! hasSelectedItem()"
                 x-cloak
