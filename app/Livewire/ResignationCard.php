@@ -28,13 +28,13 @@ class ResignationCard extends Component
     #[Computed]
     public function options()
     {
-        return $this->players->filter(function ($player) {
+        return $this->players->filter(function ($p) {
             if (isset($this->search)) {
-                return stripos($player->user->name, $this->search) !== false;
+                return stripos($p->user->name, $this->search) !== false;
             }
-        })->mapWithKeys(function ($player) {
-            return [$player->id => $player->user->name];
-        });
+        })
+        ->sortBy(fn ($p) => $p->user->name)
+        ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
     }
 
     public function mount(Player $player)

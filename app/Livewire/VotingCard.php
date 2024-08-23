@@ -73,7 +73,7 @@ class VotingCard extends Component
                     return stripos($p->user->name, $this->downvote_search) !== false;
                 }
             })
-            ->sortBy(fn ($p) => $p->name);
+            ->sortBy(fn ($p) => $p->user->name);
     }
 
     public function calculateUpvoteOptions()
@@ -89,7 +89,7 @@ class VotingCard extends Component
                     return stripos($p->user->name, $this->upvote_search) !== false;
                 }
             })
-            ->sortBy(fn ($p) => $p->name);
+            ->sortBy(fn ($p) => $p->user->name);
     }
 
     public function setVoteeOptions()
