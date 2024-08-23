@@ -17,7 +17,7 @@
         <x-autocomplete.clear-button />
     </x-autocomplete.input>
 
-    <x-autocomplete.list class="absolute z-20 overflow-auto bg-black w-full max-h-52 shadow-lg border-b border-x border-neutral-900">
+    <x-autocomplete.list class="absolute z-20 mt-px overflow-auto bg-black w-full max-h-52 shadow-lg border-b border-x border-neutral-900">
         @foreach ($options as $id => $name)
             <x-autocomplete.item
                 :key="(string) $id"
