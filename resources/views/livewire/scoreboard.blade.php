@@ -6,9 +6,15 @@
         <p class="mt-1 pb-4 text-sm text-neutral-300">
             Click any player's name to see their score history
         </p>
-        <table class="w-full">
+        <x-form.autocomplete
+            label="Search for a specific player"
+            selected="searched_player_id"
+            search="search"
+            :options="$this->options"
+        />
+        <table class="w-full mt-4">
             <tbody>
-                @foreach($players as $player)
+                @foreach($players_collection as $player)
                     <tr>
                         @if($player['id'] === $this->player->id)
                             <td class="text-left text-gold-500">
