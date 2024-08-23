@@ -31,7 +31,7 @@ class UserProfile extends Component
 
         session()->flash('event', 'UserNameUpdated');
 
-        return redirect()->route('user-profile');
+        return redirect()->route('profile.edit');
     }
 
     public function render()
