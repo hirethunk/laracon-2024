@@ -6,7 +6,6 @@ use App\Events\UserNameUpdated;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-#[On('refreshComponent')]
 class UserProfile extends Component
 {
     public $user;
@@ -32,7 +31,7 @@ class UserProfile extends Component
 
         session()->flash('event', 'UserNameUpdated');
 
-        $this->dispatch('refreshComponent');
+        return redirect()->route('user-profile');
     }
 
     public function render()

@@ -24,7 +24,11 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
         @if(! $this->user->is_approved)
-            <x-primary-button wire:click="updateName">{{ __('Update Name') }}</x-primary-button>
+            <div class="flex items-center justify-between mt-4">
+                <x-primary-button wire:click="updateName">{{ __('Update Name') }}</x-primary-button>
+
+                <x-flash.fired />
+            </div>
         @endif
     </div>
 </section>
