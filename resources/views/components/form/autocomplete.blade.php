@@ -3,32 +3,38 @@
     'search' => '',
     'selected' => '',
     'search' => '',
-    'clear' => '',
     'options' => [],
 ])
 
-<x-form.label customStyle="text-sm text-neutral-200 font-medium" name="{{ $label }}" label="{{ $label }}" />
+<x-form.label customStyle="text-sm text-neutral-200 bg-black font-medium" name="{{ $label }}" label="{{ $label }}" />
 
-<x-autocomplete wire:model.live="{{ $selected }}" class="bg-neutral-900">
+<x-autocomplete wire:model.live="{{ $selected }}">
     <x-autocomplete.input
         wire:model.live="{{ $search }}"
-        class="px-4 w-full bg-inherit border-2 rounded-lg"
+        containerClass="flex items-center gap-x-2"
+        class="px-4 w-full bg-black border-2 rounded-lg"
     >
-        {{-- @todo figure out placement --}}
-        {{-- @if (isset($clear) && $clear !== '')
-            <x-autocomplete.clear-button />
-        @endif --}}
+        <x-autocomplete.clear-button />
     </x-autocomplete.input>
 
-    <x-autocomplete.list class="absolute overflow-auto bg-neutral-900 w-full pt-1 max-h-56">
+    <x-autocomplete.list class="absolute z-20 overflow-auto bg-black w-full max-h-52 shadow-lg">
         @foreach ($options as $id => $name)
             <x-autocomplete.item
                 :key="(string) $id"
                 :value="$name"
-                class="px-4"
+                class="py-2 px-4 cursor-pointer"
             >
                 {{ $name }}
             </x-autocomplete.item>
         @endforeach
+
+        @if(! $options->isNotEmpty())
+            <x-autocomplete.empty
+                x-show="! hasSelectedItem()"
+                x-cloak
+                inactive="bg-black"
+                class="py-2 px-4"
+            />
+        @endif
     </x-autocomplete.list>
 </x-autocomplete>

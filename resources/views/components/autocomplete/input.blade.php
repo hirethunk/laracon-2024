@@ -1,4 +1,9 @@
-<x-lwa::autocomplete.input :attributes="$attributes->class('')" containerClass="" unstyled>
+@props([
+    'containerClass' => '',
+    'placeholder' => 'Search...'
+])
+
+<x-lwa::autocomplete.input :attributes="$attributes->merge(['placeholder' => $placeholder])" :containerClass="$containerClass" unstyled>
     @if (isset($prefix))
         <x-slot:prefix>
             {{ $prefix }}
