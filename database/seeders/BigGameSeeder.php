@@ -24,7 +24,7 @@ use function Laravel\Prompts\progress;
 
 class BigGameSeeder extends Seeder
 {
-    protected const PLAYER_COUNT = 500;
+    protected const PLAYER_COUNT = 50;
 
     protected int $game_id;
 
