@@ -62,9 +62,15 @@ class AdminDashboard extends Component
             return;
         }
 
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate([
+            'user_id' => 'integer|exists:users,id',
+        ]);
+
         AdminApprovedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: (int) $this->user_id,
+            user_id: $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );
@@ -80,9 +86,15 @@ class AdminDashboard extends Component
             return;
         }
 
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate([
+            'user_id' => 'integer|exists:users,id',
+        ]);
+
         AdminRejectedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: (int) $this->user_id,
+            user_id: $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );
