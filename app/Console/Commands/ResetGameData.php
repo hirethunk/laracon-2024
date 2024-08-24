@@ -30,6 +30,9 @@ class ResetGameData extends Command
         $this->info('Truncating migrations table...');
         DB::table('migrations')->truncate();
 
+        $this->info('Truncating snapshots table...');
+        DB::table('verb_snapshots')->truncate();
+
         if (DB::getDriverName() !== 'sqlite') {
             $this->info('Enabling foreign key checks...');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
