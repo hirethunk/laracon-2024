@@ -34,7 +34,7 @@ class Scoreboard extends Component
         $resigned_players = $players
             ->filter(fn ($p) => ! $p->is_active);
 
-        $players = $players_in_game
+        return $players_in_game
             ->concat($resigned_players)
             ->map(fn ($p) => [
                 'name' => $p->name,
@@ -42,59 +42,22 @@ class Scoreboard extends Component
                 'score' => $p->score,
                 'is_active' => $p->is_active,
             ]);
-
-        return $players;
     }
 
     #[Computed]
     public function options()
     {
-        return $this->players
-            ->filter(function ($player) {
-                if (isset($this->search)) {
-                    return stripos($player['name'], $this->search) !== false;
-                }
-            });
+        return $this->players->filter(function ($player) {
+            if (isset($this->search)) {
+                return (stripos($player['name'], $this->search) !== false)
+                    || (stripos((string)$player['score'], $this->search) !== false);
+            }
+        });
     }
 
     public function mount(Player $player)
     {
         $this->player = $player;
-    }
-
-    public function setPlayers()
-    {
-        // $players = $this->player->state()->game()->players();
-
-        // dump($this->player);
-
-        // dump($players);
-
-        // $players_in_game = $players
-        //     ->filter(fn ($p) => $p->is_active)
-        //     ->sortByDesc('score');
-
-        // dump($players_in_game);
-
-        // $resigned_players = $players
-        //     ->filter(fn ($p) => ! $p->is_active);
-
-        // $players_in_game
-        //     ->concat($resigned_players)
-        //     ->map(fn ($p) => [
-        //         'name' => $p->name,
-        //         'id' => $p->id,
-        //         'score' => $p->score,
-        //         'is_active' => $p->is_active,
-        //     ]);
-
-        // dump($players_in_game);
-
-        // return $players_in_game;
-
-        // dump($players);
-
-        // return $players;
     }
 
     public function render()
