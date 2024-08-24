@@ -49,8 +49,9 @@ class Scoreboard extends Component
     {
         return $this->players->filter(function ($player) {
             if (isset($this->search)) {
-                return (stripos($player['name'], $this->search) !== false)
-                    || (stripos((string)$player['score'], $this->search) !== false);
+                return stripos($player['name'], $this->search) !== false
+                    || $player['is_active'] === true && stripos((string)$player['score'], $this->search) !== false
+                    || $player['is_active'] === false && stripos('resigned', $this->search) !== false;
             }
         });
     }
