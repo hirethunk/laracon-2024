@@ -3,6 +3,8 @@
 namespace App\Events;
 
 use App\Support\ConvertKit;
+use Illuminate\Support\Facades\App;
+use Thunk\Verbs\Attributes\Hooks\Once;
 use Thunk\Verbs\Event;
 
 class UserSubscribedToNewsletter extends Event
@@ -11,8 +13,13 @@ class UserSubscribedToNewsletter extends Event
         public string $email,
     ) {}
 
+    #[Once]
     public function handle()
     {
-        (new ConvertKit)->addSubscriber($this->email, env('CONVERTKIT_FORM_ID'));
+        if (! App::isProduction()) {
+            return;
+        }
+		
+        dispatch(fn () => (new ConvertKit)->addSubscriber($this->email, config('services.convertkit.form_id')));
     }
 }

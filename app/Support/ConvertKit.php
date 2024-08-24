@@ -9,12 +9,12 @@ class ConvertKit
     public function __construct(
         public ?string $apiSecret = null,
     ) {
-        $this->apiSecret = $apiSecret ?? env('CONVERT_KIT_API_SECRET');
+        $this->apiSecret = $apiSecret ?? config('services.convertkit.api_secret');
     }
 
     public function addSubscriber(string $email, ?int $formId = null): ?array
     {
-        $formId = $formId ?? env('CONVERTKIT_FORM_ID');
+        $formId = $formId ?? config('services.convertkit.form_id');
 
         return Http::post("https://api.convertkit.com/v3/forms/{$formId}/subscribe", [
             'api_secret' => $this->apiSecret,
