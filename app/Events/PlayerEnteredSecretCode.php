@@ -33,13 +33,13 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
     }
 
     // @todo this is the one thing you have to uncomment to make things work.
-    public function validate()
-    {
-        $this->assert(
-            ! $this->state(GameState::class)->codeIsUsed($this->secret_code),
-            'Code has already been used.'
-        );
-    }
+    // public function validate()
+    // {
+    //     $this->assert(
+    //         ! $this->state(GameState::class)->codeIsUsed($this->secret_code),
+    //         'Code has already been used.'
+    //     );
+    // }
 
     public function applyToPlayer(PlayerState $player, GameState $game)
     {
@@ -58,15 +58,15 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
     }
 
     // @todo - uncomment this before Larcon to prevent hackers from being too cool.
-    public function applyToGame(GameState $game)
-    {
-        if (! $game->codeIsUnused($this->secret_code)) {
-            return;
-        }
-
-        $game->used_codes[] = $this->secret_code;
-        $game->unused_codes = array_filter($game->unused_codes, fn ($code) => $code !== $this->secret_code);
-    }
+    // public function applyToGame(GameState $game)
+    // {
+    //     if (! $game->codeIsUnused($this->secret_code)) {
+    //         return;
+    //     }
+	//
+    //     $game->used_codes[] = $this->secret_code;
+    //     $game->unused_codes = array_filter($game->unused_codes, fn ($code) => $code !== $this->secret_code);
+    // }
 
     public function asHistory(): array|string|HistoryComponentDto
     {
