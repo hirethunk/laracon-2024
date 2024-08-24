@@ -270,7 +270,7 @@ it('gives bonus votes for buddy system', function () {
     expect($this->aaron->state()->score)->toBe(-2);
 });
 
-it('first shall be last does not allow upvotes for positive players or downvotes for negative players', function () {
+it('first shall be last does not allow upvotes for above average players or downvotes for below average players', function () {
     PlayerVoted::fire(
         player_id: $this->caleb->id,
         upvotee_id: $this->taylor->id,

@@ -11,9 +11,10 @@ use Thunk\VerbsHistory\States\Interfaces\ExposesHistory;
 
 class PlayerReceivedUpvote extends Event implements ExposesHistory
 {
-    #[StateId(PlayerState::class)]
+    #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
+    #[StateId(PlayerState::class, 'voter')]
     public int $voter_id;
 
     public int $amount;
@@ -51,7 +52,7 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
             props: [
                 'type' => $this->type,
                 'amount' => $this->amount,
-                'voter_name' => PlayerState::load($this->voter_id)->name,
+                'voter_name' => $this->states()->get('voter')->name,
                 'score' => $this->states()->get('player')->score,
             ]
         );

@@ -63,6 +63,8 @@ class ResignationCard extends Component
 
     public function resign()
     {
+        $this->beneficiary_id = (int) $this->beneficiary_id;
+
         $this->validate();
 
         if (! PlayerState::load($this->beneficiary_id)->is_active) {
@@ -78,7 +80,7 @@ class ResignationCard extends Component
         PlayerResigned::fire(
             player_id: $this->player->id,
             game_id: $this->player->game->id,
-            beneficiary_id: (int) $this->beneficiary_id,
+            beneficiary_id: $this->beneficiary_id,
         );
 
         session()->flash('event', 'PlayerResigned');

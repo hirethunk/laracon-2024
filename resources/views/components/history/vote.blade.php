@@ -14,6 +14,7 @@
         'referred' => 'Bonus for being referred',
         'got-referred' => 'Bonus for referring new player',
         'invalid-secret-code' => 'Invalid Secret Code',
+        'reused-secret-code' => 'Tried to re-use a secret code',
         'secret-code-reward' => 'Found a secret code',
         'ally-connection' => 'Connected with a secret ally',
         'prisoners-dilemma-nice-nice' => 'Cooperated with ally',

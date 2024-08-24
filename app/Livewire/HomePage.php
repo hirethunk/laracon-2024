@@ -25,7 +25,7 @@ class HomePage extends Component
     #[Computed]
     public function referrer(): ?Player
     {
-        return $this->user->referringPlayer();
+        return Player::find($this->user->state()->referrer_player_id);
     }
 
     #[Computed]
@@ -52,6 +52,10 @@ class HomePage extends Component
         ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
     }
 
+    public $rules = [
+        'referrer_id' => 'integer|exists:players,id',
+    ];
+
     public function isApproved()
     {
         if ($this->user->currentPlayer()) {
@@ -70,9 +74,13 @@ class HomePage extends Component
             return;
         }
 
+        $this->referrer_id = (int) $this->referrer_id;
+
+        $this->validate();
+
         UserAddedReferral::fire(
             user_id: $this->user->id,
-            referrer_player_id: (int) $this->referrer_id,
+            referrer_player_id: $this->referrer_id,
             game_id: $this->game->id,
         );
 

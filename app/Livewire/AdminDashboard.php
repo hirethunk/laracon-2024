@@ -56,15 +56,23 @@ class AdminDashboard extends Component
         });
     }
 
+    public $rules = [
+        'user_id' => 'integer|exists:users,id',
+    ];
+
     public function approve()
     {
         if ($this->user_id === null) {
             return;
         }
 
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate();
+
         AdminApprovedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: (int) $this->user_id,
+            user_id: $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );
@@ -80,9 +88,13 @@ class AdminDashboard extends Component
             return;
         }
 
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate();
+
         AdminRejectedNewPlayer::fire(
             admin_id: $this->user->id,
-            user_id: (int) $this->user_id,
+            user_id: $this->user_id,
             game_id: $this->game->id,
             player_id: null,
         );

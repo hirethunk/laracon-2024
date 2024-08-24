@@ -100,6 +100,9 @@ class VotingCard extends Component
 
     public function vote()
     {
+        $this->downvote_target_id = (int) $this->downvote_target_id;
+        $this->upvote_target_id = (int) $this->upvote_target_id;
+
         $this->validate();
 
         if (! PlayerState::load($this->downvote_target_id)->is_active) {
@@ -125,8 +128,8 @@ class VotingCard extends Component
         PlayerVoted::fire(
             player_id: $this->player->id,
             game_id: $this->game->id,
-            upvotee_id: (int) $this->upvote_target_id,
-            downvotee_id: (int) $this->downvote_target_id,
+            upvotee_id: $this->upvote_target_id,
+            downvotee_id: $this->downvote_target_id,
         );
 
         session()->flash('event', 'PlayerVoted');
