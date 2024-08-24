@@ -11,11 +11,7 @@ class Scoreboard extends Component
 {
     public Player $player;
 
-    public Collection $players_collection;
-
     public ?string $search = '';
-
-    public null|int|string $searched_player_id = null;
 
     public function showScoreboard(): bool
     {
@@ -29,57 +25,76 @@ class Scoreboard extends Component
     #[Computed]
     public function players()
     {
-        return $this->player->state()->game()->players();
-    }
+        $players = $this->player->state()->game()->players();
 
-    #[Computed]
-    public function options()
-    {
-        return $this->players->filter(function ($player) {
-            if (isset($this->search)) {
-                return stripos($player->name, $this->search) !== false;
-            }
-        })->mapWithKeys(function ($player) {
-            return [$player->id => $player->name];
-        });
-    }
-
-    public function mount(Player $player)
-    {
-        $this->player = $player;
-
-        $this->setPlayers();
-    }
-
-    public function setPlayers()
-    {
-        if ($this->searched_player_id) {
-            $this->players_collection = $this->player->state()->game()->players()
-                ->filter(fn ($p) => $p->id === $this->searched_player_id)
-                ->map(fn ($p) => [
-                    'name' => $p->name,
-                    'id' => $p->id,
-                    'score' => $p->score,
-                    'is_active' => $p->is_active,
-                ]);
-
-            return;
-        }
-
-        $players_in_game = $this->player->state()->game()->players()
+        $players_in_game = $players
             ->filter(fn ($p) => $p->is_active)
             ->sortByDesc('score');
 
-        $resigned_players = $this->player->state()->game()->players()
+        $resigned_players = $players
             ->filter(fn ($p) => ! $p->is_active);
 
-        $this->players_collection = $players_in_game->concat($resigned_players)
+        $players = $players_in_game
+            ->concat($resigned_players)
             ->map(fn ($p) => [
                 'name' => $p->name,
                 'id' => $p->id,
                 'score' => $p->score,
                 'is_active' => $p->is_active,
             ]);
+
+        return $players;
+    }
+
+    #[Computed]
+    public function options()
+    {
+        return $this->players
+            ->filter(function ($player) {
+                if (isset($this->search)) {
+                    return stripos($player['name'], $this->search) !== false;
+                }
+            });
+    }
+
+    public function mount(Player $player)
+    {
+        $this->player = $player;
+    }
+
+    public function setPlayers()
+    {
+        // $players = $this->player->state()->game()->players();
+
+        // dump($this->player);
+
+        // dump($players);
+
+        // $players_in_game = $players
+        //     ->filter(fn ($p) => $p->is_active)
+        //     ->sortByDesc('score');
+
+        // dump($players_in_game);
+
+        // $resigned_players = $players
+        //     ->filter(fn ($p) => ! $p->is_active);
+
+        // $players_in_game
+        //     ->concat($resigned_players)
+        //     ->map(fn ($p) => [
+        //         'name' => $p->name,
+        //         'id' => $p->id,
+        //         'score' => $p->score,
+        //         'is_active' => $p->is_active,
+        //     ]);
+
+        // dump($players_in_game);
+
+        // return $players_in_game;
+
+        // dump($players);
+
+        // return $players;
     }
 
     public function render()

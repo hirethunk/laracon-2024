@@ -6,15 +6,18 @@
         <p class="mt-1 pb-4 text-sm text-neutral-300">
             Click any player's name to see their score history
         </p>
-        <x-form.autocomplete
-            label="Search for a specific player"
-            selected="searched_player_id"
-            search="search"
-            :options="$this->options"
-        />
+
+        <div class="flex items-center gap-x-4 w-full">
+            <input
+                placeholder="Find Player..."
+                class="w-full bg-black border-2 rounded-lg shadow-sm outline-none focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gold-500-light active:ring-2 active:ring-gold-500-light text-neutral-300 focus:rounded-md"
+                wire:model.live="search"
+            />
+        </div>
+
         <table class="w-full mt-4">
             <tbody>
-                @foreach($players_collection as $player)
+                @foreach($this->options as $player)
                     <tr>
                         @if($player['id'] === $this->player->id)
                             <td class="text-left text-gold-500">
