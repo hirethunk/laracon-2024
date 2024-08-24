@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class AdminDashboard extends Component
 {
-    public ?int $user_id;
+    public ?int $user_id = null;
 
     public Game $game;
 
