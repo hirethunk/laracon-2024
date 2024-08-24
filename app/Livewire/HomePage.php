@@ -52,6 +52,10 @@ class HomePage extends Component
         ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
     }
 
+    public $rules = [
+        'referrer_id' => 'integer|exists:players,id',
+    ];
+
     public function isApproved()
     {
         if ($this->user->currentPlayer()) {
@@ -72,9 +76,7 @@ class HomePage extends Component
 
         $this->referrer_id = (int) $this->referrer_id;
 
-        $this->validate([
-            'referrer_id' => 'integer|exists:players,id',
-        ]);
+        $this->validate();
 
         UserAddedReferral::fire(
             user_id: $this->user->id,

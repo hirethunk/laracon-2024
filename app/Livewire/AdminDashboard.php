@@ -56,6 +56,10 @@ class AdminDashboard extends Component
         });
     }
 
+    public $rules = [
+        'user_id' => 'integer|exists:users,id',
+    ];
+
     public function approve()
     {
         if ($this->user_id === null) {
@@ -64,9 +68,7 @@ class AdminDashboard extends Component
 
         $this->user_id = (int) $this->user_id;
 
-        $this->validate([
-            'user_id' => 'integer|exists:users,id',
-        ]);
+        $this->validate();
 
         AdminApprovedNewPlayer::fire(
             admin_id: $this->user->id,
@@ -88,9 +90,7 @@ class AdminDashboard extends Component
 
         $this->user_id = (int) $this->user_id;
 
-        $this->validate([
-            'user_id' => 'integer|exists:users,id',
-        ]);
+        $this->validate();
 
         AdminRejectedNewPlayer::fire(
             admin_id: $this->user->id,
