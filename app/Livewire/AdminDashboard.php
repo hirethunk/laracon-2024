@@ -2,14 +2,15 @@
 
 namespace App\Livewire;
 
-use App\Events\AdminApprovedNewPlayer;
-use App\Events\AdminRejectedNewPlayer;
 use App\Models\Game;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use App\Events\PlayerJoinedGame;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
+use App\Events\AdminRejectedNewPlayer;
+use Thunk\Verbs\Facades\Verbs;
 
 class AdminDashboard extends Component
 {
@@ -20,8 +21,7 @@ class AdminDashboard extends Component
     #[Computed]
     public function unapprovedUsers()
     {
-        return $this->game->state()->usersAwaitingApproval()
-            ->sortBy(fn ($user) => $user->name);
+        return User::whereNull('current_game_id')->orderBy('name')->get();
     }
 
     #[Computed]
@@ -37,7 +37,8 @@ class AdminDashboard extends Component
             $looks_like_dupe = User::all()
                 ->reject(fn ($user) => $user->id === $unapproved_user->id)
                 ->pluck('name')
-                ->filter(fn ($name) => $name === $unapproved_user->name
+                ->filter(
+                    fn ($name) => $name === $unapproved_user->name
                 )->isNotEmpty();
 
             $name_modified = $looks_like_dupe
@@ -54,15 +55,12 @@ class AdminDashboard extends Component
             return;
         }
 
-        AdminApprovedNewPlayer::fire(
-            admin_id: $this->user->id,
+        PlayerJoinedGame::fire(
             user_id: $this->user_id,
             game_id: $this->game->id,
-            player_id: null,
         );
 
-        session()->flash('event', 'AdminApprovedNewPlayer');
-
+        Verbs::commit();
         return redirect()->route('admin-dashboard', $this->game->id);
     }
 

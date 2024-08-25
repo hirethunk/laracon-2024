@@ -22,8 +22,12 @@ class PlayerVoted extends Event
     #[StateId(GameState::class)]
     public int $game_id;
 
-    public function authorize(GameState $game, PlayerState $player)
+    public function authorize(GameState $game)
     {
+        if(config('dump', false)) {
+            dump('auth');
+        }
+
         $this->assert(
             $game->player_ids->contains($this->player_id),
             'Voter is not in the game.'
@@ -33,18 +37,14 @@ class PlayerVoted extends Event
             $game->ends_at > now(),
             'The game is over.'
         );
-
-        if (app()->environment('production') || app()->environment('testing')) {
-            // Unlimited voting while testing locally
-            $this->assert(
-                $player->canVote(),
-                'Voter must wait 1 hour between votes.'
-            );
-        }
     }
 
     public function validate(GameState $game, PlayerState $upvotee, PlayerState $downvotee)
     {
+        if(config('dump', false)) {
+            dump('validate');
+        }
+
         $this->assert(
             $this->upvotee_id !== $this->player_id && $this->downvotee_id !== $this->player_id,
             'Cannot vote for yourself.'
@@ -83,6 +83,10 @@ class PlayerVoted extends Event
 
     public function applyToPlayer(PlayerState $player)
     {
+        if(config('dump', false)) {
+            dump('apply player');
+        }
+
         $player->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
@@ -92,6 +96,10 @@ class PlayerVoted extends Event
 
     public function fired(GameState $game, PlayerState $upvotee)
     {
+        if(config('dump', false)) {
+            dump('fired');
+        }
+
         $amount = $game->modifierIsActive('double-down') ? 2 : 1;
 
         PlayerReceivedUpvote::fire(
@@ -110,36 +118,36 @@ class PlayerVoted extends Event
             amount: $amount,
         );
 
-        $modifier = $game->activeModifier();
+        // $modifier = $game->activeModifier();
 
-        if ($modifier['slug'] === 'buddy-system') {
-            $buddy_system_started_at = $modifier['starts_at'];
+        // if ($modifier['slug'] === 'buddy-system') {
+        //     $buddy_system_started_at = $modifier['starts_at'];
 
-            $mutual_vote_exists = collect($upvotee->ballots_cast)
-                ->filter(fn ($b) => $b['upvotee_id'] === $this->player_id)
-                ->filter(fn ($b) => $b['voted_at'] > $buddy_system_started_at)
-                ->first();
+        //     $mutual_vote_exists = collect($upvotee->ballots_cast)
+        //         ->filter(fn ($b) => $b['upvotee_id'] === $this->player_id)
+        //         ->filter(fn ($b) => $b['voted_at'] > $buddy_system_started_at)
+        //         ->first();
 
-            $buddy_reward_already_given = $upvotee->buddy_system_reward_received;
+        //     $buddy_reward_already_given = $upvotee->buddy_system_reward_received;
 
-            if ($mutual_vote_exists && ! $buddy_reward_already_given) {
-                PlayerReceivedUpvote::fire(
-                    player_id: $upvotee->id,
-                    voter_id: $this->player_id,
-                    game_id: $this->game_id,
-                    type: 'buddy-system-reward',
-                    amount: 2,
-                );
+        //     if ($mutual_vote_exists && ! $buddy_reward_already_given) {
+        //         PlayerReceivedUpvote::fire(
+        //             player_id: $upvotee->id,
+        //             voter_id: $this->player_id,
+        //             game_id: $this->game_id,
+        //             type: 'buddy-system-reward',
+        //             amount: 2,
+        //         );
 
-                PlayerReceivedUpvote::fire(
-                    player_id: $this->player_id,
-                    voter_id: $upvotee->id,
-                    game_id: $this->game_id,
-                    type: 'buddy-system-reward',
-                    amount: 2,
-                );
-            }
-        }
+        //         PlayerReceivedUpvote::fire(
+        //             player_id: $this->player_id,
+        //             voter_id: $upvotee->id,
+        //             game_id: $this->game_id,
+        //             type: 'buddy-system-reward',
+        //             amount: 2,
+        //         );
+        //     }
+        // }
     }
 
     public function handle()

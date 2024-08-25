@@ -22,8 +22,6 @@ class GameCreated extends Event
     {
         $state->name = $this->name;
 
-        $state->user_ids_awaiting_approval = collect();
-
         $state->user_ids_approved = collect();
 
         $state->player_ids = collect();

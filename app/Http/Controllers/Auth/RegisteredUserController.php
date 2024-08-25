@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\UserCreated;
-use App\Events\UserRequestedToJoinGame;
+// use App\Events\UserRequestedToJoinGame;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\User;
@@ -45,12 +45,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ])->user_id;
 
-        $game = Game::firstWhere('status', 'active');
+        // $game = Game::firstWhere('status', 'active');
 
-        UserRequestedToJoinGame::fire(
-            user_id: $user_id,
-            game_id: $game->id,
-        );
+        // UserRequestedToJoinGame::fire(
+        //     user_id: $user_id,
+        //     game_id: $game->id,
+        // );
 
         Verbs::commit();
 

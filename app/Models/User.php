@@ -65,4 +65,12 @@ class User extends Authenticatable
     {
         return Player::firstWhere('id', $this->referrer_player_id);
     }
+
+    public function stateApprovable($q)
+    {
+        $q->where([
+            'rejected' => false,
+            'current_game_id' => null,
+        ]);
+    }
 }

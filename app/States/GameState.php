@@ -12,8 +12,6 @@ class GameState extends State
 {
     public string $name;
 
-    public Collection $user_ids_awaiting_approval;
-
     public Collection $player_ids;
 
     public Collection $user_ids_approved;
@@ -52,11 +50,6 @@ class GameState extends State
     public function isActive(): bool
     {
         return $this->starts_at <= now() && $this->ends_at >= now();
-    }
-
-    public function usersAwaitingApproval()
-    {
-        return collect($this->user_ids_awaiting_approval)->map(fn ($id) => User::find($id));
     }
 
     public function codeIsUsed(string $code)

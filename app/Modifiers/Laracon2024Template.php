@@ -41,8 +41,8 @@ class Laracon2024Template
                 'ends_at' => $this->starts_at->copy()->addHours(12),
             ],
             [
-                'slug' => 'buddy-system',
-                'title' => 'Buddy System',
+                'slug' => 'double-down',
+                'title' => 'Double Down',
                 'description' => 'If you and another player upvote each other while Buddy System is active, you will each receive an extra upvote (only works once per Buddy).',
                 // starts at 5pm of the first day
                 'starts_at' => $this->starts_at->copy()->addHours(12),
@@ -50,8 +50,8 @@ class Laracon2024Template
                 'ends_at' => $this->starts_at->copy()->addHours(24),
             ],
             [
-                'slug' => 'first-shall-be-last',
-                'title' => 'The First Shall Be Last',
+                'slug' => 'double-down',
+                'title' => 'Double Down',
                 'description' => 'You cannot upvote players with above average scores, or downvote players with below average scores.',
                 // starts at 5am of the final day
                 'starts_at' => $this->starts_at->copy()->addHours(24),

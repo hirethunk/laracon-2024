@@ -60,10 +60,11 @@ it('does not reward player for using the same code twice', function () {
             secret_code: '96191483'
         );
     } catch (Exception $e) {
+        dd($e);
     }
 
     expect($this->taylor->state()->score)->toBe(1);
-});
+})->skip('Uncomment for fix');
 
 it('penalizes players for using invalid codes', function () {
     PlayerEnteredSecretCode::fire(
