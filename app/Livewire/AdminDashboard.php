@@ -40,20 +40,20 @@ class AdminDashboard extends Component
                 return stripos($user->name, $this->search) !== false;
             }
         })
-        ->sortBy(fn ($user) => $user->name)
-        ->mapWithKeys(function ($unapproved_user) {
-            $looks_like_dupe = User::all()
-                ->reject(fn ($user) => $user->id === $unapproved_user->id)
-                ->pluck('name')
-                ->filter(fn ($name) => $name === $unapproved_user->name
-                )->isNotEmpty();
+            ->sortBy(fn ($user) => $user->name)
+            ->mapWithKeys(function ($unapproved_user) {
+                $looks_like_dupe = User::all()
+                    ->reject(fn ($user) => $user->id === $unapproved_user->id)
+                    ->pluck('name')
+                    ->filter(fn ($name) => $name === $unapproved_user->name
+                    )->isNotEmpty();
 
-            $name_modified = $looks_like_dupe
-                ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
-                : $unapproved_user->name.' ('.$unapproved_user->email.')';
+                $name_modified = $looks_like_dupe
+                    ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
+                    : $unapproved_user->name.' ('.$unapproved_user->email.')';
 
-            return [$unapproved_user->id => $name_modified];
-        });
+                return [$unapproved_user->id => $name_modified];
+            });
     }
 
     public $rules = [

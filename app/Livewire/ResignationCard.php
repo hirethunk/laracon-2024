@@ -33,8 +33,8 @@ class ResignationCard extends Component
                 return stripos($p->user->name, $this->search) !== false;
             }
         })
-        ->sortBy(fn ($p) => $p->user->name)
-        ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
+            ->sortBy(fn ($p) => $p->user->name)
+            ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
     }
 
     public function mount(Player $player)
