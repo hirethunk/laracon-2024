@@ -27,8 +27,15 @@ class VotingCard extends Component
     public ?string $upvote_search = '';
 
     public $rules = [
-        'downvote_target_id' => 'integer|exists:players,id',
-        'upvote_target_id' => 'integer|exists:players,id',
+        'downvote_target_id' => 'integer|exists:players,id|required_with:upvote_target_id',
+        'upvote_target_id' => 'integer|exists:players,id|required_with:downvote_target_id',
+    ];
+
+    protected $messages = [
+        'upvote_target_id.required_with' => 'You must both upvote and downvote.',
+        'downvote_target_id.required_with' => 'You must both upvote and downvote.',
+        'upvote_target_id.integer' => 'You must select an upvote target.',
+        'downvote_target_id.integer' => 'You must select a downvote target.',
     ];
 
     #[Computed]
@@ -100,8 +107,10 @@ class VotingCard extends Component
 
     public function vote()
     {
-        $this->downvote_target_id = (int) $this->downvote_target_id;
-        $this->upvote_target_id = (int) $this->upvote_target_id;
+        if (isset($this->downvote_target_id) && isset($this->upvote_target_id)) {
+            $this->downvote_target_id = (int) $this->downvote_target_id;
+            $this->upvote_target_id = (int) $this->upvote_target_id;
+        }
 
         $this->validate();
 

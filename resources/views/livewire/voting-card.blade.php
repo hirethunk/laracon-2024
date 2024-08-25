@@ -23,6 +23,16 @@
                 </div>
             </div>
 
+            @if ($errors->any())
+                <div class="pt-4 text-red-600">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if (session()->has('error'))
                 <div class="pt-4 text-red-600">
                     {{ session('error') }}
