@@ -2,13 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Events\UserCreated;
-use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
+use App\Models\User;
+use App\Events\UserCreated;
 use Illuminate\Database\Seeder;
+use App\Events\UserPromotedToAdmin;
+use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserRequestedToJoinGame;
 
 class UserSeeder extends Seeder
 {
+    protected $game_id;
+
+    public function __construct()
+    {
+        $this->game_id = Game::first()->id;
+    }
+
     public function run(): void
     {
         $this->createUser(300);
@@ -25,7 +35,7 @@ class UserSeeder extends Seeder
 
             UserRequestedToJoinGame::fire(
                 user_id: $user_id,
-                game_id: Game::first()->id,
+                game_id: $this->game_id,
             );
         }
     }
