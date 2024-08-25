@@ -15,40 +15,42 @@
             />
         </div>
 
-        <table class="w-full mt-4">
-            <tbody>
-                @foreach($this->options as $player)
-                    <tr>
-                        @if($player['id'] === $this->player->id)
-                            <td class="text-left text-gold-500">
-                                <a href="{{ route('player.profile', $player['id']) }}">
-                                    {{ $player['name'] }}
-                                </a>
-                            </td>
-                            <td class="text-right text-gold-500">
-                                @if($player['is_active'])
-                                    <span class="tabular-nums">{{ $player['score'] }}</span>
-                                @else
-                                    <span class="text-neutral-300">Resigned</span>
-                                @endif
-                            </td>
-                        @else
-                            <td class="text-left">
-                                <a href="{{ route('player.profile', $player['id']) }}">
-                                    {{ $player['name'] }}
-                                </a>
-                            </td>
-                            <td class="text-right">
-                                @if($player['is_active'])
-                                    <span class="tabular-nums">{{ $player['score'] }}</span>
-                                @else
-                                    <span class="text-neutral-300">Resigned</span>
-                                @endif
-                            </td>
-                        @endif
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="mt-4 overflow-auto max-h-96">
+            <table class="w-full">
+                <tbody>
+                    @foreach($this->options as $player)
+                        <tr>
+                            @if($player['id'] === $this->player->id)
+                                <td class="text-left text-gold-500">
+                                    <a href="{{ route('player.profile', $player['id']) }}">
+                                        {{ $player['name'] }}
+                                    </a>
+                                </td>
+                                <td class="text-right text-gold-500">
+                                    @if($player['is_active'])
+                                        <span class="tabular-nums">{{ $player['score'] }}</span>
+                                    @else
+                                        <span class="text-neutral-300">Resigned</span>
+                                    @endif
+                                </td>
+                            @else
+                                <td class="text-left">
+                                    <a href="{{ route('player.profile', $player['id']) }}">
+                                        {{ $player['name'] }}
+                                    </a>
+                                </td>
+                                <td class="text-right">
+                                    @if($player['is_active'])
+                                        <span class="tabular-nums">{{ $player['score'] }}</span>
+                                    @else
+                                        <span class="text-neutral-300">Resigned</span>
+                                    @endif
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </x-card>
 </div>
