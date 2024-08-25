@@ -57,17 +57,6 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         $player->score += 1;
     }
 
-    // @todo - uncomment this before Larcon to prevent hackers from being too cool.
-    public function applyToGame(GameState $game)
-    {
-        if (! $game->codeIsUnused($this->secret_code)) {
-            return;
-        }
-
-        $game->used_codes[] = $this->secret_code;
-        $game->unused_codes = array_filter($game->unused_codes, fn ($code) => $code !== $this->secret_code);
-    }
-
     public function asHistory(): array|string|HistoryComponentDto
     {
         $game = $this->state(GameState::class);
