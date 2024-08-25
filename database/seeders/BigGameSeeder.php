@@ -2,30 +2,30 @@
 
 namespace Database\Seeders;
 
-use Throwable;
-use App\States\GameState;
+use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
-use App\Events\PlayerVoted;
-use App\Events\UserCreated;
-use App\States\PlayerState;
-use Illuminate\Support\Arr;
-use App\Events\PlayerResigned;
-use Thunk\Verbs\Facades\Verbs;
-use Illuminate\Database\Seeder;
-use App\Events\PlayerJoinedGame;
-use App\Events\UserAddedReferral;
-use Illuminate\Support\Collection;
-use App\Events\UserPromotedToAdmin;
-use Illuminate\Support\Facades\Date;
-use App\Modifiers\Laracon2024Template;
-use function Laravel\Prompts\progress;
 use App\Events\PlayerEnteredSecretCode;
+use App\Events\PlayerResigned;
+use App\Events\PlayerVoted;
+use App\Events\UserAddedReferral;
+use App\Events\UserCreated;
+use App\Events\UserPromotedToAdmin;
+use App\Modifiers\Laracon2024Template;
+use App\States\GameState;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Thunk\Verbs\Exceptions\EventNotValidForCurrentState;
+use Thunk\Verbs\Facades\Verbs;
+use Thunk\Verbs\Lifecycle\Queue;
+
+use function Laravel\Prompts\progress;
 
 class BigGameSeeder extends Seeder
 {
-    protected const PLAYER_COUNT = 100;
+    protected const PLAYER_COUNT = 500;
 
     protected int $game_id;
 
@@ -39,6 +39,8 @@ class BigGameSeeder extends Seeder
 
     protected Collection $unused_codes;
 
+    protected Queue $queue;
+
     public function run(): void
     {
         // $GLOBALS['info'] = $this->command->line(...);
@@ -47,24 +49,18 @@ class BigGameSeeder extends Seeder
         // Event::listen(function(QueryExecuted $e) {
         // 	$this->command->warn($e->toRawSql());
         // });
-        
+
         $this->command->newLine();
 
         $this->setup();
         $this->createGame();
         $this->createPlayers();
 
-        $round = 1;
-
         while (now()->lte($this->game->ends_at)) {
-            if ($round = 2) {
-                config(['dump' => true]);
-            }
             $this->playRound();
             Date::setTestNow(now()->addHour());
-            $round++;
         }
-        
+
         $this->command->newLine();
     }
 
@@ -72,6 +68,7 @@ class BigGameSeeder extends Seeder
     {
         ini_set('memory_limit', '-1');
 
+        $this->queue = app(Queue::class);
         $this->game_id = snowflake_id();
         $this->admin_id = snowflake_id();
 
@@ -82,7 +79,7 @@ class BigGameSeeder extends Seeder
     {
         $progress = progress('Creating game...', 4);
         $progress->start();
-        
+
         GameCreated::fire(
             game_id: $this->game_id,
             name: 'Laracon 2024',
@@ -90,7 +87,7 @@ class BigGameSeeder extends Seeder
         );
 
         $this->game = GameState::load($this->game_id);
-        
+
         $progress->advance();
 
         UserCreated::fire(
@@ -99,18 +96,18 @@ class BigGameSeeder extends Seeder
             email: 'admin@admin.com',
             password: bcrypt('password'),
         );
-        
+
         $progress->advance();
 
         UserPromotedToAdmin::fire(
             user_id: $this->admin_id,
             game_id: $this->game_id,
         );
-        
+
         $progress->advance();
 
         Verbs::commit();
-        
+
         $progress->advance();
     }
 
@@ -119,7 +116,7 @@ class BigGameSeeder extends Seeder
         $faker = fake();
         $user_ids = [];
         $player_ids = [];
-        
+
         $progress = progress('Creating players...', self::PLAYER_COUNT);
         $progress->start();
 
@@ -144,7 +141,8 @@ class BigGameSeeder extends Seeder
                 );
             }
 
-            PlayerJoinedGame::fire(
+            AdminApprovedNewPlayer::fire(
+                admin_id: $this->admin_id,
                 user_id: $user_id,
                 game_id: $this->game_id,
                 player_id: $player_id,
@@ -152,7 +150,7 @@ class BigGameSeeder extends Seeder
 
             $user_ids[] = $user_id;
             $player_ids[] = $player_id;
-            
+
             $progress->advance();
         }
 
@@ -160,50 +158,42 @@ class BigGameSeeder extends Seeder
         $this->players = collect($player_ids);
 
         Verbs::commit();
-        
+
         $progress->finish();
     }
-    
+
     protected function playRound(): void
     {
         $progress = progress('Playing '.now()->format('h:ia').' round...', $this->players->count());
         $progress->start();
-        
+
         foreach ($this->players as $index => $player_id) {
-            if(config('dump', false)) {
-                dump('player: ' . $player_id);
+            if (count($this->queue->event_queue) >= 100) {
+                Verbs::commit();
             }
 
-            $downvoteTarget = $this->players
-                ->shuffle()
-                ->first(fn ($id) => $id !== $player_id && !PlayerState::load($id)->cannotBeDownvoted());
+            $other_player_ids = $this->players->random(5)->filter(fn ($id) => $id !== $player_id);
 
-            $upvoteTarget = $this->players
-                ->shuffle()
-                ->first(fn ($id) => $id !== $player_id && !PlayerState::load($id)->cannotBeUpvoted());
-
-            if (! $downvoteTarget || ! $upvoteTarget) {
+            if ($other_player_ids->count() < 2) {
+                $progress->advance();
                 break;
             }
-            
+
             try {
                 PlayerVoted::fire(
                     game_id: $this->game_id,
                     player_id: $player_id,
-                    upvotee_id: $upvoteTarget,
-                    downvotee_id: $downvoteTarget,
+                    upvotee_id: $other_player_ids->pop(),
+                    downvotee_id: $other_player_ids->pop(),
                 );
-                
-                if(config('dump', false)) {
-                    dump('trying code');
-                }
+
                 // Maybe play secret code
                 if (random_int(1, 10) === 1 && $this->unused_codes->isNotEmpty()) {
                     $code = $this->unused_codes->pop();
-                    
+
                     // most people play it just once, 1 in 10 play it 10+ times
                     $plays = random_int(1, 10) === 1 ? random_int(10, 50) : 1;
-                    
+
                     for ($i = 0; $i < $plays; $i++) {
                         PlayerEnteredSecretCode::fire(
                             player_id: $player_id,
@@ -212,34 +202,27 @@ class BigGameSeeder extends Seeder
                         );
                     }
                 }
-                
-                if(config('dump', false)) {
-                    dump('trying resign');
-                }
+
                 // Maybe resign
-                if ($this->players->count() > 2 && random_int(1, round(static::PLAYER_COUNT / 2)) === 1) {
+                if ($other_player_ids->isNotEmpty() && random_int(1, round(static::PLAYER_COUNT / 2)) === 1) {
                     PlayerResigned::fire(
                         player_id: $player_id,
-                        beneficiary_id: $upvoteTarget,
+                        beneficiary_id: $other_player_ids->pop(),
                         game_id: $this->game_id,
                     );
                     $this->players->forget($index);
                 }
-            } catch (EventNotValidForCurrentState $e) {
+            } catch (EventNotValidForCurrentState) {
                 // just ignore
-                dd($e);
             } catch (AuthorizationException) {
                 // also just ignore
-                dd('auth error');
-            } catch (Throwable $e) {
-                dd($e);
             }
-            
+
             $progress->advance();
         }
-        
+
         Verbs::commit();
-        
+
         $progress->finish();
     }
 }
