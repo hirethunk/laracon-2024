@@ -3,19 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Player;
-use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Scoreboard extends Component
 {
-    public function mount(Player $player)
-    {
-        $this->initializeProperties($player);
-    }
-
     public Player $player;
 
-    public Collection $players;
+    public ?string $search = '';
 
     public function showScoreboard(): bool
     {
@@ -26,24 +21,43 @@ class Scoreboard extends Component
             : true;
     }
 
-    public function initializeProperties(Player $player)
+    #[Computed]
+    public function players()
     {
-        $this->player = $player;
+        $players = $this->player->state()->game()->players();
 
-        $players_in_game = $this->player->state()->game()->players()
+        $players_in_game = $players
             ->filter(fn ($p) => $p->is_active)
             ->sortByDesc('score');
 
-        $resigned_players = $this->player->state()->game()->players()
+        $resigned_players = $players
             ->filter(fn ($p) => ! $p->is_active);
 
-        $this->players = $players_in_game->concat($resigned_players)
+        return $players_in_game
+            ->concat($resigned_players)
             ->map(fn ($p) => [
                 'name' => $p->name,
                 'id' => $p->id,
                 'score' => $p->score,
                 'is_active' => $p->is_active,
             ]);
+    }
+
+    #[Computed]
+    public function options()
+    {
+        return $this->players->filter(function ($player) {
+            if (isset($this->search)) {
+                return stripos($player['name'], $this->search) !== false
+                    || $player['is_active'] === true && stripos((string) $player['score'], $this->search) !== false
+                    || $player['is_active'] === false && stripos('resigned', $this->search) !== false;
+            }
+        });
+    }
+
+    public function mount(Player $player)
+    {
+        $this->player = $player;
     }
 
     public function render()
