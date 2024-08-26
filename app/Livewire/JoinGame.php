@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Events\UserRequestedToJoinGame;
+// use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
 use App\Models\Player;
 use Livewire\Attributes\Layout;
@@ -14,10 +14,10 @@ class JoinGame extends Component
 
     public function requestJoinGame()
     {
-        UserRequestedToJoinGame::fire(
-            user_id: auth()->id(),
-            game_id: $this->game->id
-        );
+        // UserRequestedToJoinGame::fire(
+        //     user_id: auth()->id(),
+        //     game_id: $this->game->id
+        // );
     }
 
     #[Layout('layouts.app')]

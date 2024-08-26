@@ -24,6 +24,8 @@
             <x-danger-button wire:click="reject" wire:loading.attr="disabled">
                 Reject
             </x-danger-button>
+
+            <x-flash.fired />
         </div>
     </x-card>
 </div>

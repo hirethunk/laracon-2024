@@ -9,9 +9,9 @@
         x-cloak
         x-transition
         x-init="setTimeout(() => show = false, 2000)"
-        class="flex items-center justify-center gap-2 p-4"
+        class="flex items-center gap-1.5"
     >
-        <x-icons.fire class="text-red-500 h-6 w-6" />
-        <span class="text-sm text-green-400">{{ __(session($key)) }}</span>
+        <x-icons.fire class="text-red-500 h-4 w-4" />
+        <span class="pt-px text-sm text-green-400">{{ __(session($key)) }}</span>
     </div>
 @endif

@@ -43,16 +43,46 @@ class AdminApprovedNewPlayer extends Event
         );
     }
 
-    public function fired(GameState $game)
+    public function applyToUser(UserState $user)
     {
-        if ($game->user_ids_approved->contains($this->user_id)) {
-            return;
-        }
+        $user->current_game_id = $this->game_id;
 
-        PlayerJoinedGame::fire(
-            user_id: $this->user_id,
-            game_id: $this->game_id,
-            player_id: $this->player_id,
-        );
+        $user->current_player_id = $this->player_id;
     }
+
+    public function applyToGame(GameState $game)
+    {
+        $game->player_ids->push($this->player_id);
+
+        // @todo - figure out why this is happening 3 times on replay lmao.
+        $game->player_ids = $game->player_ids->unique();
+    }
+
+
+    public function applyToPlayer(PlayerState $player, UserState $user)
+    {
+        $player->user_id = $this->user_id;
+        $player->game_id = $this->game_id;
+        $player->name = $user->name;
+        $player->ballots_cast = [];
+        $player->is_active = true;
+        $player->is_immune_until = now();
+        $player->has_connected_with_ally = false;
+        $player->prisoners_dilemma_choice = '';
+        $player->code_to_give_to_ally = rand(1000, 9999);
+        $player->can_submit_code_at = now();
+    }
+
+    // public function fired(GameState $game)
+    // {
+    //     if ($game->user_ids_approved->contains($this->user_id)) {
+    //         return;
+    //     }
+
+    //     PlayerJoinedGame::fire(
+    //         user_id: $this->user_id,
+    //         game_id: $this->game_id,
+    //         player_id: $this->player_id,
+    //     );
+    // }
 }

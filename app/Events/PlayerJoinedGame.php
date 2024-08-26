@@ -19,46 +19,48 @@ class PlayerJoinedGame extends Event
     public int $game_id;
 
     #[StateId(PlayerState::class)]
-    public int $player_id;
+    public ?int $player_id = null;
 
-    public function applyToUser(UserState $state)
+    public function validate(UserState $user)
     {
-        $state->current_game_id = $this->game_id;
-
-        $state->current_player_id = $this->player_id;
+        $this->assert(
+            $user->current_game_id !== $this->game_id,
+            'User is already in the game.'
+        );
     }
 
-    public function applyToGame(GameState $state)
+    public function applyToUser(UserState $user)
     {
-        $state->user_ids_awaiting_approval = $state->user_ids_awaiting_approval
-            ->reject(fn ($id) => $id === $this->user_id);
+        $user->current_game_id = $this->game_id;
 
-        $state->user_ids_approved->push($this->user_id);
-        $state->user_ids_approved = $state->user_ids_approved->unique();
+        $user->current_player_id = $this->player_id;
+    }
 
-        $state->player_ids->push($this->player_id);
+    public function applyToGame(GameState $game)
+    {
+        $game->player_ids->push($this->player_id);
 
         // @todo - figure out why this is happening 3 times on replay lmao.
-        $state->player_ids = $state->player_ids->unique();
+        $game->player_ids = $game->player_ids->unique();
     }
 
-    public function applyToPlayer(PlayerState $state)
+    public function applyToPlayer(PlayerState $player, UserState $user)
     {
-        $state->user_id = $this->user_id;
-        $state->game_id = $this->game_id;
-        $state->name = $this->state(UserState::class)->name;
-        $state->ballots_cast = [];
-        $state->is_active = true;
-        $state->is_immune_until = now();
-        $state->has_connected_with_ally = false;
-        $state->prisoners_dilemma_choice = '';
-        $state->code_to_give_to_ally = rand(1000, 9999);
-        $state->can_submit_code_at = now();
+        $player->user_id = $this->user_id;
+        $player->game_id = $this->game_id;
+        $player->name = $user->name;
+        $player->ballots_cast = [];
+        $player->is_active = true;
+        $player->is_immune_until = now();
+        $player->has_connected_with_ally = false;
+        $player->prisoners_dilemma_choice = '';
+        $player->code_to_give_to_ally = rand(1000, 9999);
+        $player->can_submit_code_at = now();
     }
 
-    public function fired()
+    public function fired(UserState $user, GameState $game)
     {
-        $referrer = $this->state(UserState::class)->referrer_player_id;
+        $referrer = $user->referrer_player_id;
 
         if ($referrer) {
             PlayerReceivedUpvote::fire(
@@ -77,7 +79,7 @@ class PlayerJoinedGame extends Event
                 amount: 1,
             );
 
-            if ($this->state(GameState::class)->activeModifier()['slug'] === 'signing-bonus') {
+            if ($game->modifierIsActive('signing-bonus')) {
                 PlayerBecameImmune::fire(
                     player_id: $referrer,
                     game_id: $this->game_id,
@@ -90,16 +92,18 @@ class PlayerJoinedGame extends Event
 
     public function handle()
     {
-        Player::create([
-            'id' => $this->player_id,
-            'user_id' => $this->user_id,
-            'game_id' => $this->game_id,
+        Player::updateOrCreate(
+            [
+                'id' => $this->player_id,
+            ],
+            [
+                'user_id' => $this->user_id,
+                'game_id' => $this->game_id,
+            ]
+        );
+
+        User::find($this->user_id)->update([
+            'current_game_id' => $this->game_id
         ]);
-
-        $user = User::find($this->user_id);
-
-        $user->current_game_id = $this->game_id;
-
-        $user->save();
     }
 }

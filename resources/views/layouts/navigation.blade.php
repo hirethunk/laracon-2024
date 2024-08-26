@@ -32,10 +32,6 @@
                 @endforeach
             </div>
 
-            <div class="absolute inset-x-0 top-1 z-0">
-                <x-flash.fired />
-            </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 z-10">
                 <x-dropdown align="right" width="48" contentClasses="bg-gold-500">
@@ -83,7 +79,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'absolute z-20 block w-full shadow-lg': open, 'hidden': ! open}" class="hidden sm:hidden bg-gold-500 rounded-b-lg">
+    <div :class="{'absolute z-20 block w-full shadow-lg drop-shadow-[0_1px_1px_rgba(220,220,220,0.5)]': open, 'hidden': ! open}" class="hidden sm:hidden bg-black">
         <div class="py-2 space-y-1">
             <x-responsive-nav-link class="hover:bg-gold-100" :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('player-dashboard')">
                 {{ __('Home') }}
@@ -99,8 +95,8 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-t-white">
             <div class="px-4">
-                <div class="font-medium text-base text-neutral-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-neutral-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-neutral-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-neutral-400">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1 mb-1">

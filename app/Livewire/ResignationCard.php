@@ -83,8 +83,6 @@ class ResignationCard extends Component
             beneficiary_id: $this->beneficiary_id,
         );
 
-        session()->flash('event', 'PlayerResigned');
-
         return redirect()->route('player-dashboard');
     }
 

@@ -2,11 +2,12 @@
 
 namespace App\Events;
 
-use App\States\GameState;
-use App\States\PlayerState;
-use App\States\UserState;
-use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use App\Models\User;
 use Thunk\Verbs\Event;
+use App\States\GameState;
+use App\States\UserState;
+use App\States\PlayerState;
+use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 
 class AdminRejectedNewPlayer extends Event
 {
@@ -43,9 +44,8 @@ class AdminRejectedNewPlayer extends Event
         );
     }
 
-    public function applyToGame(GameState $game)
+    public function handle()
     {
-        $game->user_ids_awaiting_approval = $game->user_ids_awaiting_approval
-            ->reject(fn ($id) => $id === $this->user_id);
+        User::find($this->user_id)->update(['rejected' => true]);
     }
 }

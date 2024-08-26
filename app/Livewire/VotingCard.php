@@ -132,8 +132,6 @@ class VotingCard extends Component
             downvotee_id: $this->downvote_target_id,
         );
 
-        session()->flash('event', 'PlayerVoted');
-
         return redirect()->route('player-dashboard');
     }
 

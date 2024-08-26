@@ -28,8 +28,6 @@ it('allows admins to approve new players', function () {
 
     expect($this->unapproved_user->state()->current_game_id)->not->toBeNull();
 
-    expect($this->game->state()->usersAwaitingApproval())->toHaveCount(0);
-
     expect($this->game->state()->player_ids)->toContain($this->unapproved_user->state()->current_player_id);
 });
 
@@ -44,6 +42,4 @@ it('allows admins to reject new players', function () {
     expect($this->unapproved_user->state()->current_game_id)->toBeNull();
 
     expect($this->unapproved_user->state()->current_player_id)->toBeNull();
-
-    expect($this->game->state()->usersAwaitingApproval())->toHaveCount(0);
 });

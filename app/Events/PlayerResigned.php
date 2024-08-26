@@ -21,7 +21,7 @@ class PlayerResigned extends Event implements ExposesHistory
     #[StateId(GameState::class)]
     public int $game_id;
 
-    public int $score = 0;
+    protected int $score = 0;
 
     public function authorize(GameState $game)
     {

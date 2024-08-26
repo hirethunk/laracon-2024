@@ -76,6 +76,12 @@
             "php-http/discovery": true
         }
     },
+    "repositories": {
+        "verbs": {
+            "type": "path",
+            "url": "../verbs"
+        }
+    },
     "minimum-stability": "stable",
     "prefer-stable": true
 }
