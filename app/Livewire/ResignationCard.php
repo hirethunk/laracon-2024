@@ -11,22 +11,36 @@ use Livewire\Component;
 
 class ResignationCard extends Component
 {
+    public Player $player;
+
+    public Collection $players;
+
+    public ?string $search = '';
+
+    public null|int|string $beneficiary_id = null;
+
     #[Computed]
     public function beneficiary()
     {
         return $this->players->first(fn ($p) => $p->id === $this->player->state()->beneficiary_id)->user->name ?? null;
     }
 
+    #[Computed]
+    public function options()
+    {
+        return $this->players->filter(function ($p) {
+            if (isset($this->search)) {
+                return stripos($p->user->name, $this->search) !== false;
+            }
+        })
+            ->sortBy(fn ($p) => $p->user->name)
+            ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
+    }
+
     public function mount(Player $player)
     {
         $this->initializeProperties($player);
     }
-
-    public Player $player;
-
-    public Collection $players;
-
-    public ?int $beneficiary_id = null;
 
     public $rules = [
         'beneficiary_id' => 'integer|exists:players,id',
@@ -49,6 +63,8 @@ class ResignationCard extends Component
 
     public function resign()
     {
+        $this->beneficiary_id = (int) $this->beneficiary_id;
+
         $this->validate();
 
         if (! PlayerState::load($this->beneficiary_id)->is_active) {

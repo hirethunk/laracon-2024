@@ -12,6 +12,7 @@
         "coconutcraig/laravel-postmark": "^3.2",
         "hirethunk/verbs": "dev-main",
         "hirethunk/verbs-history": "dev-main",
+        "joshhanley/livewire-autocomplete": "dev-next",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "laravel/vapor-core": "^2.37",

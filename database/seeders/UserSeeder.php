@@ -2,30 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Events\AdminApprovedNewPlayer;
 use App\Events\UserCreated;
+use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class PlayerSeeder extends Seeder
+class UserSeeder extends Seeder
 {
-    protected $admin_id;
-
     protected $game_id;
 
     public function __construct()
     {
-        $this->admin_id = User::first()->id;
         $this->game_id = Game::first()->id;
     }
 
     public function run(): void
     {
-        $this->createPlayer(300);
+        $this->createUser(300);
     }
 
-    protected function createPlayer(int $count): void
+    protected function createUser(int $count): void
     {
         for ($i = 1; $i <= $count; $i++) {
             $user_id = UserCreated::fire(
@@ -34,8 +30,7 @@ class PlayerSeeder extends Seeder
                 password: bcrypt('password'),
             )->user_id;
 
-            AdminApprovedNewPlayer::fire(
-                admin_id: $this->admin_id,
+            UserRequestedToJoinGame::fire(
                 user_id: $user_id,
                 game_id: $this->game_id,
             );

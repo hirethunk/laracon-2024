@@ -5,20 +5,22 @@
                 <p class="pb-4 text-sm text-neutral-300">
                     Once per hour, you can upvote someone, and downvote someone. Vote wisely.
                 </p>
-                <x-form.select
-                    label="Upvote"
-                    name="upvote_target"
-                    wire:model="upvote_target_id"
+
+                 <x-form.autocomplete
+                    dusk="upvote_target"
+                    label="upvote_target"
+                    search="upvote_search"
+                    selected="upvote_target_id"
                     :options="$this->upvote_options->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
-                    selected="Choose a Player"
                 />
+
                 <div class="pt-4">
-                    <x-form.select
-                        label="Downvote"
-                        name="downvote_target"
-                        wire:model="downvote_target_id"
+                    <x-form.autocomplete
+                        dusk="downvote_target"
+                        label="downvote_target"
+                        search="downvote_search"
+                        selected="downvote_target_id"
                         :options="$this->downvote_options->mapWithKeys(fn($p) => [$p->id => $p->user->name])"
-                        selected="Choose a Player"
                     />
                 </div>
             </div>

@@ -12,6 +12,25 @@ use Livewire\Component;
 
 class VotingCard extends Component
 {
+    public Player $player;
+
+    public Collection $players;
+
+    public bool $player_can_vote;
+
+    public null|int|string $downvote_target_id = null;
+
+    public null|int|string $upvote_target_id = null;
+
+    public ?string $downvote_search = '';
+
+    public ?string $upvote_search = '';
+
+    public $rules = [
+        'downvote_target_id' => 'integer|exists:players,id',
+        'upvote_target_id' => 'integer|exists:players,id',
+    ];
+
     #[Computed]
     public function game(): Game
     {
@@ -24,53 +43,66 @@ class VotingCard extends Component
         return $this->player->state()->canVote();
     }
 
-    public Player $player;
+    #[Computed]
+    public function downvoteOptions()
+    {
+        return $this->calculateDownvoteOptions();
+    }
 
-    public Collection $players;
-
-    public Collection $upvote_options;
-
-    public Collection $downvote_options;
-
-    public bool $player_can_vote;
-
-    public ?int $downvote_target_id = null;
-
-    public ?int $upvote_target_id = null;
-
-    public $rules = [
-        'downvote_target_id' => 'integer|exists:players,id',
-        'upvote_target_id' => 'integer|exists:players,id',
-    ];
+    #[Computed]
+    public function upvoteOptions()
+    {
+        return $this->calculateUpvoteOptions();
+    }
 
     public function mount(Player $player)
     {
         $this->player = $player;
-
-        $this->setVoteeOptions();
     }
 
-    public function setVoteeOptions()
+    public function calculateDownvoteOptions()
     {
-        $this->downvote_options = $this->game->players
+        return $this->game->players
             ->reject(
                 fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeDownvoted()
             )
             ->filter(fn ($p) => $p->state()->is_active)
-            ->sortBy(fn ($p) => $p->name);
+            ->filter(function ($p) {
+                if (isset($this->downvote_search)) {
+                    return stripos($p->user->name, $this->downvote_search) !== false;
+                }
+            })
+            ->sortBy(fn ($p) => $p->user->name);
+    }
 
-        $this->upvote_options = $this->game->players
+    public function calculateUpvoteOptions()
+    {
+        return $this->game->players
             ->reject(
                 fn ($p) => $p->id === $this->player->id
                 || $p->state()->cannotBeUpvoted()
             )
             ->filter(fn ($p) => $p->state()->is_active)
-            ->sortBy(fn ($p) => $p->name);
+            ->filter(function ($p) {
+                if (isset($this->upvote_search)) {
+                    return stripos($p->user->name, $this->upvote_search) !== false;
+                }
+            })
+            ->sortBy(fn ($p) => $p->user->name);
+    }
+
+    public function setVoteeOptions()
+    {
+        unset($this->downvoteOptions);
+        unset($this->upvoteOptions);
     }
 
     public function vote()
     {
+        $this->downvote_target_id = (int) $this->downvote_target_id;
+        $this->upvote_target_id = (int) $this->upvote_target_id;
+
         $this->validate();
 
         if (! PlayerState::load($this->downvote_target_id)->is_active) {

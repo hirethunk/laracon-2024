@@ -12,7 +12,9 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    public ?int $referrer_id = null;
+    public ?string $search = '';
+
+    public null|int|string $referrer_id = null;
 
     #[Computed]
     public function user()
@@ -38,6 +40,22 @@ class HomePage extends Component
         return $this->game->players;
     }
 
+    #[Computed]
+    public function options()
+    {
+        return $this->players->filter(function ($p) {
+            if (isset($this->search)) {
+                return stripos($p->user->name, $this->search) !== false;
+            }
+        })
+            ->sortBy(fn ($p) => $p->user->name)
+            ->mapWithKeys(fn ($p) => [$p->id => $p->user->name]);
+    }
+
+    public $rules = [
+        'referrer_id' => 'integer|exists:players,id',
+    ];
+
     public function isApproved()
     {
         if ($this->user->currentPlayer()) {
@@ -55,6 +73,10 @@ class HomePage extends Component
         if (! $this->referrer_id) {
             return;
         }
+
+        $this->referrer_id = (int) $this->referrer_id;
+
+        $this->validate();
 
         UserAddedReferral::fire(
             user_id: $this->user->id,

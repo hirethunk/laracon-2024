@@ -14,7 +14,9 @@ use Thunk\Verbs\Facades\Verbs;
 
 class AdminDashboard extends Component
 {
-    public ?int $user_id = null;
+    public ?string $search = '';
+
+    public null|int|string $user_id = null;
 
     public Game $game;
 
@@ -33,27 +35,43 @@ class AdminDashboard extends Component
     #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->mapWithKeys(function ($unapproved_user) {
-            $looks_like_dupe = User::all()
-                ->reject(fn ($user) => $user->id === $unapproved_user->id)
-                ->pluck('name')
-                ->filter(
-                    fn ($name) => $name === $unapproved_user->name
-                )->isNotEmpty();
+        return $this->unapprovedUsers
+            ->filter(function ($user) {
+                if (isset($this->search)) {
+                    return stripos($user->name, $this->search) !== false;
+                }
+            })
+            ->sortBy(fn ($user) => $user->name)
+            ->mapWithKeys(function ($unapproved_user) {
+                $looks_like_dupe = User::all()
+                    ->reject(fn ($user) => $user->id === $unapproved_user->id)
+                    ->pluck('name')
+                    ->filter(fn ($name) => $name === $unapproved_user->name
+                    )->isNotEmpty();
 
-            $name_modified = $looks_like_dupe
-                ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
-                : $unapproved_user->name.' ('.$unapproved_user->email.')';
+                $name_modified = $looks_like_dupe
+                    ? 'DUPE: '.$unapproved_user->name.' ('.$unapproved_user->email.')'
+                    : $unapproved_user->name.' ('.$unapproved_user->email.')';
 
-            return [$unapproved_user->id => $name_modified];
-        });
+                return [$unapproved_user->id => $name_modified];
+            });
     }
+
+    public $rules = [
+        'user_id' => 'integer|exists:users,id',
+    ];
 
     public function approve()
     {
         if ($this->user_id === null) {
+            dd('no user id');
+
             return;
         }
+
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate();
 
         PlayerJoinedGame::fire(
             user_id: $this->user_id,
@@ -70,6 +88,10 @@ class AdminDashboard extends Component
         if ($this->user_id === null) {
             return;
         }
+
+        $this->user_id = (int) $this->user_id;
+
+        $this->validate();
 
         AdminRejectedNewPlayer::fire(
             admin_id: $this->user->id,
