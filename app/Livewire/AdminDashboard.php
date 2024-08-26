@@ -35,7 +35,8 @@ class AdminDashboard extends Component
     #[Computed]
     public function options()
     {
-        return $this->unapprovedUsers->filter(function ($user) {
+        return $this->unapprovedUsers
+        ->filter(function ($user) {
             if (isset($this->search)) {
                 return stripos($user->name, $this->search) !== false;
             }
