@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Game;
-use App\Models\User;
 use App\Events\UserCreated;
-use Illuminate\Database\Seeder;
-use App\Events\UserPromotedToAdmin;
-use App\Events\AdminApprovedNewPlayer;
 use App\Events\UserRequestedToJoinGame;
+use App\Models\Game;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {

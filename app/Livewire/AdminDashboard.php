@@ -36,11 +36,11 @@ class AdminDashboard extends Component
     public function options()
     {
         return $this->unapprovedUsers
-        ->filter(function ($user) {
-            if (isset($this->search)) {
-                return stripos($user->name, $this->search) !== false;
-            }
-        })
+            ->filter(function ($user) {
+                if (isset($this->search)) {
+                    return stripos($user->name, $this->search) !== false;
+                }
+            })
             ->sortBy(fn ($user) => $user->name)
             ->mapWithKeys(function ($unapproved_user) {
                 $looks_like_dupe = User::all()
@@ -65,13 +65,14 @@ class AdminDashboard extends Component
     {
         if ($this->user_id === null) {
             dd('no user id');
+
             return;
         }
 
         $this->user_id = (int) $this->user_id;
 
         $this->validate();
-      
+
         PlayerJoinedGame::fire(
             user_id: $this->user_id,
             game_id: $this->game->id,

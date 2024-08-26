@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Events\AdminApprovedNewPlayer;
+use App\Events\UserCreated;
 use App\Models\Game;
 use App\Models\User;
-use App\Events\UserCreated;
 use Illuminate\Database\Seeder;
-use App\Events\AdminApprovedNewPlayer;
 
 class PlayerSeeder extends Seeder
 {
     protected $admin_id;
+
     protected $game_id;
 
     public function __construct()
