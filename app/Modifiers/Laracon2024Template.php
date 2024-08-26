@@ -7,11 +7,9 @@ use Illuminate\Support\Carbon;
 
 class Laracon2024Template
 {
-    public Carbon $starts_at;
-
-    public function __construct(GameState $game)
-    {
-        $this->starts_at = $game->starts_at;
+    public function __construct(
+        public Carbon $starts_at
+    ) {
     }
 
     const CODES = [
@@ -41,8 +39,8 @@ class Laracon2024Template
                 'ends_at' => $this->starts_at->copy()->addHours(12),
             ],
             [
-                'slug' => 'double-down',
-                'title' => 'Double Down',
+                'slug' => 'buddy-system',
+                'title' => 'Buddy System',
                 'description' => 'If you and another player upvote each other while Buddy System is active, you will each receive an extra upvote (only works once per Buddy).',
                 // starts at 5pm of the first day
                 'starts_at' => $this->starts_at->copy()->addHours(12),
@@ -50,8 +48,8 @@ class Laracon2024Template
                 'ends_at' => $this->starts_at->copy()->addHours(24),
             ],
             [
-                'slug' => 'double-down',
-                'title' => 'Double Down',
+                'slug' => 'first-shall-be-last',
+                'title' => 'The First Shall Be Last',
                 'description' => 'You cannot upvote players with above average scores, or downvote players with below average scores.',
                 // starts at 5am of the final day
                 'starts_at' => $this->starts_at->copy()->addHours(24),
