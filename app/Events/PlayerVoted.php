@@ -154,6 +154,9 @@ class PlayerVoted extends Event
     {
         $player = Player::find($this->player_id);
 
+        if ($player === null) {
+            dd($this);
+        }
         $player->last_voted_at = now();
 
         $player->save();

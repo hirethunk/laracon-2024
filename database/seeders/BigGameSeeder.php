@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
 use App\Events\PlayerEnteredSecretCode;
+use App\Events\PlayerJoinedGame;
 use App\Events\PlayerResigned;
 use App\Events\PlayerVoted;
 use App\Events\UserAddedReferral;
@@ -25,7 +26,7 @@ use function Laravel\Prompts\progress;
 
 class BigGameSeeder extends Seeder
 {
-    protected const PLAYER_COUNT = 500;
+    protected const PLAYER_COUNT = 50;
 
     protected int $game_id;
 
@@ -141,11 +142,10 @@ class BigGameSeeder extends Seeder
                 );
             }
 
-            AdminApprovedNewPlayer::fire(
-                admin_id: $this->admin_id,
+            PlayerJoinedGame::fire(
+                player_id: $player_id,
                 user_id: $user_id,
                 game_id: $this->game_id,
-                player_id: $player_id,
             );
 
             $user_ids[] = $user_id;
