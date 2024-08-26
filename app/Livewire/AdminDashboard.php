@@ -63,6 +63,7 @@ class AdminDashboard extends Component
     public function approve()
     {
         if ($this->user_id === null) {
+            dd('no user id');
             return;
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b1fc95db40e237d793385a0530e4de0",
+    "content-hash": "d8d28be54fc63a2c2e4dd117944f1b7f",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2254,10 +2254,16 @@
         {
             "name": "hirethunk/verbs",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hirethunk/verbs.git",
+                "reference": "34ebbcdb69a0463d52013401d970d4b76bfb20a7"
+            },
             "dist": {
-                "type": "path",
-                "url": "../verbs",
-                "reference": "b10eea392e598d977126711ff59a580e7d47161e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/34ebbcdb69a0463d52013401d970d4b76bfb20a7",
+                "reference": "34ebbcdb69a0463d52013401d970d4b76bfb20a7",
+                "shasum": ""
             },
             "require": {
                 "glhd/bits": ">=0.3.0",
@@ -2283,6 +2289,7 @@
                 "phpunit/phpunit": "^10.5",
                 "projektgopher/whisky": "^0.5.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2300,60 +2307,7 @@
                     "Thunk\\Verbs\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Thunk\\Verbs\\Tests\\": "tests/",
-                    "Thunk\\Verbs\\Examples\\Counter\\": "examples/Counter/src/",
-                    "Thunk\\Verbs\\Examples\\Counter\\Tests\\": "examples/Counter/tests/",
-                    "Thunk\\Verbs\\Examples\\Counter\\Database\\Factories\\": "examples/Counter/database/factories/",
-                    "Thunk\\Verbs\\Examples\\Bank\\": "examples/Bank/src/",
-                    "Thunk\\Verbs\\Examples\\Bank\\Tests\\": "examples/Bank/tests/",
-                    "Thunk\\Verbs\\Examples\\Bank\\Database\\Factories\\": "examples/Bank/database/factories/",
-                    "Thunk\\Verbs\\Examples\\Subscriptions\\": "examples/Subscriptions/src/",
-                    "Thunk\\Verbs\\Examples\\Subscriptions\\Tests\\": "examples/Subscriptions/tests/",
-                    "Thunk\\Verbs\\Examples\\Subscriptions\\Database\\Factories\\": "examples/Subscriptions/database/factories/",
-                    "Thunk\\Verbs\\Examples\\Monopoly\\": "examples/Monopoly/src/",
-                    "Thunk\\Verbs\\Examples\\Monopoly\\Tests\\": "examples/Monopoly/tests/",
-                    "Thunk\\Verbs\\Examples\\Monopoly\\Database\\Factories\\": "examples/Monopoly/database/factories/",
-                    "Workbench\\App\\": "workbench/app/",
-                    "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-                    "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@clear",
-                    "@prepare"
-                ],
-                "post-install-cmd": [
-                    "whisky update"
-                ],
-                "post-update-cmd": [
-                    "whisky update"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "clear": [
-                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
-                ],
-                "prepare": [
-                    "@php vendor/bin/testbench package:discover --ansi"
-                ],
-                "build": [
-                    "@php vendor/bin/testbench workbench:build --ansi"
-                ],
-                "serve": [
-                    "@build",
-                    "@php vendor/bin/testbench serve"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2372,9 +2326,11 @@
                 "laravel",
                 "verbs"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/hirethunk/verbs/issues",
+                "source": "https://github.com/hirethunk/verbs/tree/main"
+            },
+            "time": "2024-08-25T22:34:47+00:00"
         },
         {
             "name": "hirethunk/verbs-history",
