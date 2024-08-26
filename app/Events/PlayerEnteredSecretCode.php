@@ -32,7 +32,6 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
         );
     }
 
-    // @todo this is the one thing you have to uncomment to make things work.
     public function validate()
     {
         $this->assert(

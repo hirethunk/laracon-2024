@@ -123,5 +123,5 @@ return [
     | time, you should increase this setting to some value higher than the
     | maximum number of States you will ever need.
     */
-    'state_cache_size' => 100,
+    'state_cache_size' => 10_000, // This is just to speed things up at Laracon
 ];

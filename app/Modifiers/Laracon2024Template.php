@@ -7,11 +7,9 @@ use Illuminate\Support\Carbon;
 
 class Laracon2024Template
 {
-    public Carbon $starts_at;
-
-    public function __construct(GameState $game)
-    {
-        $this->starts_at = $game->starts_at;
+    public function __construct(
+        public Carbon $starts_at
+    ) {
     }
 
     const CODES = [

@@ -83,6 +83,10 @@ class PlayerVoted extends Event
 
     public function applyToPlayer(PlayerState $player)
     {
+        if(config('dump', false)) {
+            dump('apply player');
+        }
+
         $player->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
             'downvotee_id' => $this->downvotee_id,
@@ -92,6 +96,10 @@ class PlayerVoted extends Event
 
     public function fired(GameState $game, PlayerState $upvotee)
     {
+        if(config('dump', false)) {
+            dump('fired');
+        }
+
         $amount = $game->modifierIsActive('double-down') ? 2 : 1;
 
         PlayerReceivedUpvote::fire(

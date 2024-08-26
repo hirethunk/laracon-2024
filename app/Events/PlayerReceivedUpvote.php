@@ -20,6 +20,8 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
     public int $amount;
 
     public string $type;
+	
+    protected ?Player $player = null;
 
     public function validate(PlayerState $player, PlayerState $voter)
     {
@@ -40,7 +42,9 @@ class PlayerReceivedUpvote extends Event implements ExposesHistory
 
     public function handle()
     {
-        Player::find($this->player_id)->update([
+        $this->player ??= Player::find($this->player_id);
+
+        $this->player->update([
             'score' => $this->states()->get('player')->score,
         ]);
     }

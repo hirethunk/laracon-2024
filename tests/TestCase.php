@@ -2,11 +2,10 @@
 
 namespace Tests;
 
-use App\Events\AdminApprovedNewPlayer;
 use App\Events\GameCreated;
+use App\Events\PlayerJoinedGame;
 use App\Events\UserCreated;
 use App\Events\UserPromotedToAdmin;
-use App\Events\UserRequestedToJoinGame;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\User;
@@ -50,13 +49,7 @@ abstract class TestCase extends BaseTestCase
             password: 'password',
         )->user_id;
 
-        UserRequestedToJoinGame::fire(
-            user_id: $taylor_id,
-            game_id: $game->id,
-        );
-
-        AdminApprovedNewPlayer::fire(
-            admin_id: $this->admin->id,
+        PlayerJoinedGame::fire(
             user_id: $taylor_id,
             game_id: $game->id,
         );
@@ -69,13 +62,7 @@ abstract class TestCase extends BaseTestCase
             password: 'password',
         )->user_id;
 
-        UserRequestedToJoinGame::fire(
-            user_id: $aaron_id,
-            game_id: $game->id,
-        );
-
-        AdminApprovedNewPlayer::fire(
-            admin_id: $this->admin->id,
+        PlayerJoinedGame::fire(
             user_id: $aaron_id,
             game_id: $game->id,
         );
@@ -88,13 +75,7 @@ abstract class TestCase extends BaseTestCase
             password: 'password',
         )->user_id;
 
-        UserRequestedToJoinGame::fire(
-            user_id: $caleb_id,
-            game_id: $game->id,
-        );
-
-        AdminApprovedNewPlayer::fire(
-            admin_id: $this->admin->id,
+        PlayerJoinedGame::fire(
             user_id: $caleb_id,
             game_id: $game->id,
         );
@@ -108,13 +89,7 @@ abstract class TestCase extends BaseTestCase
                 password: 'password',
             )->user_id;
 
-            UserRequestedToJoinGame::fire(
-                user_id: $user_id,
-                game_id: $game->id,
-            );
-
-            AdminApprovedNewPlayer::fire(
-                admin_id: $this->admin->id,
+            PlayerJoinedGame::fire(
                 user_id: $user_id,
                 game_id: $game->id,
             );
@@ -130,11 +105,6 @@ abstract class TestCase extends BaseTestCase
             email: 'unapproved@example.com',
             password: 'password',
         )->user_id;
-
-        UserRequestedToJoinGame::fire(
-            user_id: $user_id,
-            game_id: Game::first()->id,
-        );
 
         $this->unapproved_user = User::find($user_id);
     }

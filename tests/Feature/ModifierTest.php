@@ -1,6 +1,6 @@
 <?php
 
-use App\Events\AdminApprovedNewPlayer;
+use App\Events\PlayerJoinedGame;
 use App\Events\PlayerVoted;
 use App\Events\UserAddedReferral;
 use App\Events\UserCreated;
@@ -78,8 +78,7 @@ it('hides referrers from downvote options after signing bonus', function () {
         game_id: $this->game->id
     );
 
-    AdminApprovedNewPlayer::fire(
-        admin_id: $this->admin->id,
+    PlayerJoinedGame::fire(
         user_id: $new_user_id,
         game_id: $this->game->id
     );
@@ -127,8 +126,7 @@ it('hides referrers from downvote options after signing bonus', function () {
         game_id: $this->game->id
     );
 
-    AdminApprovedNewPlayer::fire(
-        admin_id: $this->admin->id,
+    PlayerJoinedGame::fire(
         user_id: $new_user_id,
         game_id: $this->game->id
     );
