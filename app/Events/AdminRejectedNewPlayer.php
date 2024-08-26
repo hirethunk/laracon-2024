@@ -3,11 +3,11 @@
 namespace App\Events;
 
 use App\Models\User;
-use Thunk\Verbs\Event;
 use App\States\GameState;
-use App\States\UserState;
 use App\States\PlayerState;
+use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class AdminRejectedNewPlayer extends Event
 {

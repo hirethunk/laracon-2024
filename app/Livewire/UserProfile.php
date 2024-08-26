@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Events\UserNameUpdated;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class UserProfile extends Component

@@ -58,7 +58,6 @@ class AdminApprovedNewPlayer extends Event
         $game->player_ids = $game->player_ids->unique();
     }
 
-
     public function applyToPlayer(PlayerState $player, UserState $user)
     {
         $player->user_id = $this->user_id;

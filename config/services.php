@@ -30,10 +30,10 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-	
-	'convertkit' => [
-		'api_secret' => env('CONVERT_KIT_API_SECRET'),
-		'form_id' => env('CONVERTKIT_FORM_ID'),
-	],
+
+    'convertkit' => [
+        'api_secret' => env('CONVERT_KIT_API_SECRET'),
+        'form_id' => env('CONVERTKIT_FORM_ID'),
+    ],
 
 ];

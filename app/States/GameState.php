@@ -3,7 +3,6 @@
 namespace App\States;
 
 use App\Models\Game;
-use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Thunk\Verbs\State;
