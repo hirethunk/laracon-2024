@@ -77,6 +77,8 @@ class AdminDashboard extends Component
             player_id: null,
         );
 
+        session()->flash('event', 'AdminRejectedNewPlayer');
+
         return redirect()->route('admin-dashboard', $this->game->id);
     }
 
