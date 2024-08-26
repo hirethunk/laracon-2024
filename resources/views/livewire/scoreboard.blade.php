@@ -9,6 +9,7 @@
 
         <div class="flex items-center gap-x-4 w-full">
             <input
+                dusk="find_player"
                 placeholder="Find Player..."
                 class="w-full bg-black border-2 rounded-lg shadow-sm outline-none focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gold-500-light active:ring-2 active:ring-gold-500-light text-neutral-300 focus:rounded-md"
                 wire:model.live="search"

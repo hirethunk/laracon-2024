@@ -7,6 +7,7 @@
                     If you resign, your score will be given to the player you choose below.
                 </p>
                 <x-form.autocomplete
+                    dusk="beneficiary"
                     label="beneficiary"
                     selected="beneficiary_id"
                     search="search"

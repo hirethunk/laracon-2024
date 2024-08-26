@@ -7,6 +7,7 @@
             </p>
             <div class="flex flex-row mt-4 space-x-4 justify between">
                 <input
+                    dusk="code"
                     wire:model="code"
                     type="text"
                     class="bg-black text-white w-full h-full p-2 rounded border border-neutral-700 focus:outline-none focus:border-gold-100"

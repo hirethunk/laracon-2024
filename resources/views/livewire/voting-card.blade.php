@@ -7,6 +7,7 @@
                 </p>
 
                  <x-form.autocomplete
+                    dusk="upvote_target"
                     label="upvote_target"
                     search="upvote_search"
                     selected="upvote_target_id"
@@ -15,6 +16,7 @@
 
                 <div class="pt-4">
                     <x-form.autocomplete
+                        dusk="downvote_target"
                         label="downvote_target"
                         search="downvote_search"
                         selected="downvote_target_id"
