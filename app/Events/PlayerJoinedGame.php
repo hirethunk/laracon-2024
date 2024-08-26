@@ -103,7 +103,7 @@ class PlayerJoinedGame extends Event
         );
 
         User::find($this->user_id)->update([
-            'current_game_id' => $this->game_id
+            'current_game_id' => $this->game_id,
         ]);
     }
 }

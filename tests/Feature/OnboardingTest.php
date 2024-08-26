@@ -46,7 +46,6 @@ beforeEach(function () {
     UserPromotedToAdmin::fire(user_id: $admin_id, game_id: $game_id);
 });
 
-
 it('an admin cannot approve a player to join when they are already in the game', function () {
     PlayerJoinedGame::fire(
         user_id: $this->user->id,

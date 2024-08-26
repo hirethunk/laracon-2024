@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Events\AdminRejectedNewPlayer;
+use App\Events\PlayerJoinedGame;
 use App\Models\Game;
 use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use App\Events\PlayerJoinedGame;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
-use App\Events\AdminRejectedNewPlayer;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 use Thunk\Verbs\Facades\Verbs;
 
 class AdminDashboard extends Component
@@ -78,6 +78,7 @@ class AdminDashboard extends Component
         );
 
         Verbs::commit();
+
         return redirect()->route('admin-dashboard', $this->game->id);
     }
 

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Events\GameCreated;
 use App\Events\UserCreated;
 use App\Events\UserPromotedToAdmin;
-use App\Events\UserRequestedToJoinGame;
 use Illuminate\Database\Seeder;
 use Thunk\Verbs\Facades\Verbs;
 

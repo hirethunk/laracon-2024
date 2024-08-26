@@ -19,7 +19,7 @@ class UserSubscribedToNewsletter extends Event
         if (! App::isProduction()) {
             return;
         }
-		
+
         dispatch(fn () => (new ConvertKit)->addSubscriber($this->email, config('services.convertkit.form_id')));
     }
 }

@@ -83,7 +83,7 @@ class PlayerVoted extends Event
 
     public function applyToPlayer(PlayerState $player)
     {
-        if(config('dump', false)) {
+        if (config('dump', false)) {
             dump('apply player');
         }
 
@@ -96,7 +96,7 @@ class PlayerVoted extends Event
 
     public function fired(GameState $game, PlayerState $upvotee)
     {
-        if(config('dump', false)) {
+        if (config('dump', false)) {
             dump('fired');
         }
 

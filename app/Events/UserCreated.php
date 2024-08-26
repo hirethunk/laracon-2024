@@ -27,9 +27,9 @@ class UserCreated extends Event
 
     public function fired()
     {
-	    UserSubscribedToNewsletter::fire(
-		    email: $this->email,
-	    );
+        UserSubscribedToNewsletter::fire(
+            email: $this->email,
+        );
     }
 
     public function handle()
