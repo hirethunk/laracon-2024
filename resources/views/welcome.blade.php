@@ -75,7 +75,7 @@
                 <div>
                     <p class="italic">Are you actually giving away <span class="text-gold-500">$1,500</span>?</p>
                     <p>Take one look at that 
-                    <button class="text-indigo-400 font-bold">
+                    <button class="text-link">
                         <a href="https://x.com/johnrudolphdrex/status/1825945077044359672" target="_blank">
                             dough
                         </a>

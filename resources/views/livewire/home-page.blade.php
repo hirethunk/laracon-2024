@@ -8,7 +8,7 @@
     <div class="flex flex-col py-6 mx-auto overflow-hidden text-lg font-normal text-center text-white border-t-2 border-white gap-y-6">
         <p>
             Find the 
-            <button class="text-indigo-400 font-bold">
+            <button class="text-link">
                 <a href="https://x.com/johnrudolphdrex" target="_blank">
                     man
                 </a>
