@@ -81,8 +81,8 @@ class PlayerVoted extends Event
 
     public function applyToPlayer(PlayerState $player)
     {
-        if (config('dump', false)) {
-            dump('apply player');
+        if (! $player->canVote()) {
+            return;
         }
 
         $player->ballots_cast[] = [

@@ -40,6 +40,8 @@ class PlayerState extends State
 
     public Carbon $is_immune_until;
 
+    public ?Carbon $last_voted = null;
+
     // used to lock people out for submitting invalid codes.
     public Carbon $can_submit_code_at;
 
