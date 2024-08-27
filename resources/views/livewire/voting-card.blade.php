@@ -32,7 +32,7 @@
             @endif
 
             <div class="flex justify-between items-center mt-4">
-                <x-primary-button wire:click="vote" wire:loading.attr="disabled">
+                <x-primary-button wire:click="vote" wire:loading.remove>
                     Vote
                 </x-primary-button>
             </div>
