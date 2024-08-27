@@ -1,15 +1,16 @@
 <?php
 
-use App\Events\PlayerJoinedGame;
-use App\Events\PlayerVoted;
-use App\Events\UserAddedReferral;
-use App\Events\UserCreated;
-use App\Livewire\PlayerDashboard;
-use App\Livewire\VotingCard;
 use App\Models\Game;
 use Livewire\Livewire;
+use App\Events\PlayerVoted;
+use App\Events\UserCreated;
+use App\Livewire\VotingCard;
 use Thunk\Verbs\Facades\Verbs;
+use App\Events\PlayerJoinedGame;
+use App\Events\UserAddedReferral;
+use App\Livewire\PlayerDashboard;
 
+use App\Events\PlayerEnteredSecretCode;
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
@@ -276,6 +277,14 @@ it('first shall be last does not allow upvotes for above average players or down
         game_id: $this->game->id
     );
 
+    foreach($this->game->state()->unused_codes as $code) {
+        PlayerEnteredSecretCode::fire(
+            player_id: $this->caleb->id,
+            game_id: $this->game->id,
+            secret_code: $code
+        );
+    }
+
     expect($this->taylor->state()->cannotBeDownvoted())->toBeFalse();
     expect($this->taylor->state()->cannotBeUpvoted())->toBeFalse();
     expect($this->caleb->state()->cannotBeDownvoted())->toBeFalse();
@@ -288,11 +297,20 @@ it('first shall be last does not allow upvotes for above average players or down
     expect($this->game->state()->activeModifier()['slug'])
         ->toBe('first-shall-be-last');
 
-    expect($this->taylor->state()->cannotBeDownvoted())->toBeFalse();
-    expect($this->taylor->state()->cannotBeUpvoted())->toBeTrue();
+    expect($this->caleb->state()->score > 50)->toBeTrue();
+    expect($this->taylor->state()->score)->toBe(1);
+    expect($this->aaron->state()->score)->toBe(-1);
+
+    // Caleb is frontrunner, and cannot be upvoted
     expect($this->caleb->state()->cannotBeDownvoted())->toBeFalse();
-    expect($this->caleb->state()->cannotBeUpvoted())->toBeFalse();
-    expect($this->aaron->state()->cannotBeDownvoted())->toBeTrue();
+    expect($this->caleb->state()->cannotBeUpvoted())->toBeTrue();
+
+    // Taylor is positive, but below average, so he can be upvoted and not downvoted
+    expect($this->taylor->state()->cannotBeDownvoted())->toBeFalse();
+    expect($this->taylor->state()->cannotBeUpvoted())->toBeFalse();
+
+    // aaron is both negative and below average, so he can be voted
+    expect($this->aaron->state()->cannotBeDownvoted())->toBeFalse();
     expect($this->aaron->state()->cannotBeUpvoted())->toBeFalse();
 
     $downvote_options = Livewire::test(VotingCard::class, [
