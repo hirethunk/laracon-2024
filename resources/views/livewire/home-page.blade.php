@@ -7,7 +7,7 @@
 
     <div class="flex flex-col py-6 mx-auto overflow-hidden text-lg font-normal text-center text-white border-t-2 border-white gap-y-6">
         <p>
-            Find the man with the <span class="text-gold-100">golden briefcase</span>. He will admit you into the game.
+            Find the man with the <span class="text-gold-500">ziploc bag full of $1,500 in ones</span>. He will admit you into the game.
         </p>
         <p>
             Your account name must match the name on your Laracon badge.

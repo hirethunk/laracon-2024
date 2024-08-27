@@ -33,7 +33,7 @@
                 <p class="text-gold-100-dark pr-2">
                     <x-icons.briefcase class="w-5 h-5 pt-0.5"/>
                 </p>
-                <p>Join the game by talking to the man with the golden briefcase.</p>
+                <p>Join the game by talking to the man with the <span class="text-gold-500">ziploc bag full of $1,500 in ones.</span></p>
             </li>
             <li class="flex items-start">
                 <p class="text-gold-100-dark pr-2">
@@ -45,7 +45,7 @@
                 <p class="text-gold-100-dark pr-2">
                     <x-icons.money class="w-5 h-5 pt-0.5"/>
                 </p>
-                <p>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">$1,500</span> in the briefcase.</p>
+                <p>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">ziploc bag full of $1,500 in ones.</span></p>
             </li>
             <li class="flex items-start">
                 <p class="text-gold-100-dark pr-2">
@@ -67,8 +67,8 @@
                     <p>Yes.</p>
                 </div>
                 <div>
-                    <p class="italic">Are you actually giving <span class="text-gold-500">$1,500</span> away?</p>
-                    <p>Take one look at that briefcase if you think we're messing around.</p>
+                    <p class="italic">Are you actually giving a <span class="text-gold-500">ziploc bag full of $1,500 in ones</span> away?</p>
+                    <p>Take one look at that <span class="text-gold-500">ziploc bag full of $1,500 in ones</span> if you think we're messing around.</p>
                 </div>
                 <div>
                     <p class="italic">It seems like there are a lot of ways to come up with big-brain strategies, team up with people, lie, etc.?</p>
