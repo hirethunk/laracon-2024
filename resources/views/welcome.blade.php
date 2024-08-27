@@ -34,7 +34,7 @@
                     <x-icons.briefcase class="w-5 h-5 pt-0.5"/>
                 </p>
                 <p>Join the game by talking to the 
-                <span class="text-indigo-300 font-bold">
+                <span class="text-link">
                     <a href="https://x.com/johnrudolphdrex" target="_blank">
                         man
                     </a>
