@@ -33,7 +33,13 @@
                 <p class="text-gold-100-dark pr-2">
                     <x-icons.briefcase class="w-5 h-5 pt-0.5"/>
                 </p>
-                <p>Join the game by talking to the man with the golden briefcase.</p>
+                <p>Join the game by talking to the 
+                <span class="text-indigo-300 font-bold">
+                    <a href="https://x.com/johnrudolphdrex" target="_blank">
+                        man
+                    </a>
+                </span>
+                 with the <span class="text-gold-500">plastic bag full of $1,500.</span></p>
             </li>
             <li class="flex items-start">
                 <p class="text-gold-100-dark pr-2">
@@ -45,7 +51,7 @@
                 <p class="text-gold-100-dark pr-2">
                     <x-icons.money class="w-5 h-5 pt-0.5"/>
                 </p>
-                <p>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">$1,500</span> in the briefcase.</p>
+                <p>The player with the highest score at 5pm on August 28 wins the <span class="text-gold-500">plastic bag full of $1,500.</span></p>
             </li>
             <li class="flex items-start">
                 <p class="text-gold-100-dark pr-2">
@@ -67,8 +73,15 @@
                     <p>Yes.</p>
                 </div>
                 <div>
-                    <p class="italic">Are you actually giving <span class="text-gold-500">$1,500</span> away?</p>
-                    <p>Take one look at that briefcase if you think we're messing around.</p>
+                    <p class="italic">Are you actually giving away <span class="text-gold-500">$1,500</span>?</p>
+                    <p>Take one look at that 
+                    <button class="text-link">
+                        <a href="https://x.com/johnrudolphdrex/status/1825945077044359672" target="_blank">
+                            dough
+                        </a>
+                    </button>
+                    
+                     if you think we're messing around.</p>
                 </div>
                 <div>
                     <p class="italic">It seems like there are a lot of ways to come up with big-brain strategies, team up with people, lie, etc.?</p>
