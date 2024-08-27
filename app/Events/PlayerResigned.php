@@ -15,11 +15,10 @@ class PlayerResigned extends Event implements ExposesHistory
     #[StateId(PlayerState::class, 'player')]
     public int $player_id;
 
-    #[StateId(PlayerState::class, 'beneficiary')]
-    public int $beneficiary_id;
-
     #[StateId(GameState::class)]
     public int $game_id;
+
+    public int $beneficiary_id;
 
     protected int $score = 0;
 
