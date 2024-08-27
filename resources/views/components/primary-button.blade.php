@@ -10,7 +10,7 @@ switch ($color) {
         $hover = 'hover:bg-neutral-700';
         break;
     case 'gold':
-        $bgColor = 'bg-gold-500';
+        $bgColor = 'bg-gold-500 disabled:bg-gray-500';
         $textColor = 'text-black';
         $hover = 'hover:bg-gold-100';
         break;
