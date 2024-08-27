@@ -27,9 +27,6 @@ class ResetGameData extends Command
         $this->info('Truncating players table...');
         DB::table('players')->truncate();
 
-        $this->info('Truncating migrations table...');
-        DB::table('migrations')->truncate();
-
         $this->info('Truncating snapshots table...');
         DB::table('verb_snapshots')->truncate();
 

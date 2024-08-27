@@ -34,13 +34,11 @@ class PlayerVoted extends Event
             'The game is over.'
         );
 
-        if (app()->environment('production') || app()->environment('testing')) {
-            // Unlimited voting while testing locally
-            $this->assert(
-                $player->canVote(),
-                'Voter must wait 1 hour between votes.'
-            );
-        }
+        // Unlimited voting while testing locally
+        $this->assert(
+            $player->canVote(),
+            'Voter must wait 1 hour between votes.'
+        );
     }
 
     public function validate(GameState $game, PlayerState $upvotee, PlayerState $downvotee)
