@@ -92,12 +92,12 @@ class PlayerVoted extends Event
         ];
     }
 
-    public function fired(GameState $game, PlayerState $upvotee)
+    public function fired(GameState $game, PlayerState $player, PlayerState $upvotee)
     {
-        if (config('dump', false)) {
-            dump('fired');
+        if (! $player->canVote()) {
+            return;
         }
-
+        
         $amount = $game->modifierIsActive('double-down') ? 2 : 1;
 
         PlayerReceivedUpvote::fire(
