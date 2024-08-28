@@ -41,7 +41,7 @@ class PlayerVoted extends Event
         );
     }
 
-    public function validate(GameState $game, PlayerState $upvotee, PlayerState $downvotee)
+    public function validate(GameState $game, PlayerState $player, PlayerState $upvotee, PlayerState $downvotee)
     {
         $this->assert(
             $this->upvotee_id !== $this->player_id && $this->downvotee_id !== $this->player_id,
@@ -77,6 +77,11 @@ class PlayerVoted extends Event
             ! $downvotee->cannotBeDownvoted(),
             'Downvotee is immune from downvotes.'
         );
+
+        $this->assert(
+            $player->canVote(),
+            'You must wait 1 hour between votes.'
+        );
     }
 
     public function applyToPlayer(PlayerState $player)
@@ -84,6 +89,8 @@ class PlayerVoted extends Event
         if (! $player->canVote()) {
             return;
         }
+
+        $player->last_voted = now();
 
         $player->ballots_cast[] = [
             'upvotee_id' => $this->upvotee_id,
@@ -94,10 +101,6 @@ class PlayerVoted extends Event
 
     public function fired(GameState $game, PlayerState $player, PlayerState $upvotee)
     {
-        if (! $player->canVote()) {
-            return;
-        }
-        
         $amount = $game->modifierIsActive('double-down') ? 2 : 1;
 
         PlayerReceivedUpvote::fire(
@@ -131,16 +134,16 @@ class PlayerVoted extends Event
             if ($mutual_vote_exists && ! $buddy_reward_already_given) {
                 PlayerReceivedUpvote::fire(
                     player_id: $upvotee->id,
-                    voter_id: $this->player_id,
-                    game_id: $this->game_id,
+                    voter_id: $player->id,
+                    game_id: $game->id,
                     type: 'buddy-system-reward',
                     amount: 2,
                 );
 
                 PlayerReceivedUpvote::fire(
-                    player_id: $this->player_id,
+                    player_id: $player->id,
                     voter_id: $upvotee->id,
-                    game_id: $this->game_id,
+                    game_id: $game->id,
                     type: 'buddy-system-reward',
                     amount: 2,
                 );
@@ -152,9 +155,6 @@ class PlayerVoted extends Event
     {
         $player = Player::find($this->player_id);
 
-        if ($player === null) {
-            dd($this);
-        }
         $player->last_voted_at = now();
 
         $player->save();
