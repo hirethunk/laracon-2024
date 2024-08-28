@@ -14,8 +14,8 @@
     <x-card>
         <h2 class="text-2xl text-gold-100">Secret Alliance</h2>
 
-        @if($player_is_connected)
-            @if($ally_is_connected)
+        @if($player_has_connected)
+            @if($ally_has_connected)
                 @if($player_choice)
                     @if($ally_choice)
                         <p class="text-sm text-white font-normal mt-4">
