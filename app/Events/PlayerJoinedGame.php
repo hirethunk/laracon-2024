@@ -54,7 +54,6 @@ class PlayerJoinedGame extends Event
         $player->is_immune_until = now();
         $player->has_connected_with_ally = false;
         $player->prisoners_dilemma_choice = '';
-        $player->code_to_give_to_ally = rand(1000, 9999);
         $player->can_submit_code_at = now();
     }
 

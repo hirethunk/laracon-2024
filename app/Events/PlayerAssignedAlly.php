@@ -15,8 +15,13 @@ class PlayerAssignedAlly extends Event
 
     public int $game_id;
 
+    public ?int $code = null;
+
     public function applyToPlayer(PlayerState $state)
     {
+        $this->code ??= rand(1000, 9999);
+
         $state->ally_id = $this->ally_id;
+        $state->code_to_give_to_ally = $this->code;
     }
 }
