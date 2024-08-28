@@ -83,18 +83,6 @@ class PlayerEnteredSecretCode extends Event implements ExposesHistory
             );
         }
 
-        if (! $game->codeIsUnused($this->secret_code)) {
-            return new HistoryComponentDto(
-                component: 'history.vote',
-                props: [
-                    'type' => 'reused-secret-code',
-                    'amount' => 0,
-                    'voter_name' => $player->name,
-                    'score' => $player->score,
-                ]
-            );
-        }
-
         return new HistoryComponentDto(
             component: 'history.vote',
             props: [
