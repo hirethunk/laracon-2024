@@ -7,6 +7,8 @@
             $player_choice = $this->player->state()->prisoners_dilemma_choice;
             $ally_choice = $this->ally->prisoners_dilemma_choice;
         }
+
+        dump($player_has_connected, $ally_has_connected, $player_choice, $ally_choice);
     @endphp
 
     <x-card>
